@@ -1,0 +1,11 @@
+@media (max-width: 1023px) {
+    #Categories {
+        display: none;
+    }
+    #MobileNumber {
+        display: none;
+    }
+    .hidden_items {
+        display: none;
+    }
+}
