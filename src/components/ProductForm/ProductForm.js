@@ -37,7 +37,7 @@ const ProductForm = () => {
     // } else {
     const formData = new FormData();
     formData.append("image", image);
-    const url = `https://api.imgbb.com/1/upload?expiration=600&key=${imgStorageKey}`;
+    const url = `https://api.imgbb.com/1/upload?key=${imgStorageKey}`;
     fetch(url, {
       method: "POST",
       body: formData,
@@ -106,7 +106,7 @@ const ProductForm = () => {
         <div class="">
           <label class="label">
             <span class="label-text">
-              Item Name <span className="text-red-500">*</span>
+              Item Name <span className="text-red-500"> * </span>
             </span>
           </label>
           <input
@@ -121,7 +121,7 @@ const ProductForm = () => {
         <div className="lg:flex lg:gap-4">
           <div class="form-control w-full">
             <label class="label">
-              <span class="label-text">Category</span>
+              <span class="label-text"> Category </span>
             </label>
             <select
               class="select select-bordered"
@@ -131,20 +131,16 @@ const ProductForm = () => {
               <option value="Select" disabled selected>
                 Select
               </option>
-              <option>Facial care</option>
-              <option>Hair care</option>
-              <option>Body care</option>
-              <option>Baby care</option>
-              <option>Spa & Massage</option>
-              <option>Daily needs</option>
-              <option>Perfumes & Attar</option>
-              <option>Groceries</option>
+              <option> Facial care </option> <option> Hair care </option>
+              <option> Body care </option> <option> Baby care </option>
+              <option> Spa & Massage </option> <option> Daily needs </option>
+              <option> Perfumes & Attar </option> <option> Groceries </option>
             </select>
           </div>
           <div className="w-full">
             <label class="label">
               <span class="label-text">
-                Quantity <span className="text-red-500">*</span>
+                Quantity <span className="text-red-500"> * </span>
               </span>
             </label>
             <input
@@ -161,8 +157,8 @@ const ProductForm = () => {
           <div className="w-full">
             <label class="label">
               <span class="label-text">
-                Price (BDT.) per quantity{" "}
-                <span className="text-red-500">*</span>
+                Price(BDT.) per quantity
+                <span className="text-red-500"> * </span>
               </span>
             </label>
             <input
@@ -175,7 +171,7 @@ const ProductForm = () => {
           </div>
           <div className="w-full">
             <label class="label">
-              <span class="label-text">Product image</span>
+              <span class="label-text"> Product image </span>
             </label>
             <input
               type="file"
@@ -185,7 +181,7 @@ const ProductForm = () => {
               class="input py-1.5 input-bordered w-full"
             />
             <span className="text-red-500 text-xs">
-              *** Image size must be less than 1.5 MB ***
+              ** * Image size must be less than 1.5 MB ** *
             </span>
           </div>
         </div>
@@ -193,7 +189,7 @@ const ProductForm = () => {
         <div class="form-control">
           <label class="label">
             <span class="label-text">
-              Product Description <span className="text-red-500">*</span>
+              Product Description <span className="text-red-500"> * </span>
             </span>
           </label>
           <textarea
@@ -208,7 +204,7 @@ const ProductForm = () => {
             imgFile[0]?.size > 1500000 ? "hover:hidden" : ""
           } btn border-0 text-white my-5 bg-green-400 hover:bg-green-500`}
         >
-          save
+          Save Item
         </button>
       </form>
     </div>
