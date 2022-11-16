@@ -54,7 +54,7 @@ const ProductForm = () => {
             description: description,
             imgUrl: imgUrl,
           };
-          fetch("http://localhost:3300/add-item", {
+          fetch("https://game-of-nature-backend.vercel.app/add-item", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -67,6 +67,7 @@ const ProductForm = () => {
               //   console.log(data);
               if (inserted.status == "Success" && inserted.product_id) {
                 alert(inserted.msg);
+                window.location.reload(true);
               } else {
                 alert(inserted.msg);
               }

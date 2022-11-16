@@ -16,6 +16,7 @@ import SpaMassage from "./components/Categories/SpaMassage/SpaMassage";
 import DailyNeeds from "./components/Categories/DailyNeeds/DailyNeeds";
 import PerfumeAttar from "./components/Categories/PerfumesAttar/PerfumeAttar";
 import Groceries from "./components/Categories/Groceries/Groceries";
+import ItemDetails from "./components/AdminDashboard/ItemDetails/ItemDetails";
 
 function App() {
   return (
@@ -30,6 +31,10 @@ function App() {
         <Route path="body-care" element={<BodyCare></BodyCare>}></Route>
         <Route path="baby-care" element={<BabyCare></BabyCare>}></Route>
         <Route path="spa&massage" element={<SpaMassage></SpaMassage>}></Route>
+        <Route
+          path="/item-details/:id"
+          element={<ItemDetails></ItemDetails>}
+        ></Route>
         <Route
           path="perfumes&attar"
           element={<PerfumeAttar></PerfumeAttar>}

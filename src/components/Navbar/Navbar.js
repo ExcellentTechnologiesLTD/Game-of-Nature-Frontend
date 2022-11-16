@@ -17,7 +17,7 @@ const Navbar = () => {
   const from = location.state?.from?.pathname || `/signin`;
 
   return (
-    <div className=" font-serif">
+    <div className="sticky top-0 z-50 font-serif">
       <div className=" bg-base-100 shadow-2xl lg:pb-0 md:pb-5 pb-5">
         <div className="bg-green-500 flex justify-between items-center px-5 py-2">
           <div className="flex justify-start font-bold text-white">
@@ -35,7 +35,7 @@ const Navbar = () => {
                 d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"
               />
             </svg>
-            <h1>(+880) 1766-620839</h1>
+            <h1>(+880) 1816-560458</h1>
           </div>
           <div className="flex gap-4">
             <svg
@@ -214,7 +214,7 @@ const Navbar = () => {
                   src={logo}
                   alt="Game of Nature Logo"
                 />
-                <a href="/">
+                <a className=" " href="/">
                   Game of <span className="text-green-500"> Nature </span>
                 </a>
               </div>

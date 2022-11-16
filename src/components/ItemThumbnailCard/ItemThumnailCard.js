@@ -15,8 +15,9 @@ const ItemThumnailCard = (props) => {
   //   console.log(props.props.rating);
   //   console.log(rating);
   return (
-    <div>
+    <div className=" ">
       <div class=" card bg-base-100 shadow-2xl h-full">
+        <h1 className="absolute right-4 top-1">ID: {product_id}</h1>
         <figure class="">
           <img
             src={photo_url || itemimg}
@@ -43,9 +44,12 @@ const ItemThumnailCard = (props) => {
               </svg>
               <h1 className="text-sm ml-1">{rating}.0</h1>
             </div>
-            <h2 class="my-1 hover:underline hover:cursor-pointer card-title text-sm text-left font-bold">
+            <a
+              href={`/item-details/${product_id}`}
+              class="my-1 hover:underline hover:cursor-pointer card-title text-sm text-left font-bold"
+            >
               {product_name}
-            </h2>
+            </a>
             <small className=" flex justify-between text-xs text-left text-gray-400">
               {category}
               {quantity_in_stock < 20 ? (
@@ -63,7 +67,7 @@ const ItemThumnailCard = (props) => {
             <span className="font-bold text-2xl">৳</span> {price}.00
           </h6>
 
-          <div className="flex justify-center gap-2 items-center btn bg-orange-500 hover:bg-green-500">
+          <div className=" capitalize flex justify-center gap-2 items-center btn bg-orange-500 hover:bg-green-500">
             <svg
               className="w-6 h-6"
               fill="white"
@@ -73,7 +77,7 @@ const ItemThumnailCard = (props) => {
             >
               <path d="M24 0C10.7 0 0 10.7 0 24S10.7 48 24 48H76.1l60.3 316.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H179.9l-9.1-48h317c14.3 0 26.9-9.5 30.8-23.3l54-192C578.3 52.3 563 32 541.8 32H122l-2.4-12.5C117.4 8.2 107.5 0 96 0H24zM176 512c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm336-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM252 160c0-11 9-20 20-20h44V96c0-11 9-20 20-20s20 9 20 20v44h44c11 0 20 9 20 20s-9 20-20 20H356v44c0 11-9 20-20 20s-20-9-20-20V180H272c-11 0-20-9-20-20z" />
             </svg>
-            Add to cart
+            Add to bag
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ const Haircare = () => {
       .then((data) => setHairItems(data));
   }, []);
   return (
-    <div>
+    <div className="">
       {/* Route */}
       <div className="">
         <div className="flex px-10 py-5 ">

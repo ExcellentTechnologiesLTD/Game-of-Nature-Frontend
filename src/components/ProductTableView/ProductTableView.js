@@ -13,7 +13,7 @@ const ProductTableView = (props) => {
     //   }),
     // };
 
-    fetch(`http://localhost:3300/delete-item/${ItemID}`, {
+    fetch(`https://game-of-nature-backend.vercel.app/delete-item/${ItemID}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -32,21 +32,30 @@ const ProductTableView = (props) => {
       <div class="overflow-x-auto w-full">
         <table class="table w-full">
           {/* <!-- head --> */}
-          <thead className="">
+          <thead className="font-serif">
             <tr>
-              <th className="text-center">SL</th>
-              <th className="text-left pl-10">Product</th>
-              <th className="text-center">Stock quantity</th>
-              <th className="text-center">Restock quantity</th>
-              <th className="text-center">Delete item</th>
-              <th></th>
+              <th className="text-center w-1 normal-case  text-sm"> SL </th>
+              <th className="text-center w-1 normal-case text-sm">
+                {" "}
+                Product ID{" "}
+              </th>
+              <th className="text-left pl-10 normal-case text-sm">
+                Product Name
+              </th>
+              <th className="text-center normal-case text-sm">
+                Stock quantity
+              </th>
+              <th className="text-center normal-case text-sm">Restock Qnty </th>
+              <th className="text-center normal-case text-sm">Delete item </th>
+              <th> </th>
             </tr>
           </thead>
           <tbody>
             {/* <!-- row 1 --> */}
             {items.map((item, index) => (
               <tr>
-                <th className="text-center">{index + 1}</th>
+                <th className="text-center"> {index + 1} </th>
+                <th className="text-center font-normal"> {item.product_id} </th>
                 <td className="hover:cursor-pointer hover:underline">
                   <div class="flex items-center space-x-3">
                     <div class="avatar">
@@ -58,8 +67,8 @@ const ProductTableView = (props) => {
                       </div>
                     </div>
                     <div>
-                      <div class="font-bold">{item.product_name}</div>
-                      <div class="text-sm opacity-50">{item.category}</div>
+                      <div class="font-bold"> {item.product_name} </div>
+                      <div class="text-sm opacity-50"> {item.category} </div>
                     </div>
                   </div>
                 </td>
