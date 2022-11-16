@@ -19,7 +19,7 @@ const ItemDetails = () => {
   return (
     <div>
       <div
-        className={`flex lg:hidden px-10 py-5 bg-gradient-to-r from-green-100 to-green-50`}
+        className={`flex px-10 py-5 bg-gradient-to-b from-slate-100 to-white`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -48,10 +48,10 @@ const ItemDetails = () => {
         </span>
       </div>
       {/* Details Item */}
-      <div className="grid lg:grid-cols-2 grid-cols-1 px-10 pb-10 bg-gradient-to-br from-green-100 to-white">
-        <figure className="lg:mt-5 mx-auto">
+      <div className="grid lg:grid-cols-2  px-20">
+        <figure className="w-1/2 mx-auto ">
           <img
-            className="lg:w-3/5 md:w-2/5 sm:w-1/2 mx-auto rounded-xl"
+            className=" mx-auto rounded-xl"
             src={item.photo_url}
             alt="item pic"
           />
@@ -60,34 +60,7 @@ const ItemDetails = () => {
             packaging you receive might vary.
           </small>
         </figure>
-        <div className=" h-3/5 overflow-scroll text-justify ">
-          <div className="flex mb-8 lg:mt-5">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="black"
-              class="w-5 h-5 mr-1 hover:cursor-pointer hover:scale-110 ease-in-out duration-300"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-              />
-            </svg>
-            <span className="mr-1 text-sm">
-              {" "}
-              /{" "}
-              <span className="text-sm font-serif hover:underline hover:cursor-pointer">
-                categories
-              </span>{" "}
-              /{" "}
-              <span className="lowercase text-sm font-serif hover:underline hover:cursor-pointer">
-                {item.category}
-              </span>
-            </span>
-          </div>
+        <div className=" overflow-scroll text-justify bg-slate-100 p-5 ">
           <h1 className="font-serif font-semibold text-3xl text-left">
             {item.product_name}
           </h1>
@@ -125,38 +98,58 @@ const ItemDetails = () => {
               No Return or Return Policy
             </a>
           </div>
-          <div>
-            <h1 className="mt-10 mb-3 font-bold underline">Description</h1>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore,
-              excepturi. Pariatur debitis assumenda, numquam minus amet tenetur
-              quod enim ratione tempore odit corrupti commodi fugiat error eaque
-              qui fuga accusamus facere cupiditate veritatis maxime
-              reprehenderit veniam. Dicta ipsam exercitationem officia, earum
-              quo ad illum ab consequuntur pariatur voluptatum numquam qui
-              dolor, tenetur id atque sequi porro facilis sapiente. Id, suscipit
-              commodi. Itaque, ad magnam cum dolor voluptatum reiciendis sequi
-              alias cupiditate, quis facere eaque veniam doloribus aperiam. Ad
-              ipsum officiis nam tenetur possimus illo iste delectus mollitia
-              vitae, cumque ratione in asperiores quos natus facere ab, error
-              illum iure fugit sunt similique eligendi. Iste eaque dolorum
-              minima impedit vero sapiente hic, qui mollitia, modi ea iure
-              inventore magni. Voluptatum quae modi sint nam adipisci rem quos
-              quaerat nulla, aliquid provident rerum excepturi officiis iure
-              maiores! Architecto quis quos saepe laudantium numquam quia ex
-              dolorum perspiciatis dignissimos! Adipisci, pariatur dolorum
-              mollitia reiciendis nostrum ea, ad eaque sint nihil consequuntur
-              rerum dolor neque quasi unde earum cum accusantium aperiam totam
-              facere voluptates? Dolorem aliquam facilis eveniet vitae
-              consequuntur laudantium rem provident laboriosam asperiores eos at
-              reiciendis dicta natus quaerat sunt ipsum, qui sapiente
-              reprehenderit placeat totam ducimus esse quae! Facilis, quas.
-              Dolore!
-            </p>
+          <div class="collapse  rounded-xl">
+            <input type="checkbox" class="peer" />
+            <div class="flex collapse-title pl-0 peer-checked:bg-slate-100 peer-checked:pl-3 peer-checked:mt-5">
+              <h1 className="font-bold mr-10 ">Description</h1>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </div>
+            <div class="collapse-content peer-checked:bg-slate-100">
+              <p className="overflow-scroll h-40">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Tempore, excepturi. Pariatur debitis assumenda, numquam minus
+                amet tenetur quod enim ratione tempore odit corrupti commodi
+                fugiat error eaque qui fuga accusamus facere cupiditate
+                veritatis maxime reprehenderit veniam. Dicta ipsam
+                exercitationem officia, earum quo ad illum ab consequuntur
+                pariatur voluptatum numquam qui dolor, tenetur id atque sequi
+                porro facilis sapiente. Id, suscipit commodi. Itaque, ad magnam
+                cum dolor voluptatum reiciendis sequi alias cupiditate, quis
+                facere eaque veniam doloribus aperiam. Ad ipsum officiis nam
+                tenetur possimus illo iste delectus mollitia vitae, cumque
+                ratione in asperiores quos natus facere ab, error illum iure
+                fugit sunt similique eligendi. Iste eaque dolorum minima impedit
+                vero sapiente hic, qui mollitia, modi ea iure inventore magni.
+                Voluptatum quae modi sint nam adipisci rem quos quaerat nulla,
+                aliquid provident rerum excepturi officiis iure maiores!
+                Architecto quis quos saepe laudantium numquam quia ex dolorum
+                perspiciatis dignissimos! Adipisci, pariatur dolorum mollitia
+                reiciendis nostrum ea, ad eaque sint nihil consequuntur rerum
+                dolor neque quasi unde earum cum accusantium aperiam totam
+                facere voluptates? Dolorem aliquam facilis eveniet vitae
+                consequuntur laudantium rem provident laboriosam asperiores eos
+                at reiciendis dicta natus quaerat sunt ipsum, qui sapiente
+                reprehenderit placeat totam ducimus esse quae! Facilis, quas.
+                Dolore!
+              </p>
+            </div>
           </div>
         </div>
       </div>
-      {/* <div className=" border-green-300 border-2"></div> */}
+      <div className=" border-green-300 border-2 my-10"></div>
       <div className="text-left px-10">
         <h1 className="font-semibold text-lg mt-5">Reviews</h1>
         <h1 className="font-semibold text-lg mt-5">Suggested products</h1>
