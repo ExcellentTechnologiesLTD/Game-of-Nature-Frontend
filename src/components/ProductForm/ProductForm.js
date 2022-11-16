@@ -101,7 +101,7 @@ const ProductForm = () => {
   return (
     <div>
       <form
-        onSubmit={handleSaveBtn}
+        // onSubmit={handleSaveBtn}
         className="border-2 bg-green-50 lg:w-1/2 w-3/4  p-5 mx-auto mt-10 rounded-3xl"
       >
         <div class="">
@@ -201,6 +201,7 @@ const ProductForm = () => {
           ></textarea>
         </div>
         <button
+          onClick={handleSaveBtn}
           className={`${
             imgFile[0]?.size > 1500000 ? "hover:hidden" : ""
           } btn border-0 text-white my-5 bg-green-400 hover:bg-green-500`}
