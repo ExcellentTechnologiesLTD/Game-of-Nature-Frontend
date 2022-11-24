@@ -11,6 +11,8 @@ import fastDelivery from "../../Assets/image/fast-delivery.jpg";
 import organicProduct from "../../Assets/image/organic.jpg";
 import consultation from "../../Assets/image/consultation.jpg";
 import customerSupport from "../../Assets/image/customer-support.jpg";
+import groceriesPic from "../../Assets/image/groceries.jpg";
+import dailyNeedsPic from "../../Assets/image/daily-needs.jpg";
 
 const Home = () => {
   const [items, seTitems] = useState([]);
@@ -234,6 +236,7 @@ const Home = () => {
           <h1 className="font-serif font-semibold text-left">
             Best Selling products
           </h1>
+
           <a className="font-serif text-lg hover:text-green-400 text-left">
             View All
           </a>

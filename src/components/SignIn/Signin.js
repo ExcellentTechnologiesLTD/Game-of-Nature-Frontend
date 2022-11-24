@@ -21,6 +21,14 @@ const Signin = (props, setCurrentUser) => {
     event.preventDefault();
     console.log(email, " >>> ", password);
     if (email == "Admin@gon.com" && password == "123456") {
+      localStorage.setItem(
+        "currentUserDetails",
+        JSON.stringify({
+          userType: "Admin",
+          email: "Admin@gon.com",
+          password: "123456",
+        })
+      );
       navigate("/admin-dashboard", { replace: true });
       // console.log(from);
     }

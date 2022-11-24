@@ -20,7 +20,7 @@ import ItemDetails from "./components/AdminDashboard/ItemDetails/ItemDetails";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App ">
       <Navbar></Navbar>
       <Routes>
         <Route path="/" element={<Home />}></Route>
@@ -42,12 +42,13 @@ function App() {
         <Route path="daily-needs" element={<DailyNeeds></DailyNeeds>}></Route>
         <Route path="groceries" element={<Groceries></Groceries>}></Route>
         <Route
-          path="admin-dashboard"
+          path="/admin-dashboard"
           element={<AdminDashboard></AdminDashboard>}
         >
           <Route path="addproducts" element={<AddProduct></AddProduct>}></Route>
           <Route
-            path="all-products"
+            // path="all-products"
+            index
             element={<AllProducts></AllProducts>}
           ></Route>
         </Route>

@@ -10,6 +10,7 @@ const ProductForm = () => {
   const [description, setDescription] = useState("");
   const [imgFile, setImgFile] = useState([]);
   const [imgError, setImageError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleItemNameBlur = (event) => {
     setItemName(event.target.value);
@@ -29,7 +30,7 @@ const ProductForm = () => {
 
   const handleSaveBtn = (event) => {
     event.preventDefault();
-
+    setLoading(true);
     const image = imgFile[0];
     // console.log(image.size);
     // if (image.size > 1500000) {
@@ -69,6 +70,7 @@ const ProductForm = () => {
                 alert(inserted.msg);
                 window.location.reload(true);
               } else {
+                setLoading(false);
                 alert(inserted.msg);
               }
             });
@@ -101,7 +103,7 @@ const ProductForm = () => {
   return (
     <div>
       <form
-        // onSubmit={handleSaveBtn}
+        onSubmit={handleSaveBtn}
         className="border-2 bg-green-50 lg:w-1/2 w-3/4  p-5 mx-auto mt-10 rounded-3xl"
       >
         <div class="">
@@ -114,7 +116,6 @@ const ProductForm = () => {
             required
             onBlur={handleItemNameBlur}
             type="text"
-            placeholder="Type here"
             class="input input-bordered w-full"
           />
         </div>
@@ -122,7 +123,7 @@ const ProductForm = () => {
         <div className="lg:flex lg:gap-4">
           <div class="form-control w-full">
             <label class="label">
-              <span class="label-text"> Category </span>
+              <span class="label-text">Item Category </span>
             </label>
             <select
               class="select select-bordered"
@@ -141,14 +142,13 @@ const ProductForm = () => {
           <div className="w-full">
             <label class="label">
               <span class="label-text">
-                Quantity <span className="text-red-500"> * </span>
+                Item Stock Quantity <span className="text-red-500"> * </span>
               </span>
             </label>
             <input
               required
               onBlur={handleQuantityBlur}
               type="text"
-              placeholder="Type here"
               class="input input-bordered w-full"
             />
           </div>
@@ -158,7 +158,7 @@ const ProductForm = () => {
           <div className="w-full">
             <label class="label">
               <span class="label-text">
-                Price(BDT.) per quantity
+                Price(BDT.) per item
                 <span className="text-red-500"> * </span>
               </span>
             </label>
@@ -166,13 +166,12 @@ const ProductForm = () => {
               required
               onBlur={handlePriceBlur}
               type="text"
-              placeholder="Type here"
               class="input input-bordered w-full"
             />
           </div>
           <div className="w-full">
             <label class="label">
-              <span class="label-text"> Product image </span>
+              <span class="label-text"> Item image </span>
             </label>
             <input
               type="file"
@@ -181,33 +180,37 @@ const ProductForm = () => {
               onChange={handleFileChange}
               class="input py-1.5 input-bordered w-full"
             />
-            <span className="text-red-500 text-xs">
+            {/* <span className="text-red-500 text-xs">
               ** * Image size must be less than 1.5 MB ** *
-            </span>
+            </span> */}
           </div>
         </div>
         <br />
         <div class="form-control">
           <label class="label">
             <span class="label-text">
-              Product Description <span className="text-red-500"> * </span>
+              Item Description <span className="text-red-500"> * </span>
             </span>
           </label>
           <textarea
             required
             onBlur={handleDescriptionBlur}
             class="textarea textarea-bordered h-24"
-            placeholder="Bio"
+            placeholder="Add description...."
           ></textarea>
         </div>
-        <button
-          onClick={handleSaveBtn}
+
+        <input
+          value="submit Item"
+          type="submit"
+          // onClick={handleSaveBtn}
           className={`${
             imgFile[0]?.size > 1500000 ? "hover:hidden" : ""
-          } btn border-0 text-white my-5 bg-green-400 hover:bg-green-500`}
-        >
-          Save Item
-        </button>
+          } capitalize btn border-0 text-white my-5 bg-green-400 hover:bg-green-500`}
+        />
+        <progress
+          className={`${loading ? "" : "hidden"} progress w-56 block mx-auto`}
+        ></progress>
       </form>
     </div>
   );
