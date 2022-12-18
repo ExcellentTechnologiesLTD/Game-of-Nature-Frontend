@@ -1,33 +1,55 @@
-import React, { useEffect, useState } from "react";
-import ItemThumnailCard from "../ItemThumbnailCard/ItemThumnailCard";
-import facialPic from "../../Assets/image/facial-care.jpg";
-import hairCarePic from "../../Assets/image/hair-care.jpg";
-import bodyCarePic from "../../Assets/image/body-care.jpg";
-import babyCarePic from "../../Assets/image/baby-care.jpg";
-import spaPic from "../../Assets/image/spa.jpg";
-import perfumePic from "../../Assets/image/perfume.jpg";
-import testPik from "../../Assets/image/test.jpg";
-import fastDelivery from "../../Assets/image/fast-delivery.jpg";
-import organicProduct from "../../Assets/image/organic.jpg";
-import consultation from "../../Assets/image/consultation.jpg";
-import customerSupport from "../../Assets/image/customer-support.jpg";
-import groceriesPic from "../../Assets/image/groceries.jpg";
-import dailyNeedsPic from "../../Assets/image/daily-needs.jpg";
+<div class="drawer">
+                <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+                <div class="drawer-content">
+                  {/* <!-- Page content here --> */}
+                </div>
+                <div class="drawer-side">
+                  <label for="my-drawer" class="drawer-overlay"></label>
+                  <ul class="menu p-4 w-80 bg-base-100 text-base-content">
+                    {/* <!-- Sidebar content here --> */}
+                    <li>
+                      <a>Sidebar Item 1</a>
+                    </li>
+                    <li>
+                      <a>Sidebar Item 2</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
 
-import slide1 from "../../Assets/image/slide-1.png";
 
-const Home = () => {
-  const [items, seTitems] = useState([]);
-  // const pathName = window.location.pathname;
 
-  useEffect(() => {
-    fetch("https://game-of-nature-backend.vercel.app/")
-      .then((res) => res.json())
-      .then((data) => seTitems(data));
-  }, []);
 
-  return (
-    <div className="">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <div className="">
       <input
         defaultChecked
         type="checkbox"
@@ -270,7 +292,3 @@ const Home = () => {
         </div>
       </div>
     </div>
-  );
-};
-
-export default Home;

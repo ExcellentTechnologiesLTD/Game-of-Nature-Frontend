@@ -53,7 +53,7 @@ const ProductTableView = (props) => {
           <tbody>
             {/* <!-- row 1 --> */}
             {items.map((item, index) => (
-              <tr>
+              <tr key={item.product_id}>
                 <th className="text-center"> {index + 1} </th>
                 <th className="text-center font-normal"> {item.product_id} </th>
                 <td className="hover:cursor-pointer hover:underline">
@@ -67,7 +67,10 @@ const ProductTableView = (props) => {
                       </div>
                     </div>
                     <div>
-                      <div class="font-bold"> {item.product_name} </div>
+                      <a href={`/edit/${item.product_id}`} class="font-bold">
+                        {" "}
+                        {item.product_name}{" "}
+                      </a>
                       <div class="text-sm opacity-50"> {item.category} </div>
                     </div>
                   </div>

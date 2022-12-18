@@ -1,12 +1,12 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-const AdminDashboard = () => {
+const CustomerDashboard = () => {
   return (
     <div>
-      <Outlet> </Outlet>
+      <Outlet></Outlet>
     </div>
   );
 };
 
-export default AdminDashboard;
+export default CustomerDashboard;

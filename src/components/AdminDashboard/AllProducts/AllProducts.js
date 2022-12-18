@@ -19,8 +19,11 @@ const AllProducts = () => {
           {" "}
           All product{" "}
         </h1>
-        <div class="dropdown dropdown-end">
-          <label tabindex="0" class="flex justify-between border-2 m-1 px-3">
+        <div className="dropdown dropdown-end">
+          <label
+            tabIndex="0"
+            className="flex justify-between border-2 m-1 px-3"
+          >
             Sort
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +31,7 @@ const AllProducts = () => {
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              class="w-6 h-6 ml-2"
+              className="w-6 h-6 ml-2"
             >
               <path
                 strokeLinecap="round"
@@ -38,8 +41,8 @@ const AllProducts = () => {
             </svg>
           </label>
           <ul
-            tabindex="0"
-            class="dropdown-content menu divide-y-2 p-2 shadow bg-base-300 rounded-box w-52"
+            tabIndex="0"
+            className="dropdown-content menu divide-y-2 p-2 shadow bg-base-300 rounded-box w-52"
           >
             <li>
               <a> Less than 20 Items </a>

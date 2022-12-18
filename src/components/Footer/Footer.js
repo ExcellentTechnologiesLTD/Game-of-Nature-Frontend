@@ -20,8 +20,8 @@ const Footer = () => {
           </p>{" "}
           <p>
             Developed by{" "}
-            <span className="font-bold">
-              Excellent Technologies Limited - ETL{" "}
+            <span className="hover:underline font-bold">
+              Excellent Technologies BD{" "}
             </span>{" "}
           </p>{" "}
         </div>{" "}

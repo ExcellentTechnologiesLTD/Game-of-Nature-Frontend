@@ -1,5 +1,5 @@
-import React from "react";
-import { useLocation, useNavigate } from "react-router";
+import React, { useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router";
 import logo from "../../Assets/image/logo.jpg";
 import facialPic from "../../Assets/image/facial-care.jpg";
 import hairCarePic from "../../Assets/image/hair-care.jpg";
@@ -10,18 +10,34 @@ import dailyNeedsPic from "../../Assets/image/daily-needs.jpg";
 import perfumePic from "../../Assets/image/perfume.jpg";
 import groceriesPic from "../../Assets/image/groceries.jpg";
 import "./NavbarStyles.css";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../firebase.init";
+import { useSignOut } from "react-firebase-hooks/auth";
+import "../../js/commonJs";
 
 const Navbar = () => {
+  const [userGoogle] = useAuthState(auth);
+  const [signOut, loading, error] = useSignOut(auth);
+
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || `/signin`;
 
-  const userData = JSON.parse(localStorage.getItem("currentUserDetails"));
-  // console.log(JSON.parse(userData).userType);
+  const userData = JSON.parse(
+    localStorage.getItem("currentUserDetails")
+  )?.currentUserInfo;
+  // console.log(userData);
 
   const handleLogOutBtn = () => {
     localStorage.removeItem("currentUserDetails");
     window.location.reload(true);
+  };
+
+  const googleSignOut = async () => {
+    const success = await signOut();
+    if (success) {
+      navigate(from, { replace: true });
+    }
   };
 
   return (
@@ -33,13 +49,13 @@ const Navbar = () => {
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="2"
+              strokeWidth="2"
               stroke="currentColor"
-              class="w-6 h-6 mr-2"
+              className="w-6 h-6 mr-2 xs:hidden"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"
               />
             </svg>
@@ -67,290 +83,224 @@ const Navbar = () => {
         </div>
         <div className="navbar flex justify-between">
           <div className=" flex-none">
-            <div className="navbar-start w-auto lg:hidden">
-              <div className="dropdown">
+            <div className="navbar-start w-auto lg:hidden ">
+              <div class="dropdown">
                 <label
-                  tabIndex="0"
-                  className="btn bg-white border-0 text-black hover:bg-white"
+                  tabindex="0"
+                  class="btn bg-white hover:bg-slate-200 border-0 rounded-full"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
+                    className=" w-7"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke="currentColor"
+                    stroke="black"
                   >
                     <path
-                      stroke-linecap="round"
+                      strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth="2"
+                      strokeWidth="3"
                       d="M4 6h16M4 12h16M4 18h7"
                     />
                   </svg>
                 </label>
-                {/* If viewing user is customer or anyone not logged in then>>> */}
-                {userData?.userType == "Customer" || userData == null ? (
-                  <div class="dropdown dropdown-bottom">
-                    <ul
-                      tabindex="0"
-                      class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-60"
-                    >
-                      <div tabindex="0" class="collapse collapse-arrow ">
-                        <div class="collapse-title flex">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6 mr-3 my-auto"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"
-                            />
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M6 6h.008v.008H6V6z"
-                            />
-                          </svg>
-                          Categories
-                        </div>
-                        <div class="collapse-content">
-                          <ul className="h-60 overflow-auto">
-                            <li>
-                              <a
-                                href="/facial-care"
-                                className="hover:bg-green-100"
-                              >
-                                <img
-                                  className="w-10 h-10 rounded-2xl"
-                                  src={facialPic}
-                                  alt=""
-                                />
-                                Facial care
-                              </a>
-                            </li>
-                            <li>
-                              <a
-                                href="/hair-care"
-                                className="hover:bg-green-100 cursor-pointer"
-                              >
-                                <img
-                                  className="w-16 h-12 rounded-2xl"
-                                  src={hairCarePic}
-                                  alt=""
-                                />
-                                Hair care
-                              </a>
-                            </li>
-                            <li>
-                              <a
-                                href="/body-care"
-                                className="hover:bg-green-100"
-                              >
-                                <img
-                                  className="w-16 h-12 rounded-2xl"
-                                  src={bodyCarePic}
-                                  alt=""
-                                />
-                                Body care
-                              </a>
-                            </li>
-                            <li>
-                              <a
-                                href="/baby-care"
-                                className="hover:bg-green-100"
-                              >
-                                <img
-                                  className="w-16 h-12 rounded-2xl"
-                                  src={babyCarePic}
-                                  alt=""
-                                />
-                                Baby care
-                              </a>
-                            </li>
-                            <li>
-                              <a
-                                href="/spa&massage"
-                                className="hover:bg-green-100"
-                              >
-                                <img
-                                  className="w-16 h-12 rounded-2xl"
-                                  src={spaPic}
-                                  alt=""
-                                />
-                                Spa & Massage
-                              </a>
-                            </li>
-                            <li>
-                              <a
-                                href="/daily-needs"
-                                className="hover:bg-green-100"
-                              >
-                                <img
-                                  className="w-16 h-12 rounded-2xl"
-                                  src={dailyNeedsPic}
-                                  alt=""
-                                />
-                                Daily needs
-                              </a>
-                            </li>
-                            <li>
-                              <a
-                                href="/perfumes&attar"
-                                className="hover:bg-green-100"
-                              >
-                                <img
-                                  className="w-16 h-12 rounded-2xl"
-                                  src={perfumePic}
-                                  alt=""
-                                />
-                                Perfumes & Attar
-                              </a>
-                            </li>
-                            <li>
-                              <a
-                                href="/groceries"
-                                className="hover:bg-green-100"
-                              >
-                                <img
-                                  className="w-16 h-12 rounded-2xl"
-                                  src={groceriesPic}
-                                  alt=""
-                                />
-                                Groceries
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <li>
-                        <a className="flex">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6 mr-3 my-auto"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-                            />
-                          </svg>
-                          About
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                {userData?.User_Type == "Customer" ||
+                userData == null ||
+                userGoogle != null ? (
+                  <ul
+                    tabIndex="0"
+                    className="dropdown-content menu p-2 shadow-2xl border-green-200 border-2 bg-green-50 rounded-b-box w-60"
+                  >
+                    <li>
+                      <a
+                        href="/facial-care"
+                        className="hover:bg-green-100 z-50"
+                      >
+                        <img
+                          className="w-10 h-10 rounded-2xl"
+                          src={facialPic}
+                          alt=""
+                        />
+                        Facial care
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="/hair-care"
+                        className="hover:bg-green-100 cursor-pointer"
+                      >
+                        <img
+                          className="w-10 h-10 rounded-2xl"
+                          src={hairCarePic}
+                          alt=""
+                        />
+                        Hair care
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/body-care" className="hover:bg-green-100">
+                        <img
+                          className="w-10 h-10 rounded-2xl"
+                          src={bodyCarePic}
+                          alt=""
+                        />
+                        Body care
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/baby-care" className="hover:bg-green-100">
+                        <img
+                          className="w-10 h-10 rounded-2xl"
+                          src={babyCarePic}
+                          alt=""
+                        />
+                        Baby care
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/spa&massage" className="hover:bg-green-100">
+                        <img
+                          className="w-10 h-10 rounded-2xl"
+                          src={spaPic}
+                          alt=""
+                        />
+                        Spa & Massage
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/daily-needs" className="hover:bg-green-100">
+                        <img
+                          className="w-10 h-10 rounded-2xl"
+                          src={dailyNeedsPic}
+                          alt=""
+                        />
+                        Daily needs
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/perfumes&attar" className="hover:bg-green-100">
+                        <img
+                          className="w-10 h-10 rounded-2xl"
+                          src={perfumePic}
+                          alt=""
+                        />
+                        Perfumes & Attar
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/groceries" className="hover:bg-green-100">
+                        <img
+                          className="w-10 h-10 rounded-2xl"
+                          src={groceriesPic}
+                          alt=""
+                        />
+                        Groceries
+                      </a>
+                    </li>
+                  </ul>
                 ) : (
-                  <div>
-                    <ul
-                      tabIndex="0"
-                      className="menu menu-compact dropdown-content mt-3 p-2 bg-base-100 rounded-box w-52 shadow-2xl"
-                    >
-                      <li className="flex">
-                        <a href="/addproducts">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="2"
-                            stroke="black"
-                            class="w-6 h-6"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>{" "}
-                          Add a product
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/all-products">
-                          {" "}
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
-                            />
-                          </svg>
-                          All products
-                        </a>
-                      </li>
-                      <li>
-                        <a href="">
-                          {" "}
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
-                            />
-                          </svg>
-                          Manage Deliveries
-                        </a>
-                      </li>
-                      <li>
-                        <a href="">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"
-                            />
-                          </svg>
-                          Manage Orders
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                  <ul
+                    tabIndex="0"
+                    className="menu menu-compact dropdown-content mt-3 p-2 bg-base-100 rounded-box w-52 shadow-2xl"
+                  >
+                    <li className="flex">
+                      <a href="/admin-dashboard/addproducts">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="2"
+                          stroke="black"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>{" "}
+                        Add a product
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/admin-dashboard">
+                        {" "}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"
+                          />
+                        </svg>
+                        All products
+                      </a>
+                    </li>
+                    <li>
+                      <a href="">
+                        {" "}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
+                          />
+                        </svg>
+                        Manage Deliveries
+                      </a>
+                    </li>
+                    <li>
+                      <a href="">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"
+                          />
+                        </svg>
+                        Manage Orders
+                      </a>
+                    </li>
+                  </ul>
                 )}
               </div>
             </div>
             <div className="font-bold text-xl">
-              <div className="flex  items-center">
+              <a href="/" className="flex  items-center">
                 <img
                   className="w-20 h-20"
                   src={logo}
                   alt="Game of Nature Logo"
                 />
-                <a className=" " href="/">
+                <h1 className="hidden-items">
                   Game of <span className="text-green-500"> Nature </span>
-                </a>
-              </div>
+                </h1>
+              </a>
             </div>
           </div>
-          {userData?.userType != "Customer" ? (
+          {userData?.User_Type == "Customer" ||
+          userData?.User_Type == null ||
+          userGoogle != null ? (
             <div className="hidden_items flex w-96 border-2 border-green-400 rounded-3xl px-3 py-2">
               {" "}
               <input className="w-full" type="text" placeholder="Search..." />
@@ -359,13 +309,13 @@ const Navbar = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
-                  class="w-6 h-6"
+                  className="w-6 h-6"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
                   />
                 </svg>
@@ -374,78 +324,74 @@ const Navbar = () => {
           ) : (
             <></>
           )}
-
           <div className="flex-none">
-            {/* <button
-              onClick={(event) => {
-                navigate(from, { replace: true });
-              }}
-              className="hover:underline mr-2"
-            >
-              <div className=" flex justify-center items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-8 h-8"
-                >
-                  <path
-                    stroke-linecap="round"
-                    strokeLinejoin="round"
-                    d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg>
-                <a className="hidden_items ml-2" href="/signin">
-                  Account
-                </a>
-              </div>
-            </button> */}
-            <div class="dropdown dropdown-end">
+            <div className="dropdown dropdown-end">
               <label
-                tabindex="0"
-                class="flex justify-center items-center hover:scale-105 hover:ease-in-out hover:duration-300 mr-2"
+                tabIndex="0"
+                className="flex justify-center items-center hover:scale-105 hover:ease-in-out hover:duration-300 mr-2"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-8 h-8 mr-2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    strokeLinejoin="round"
-                    d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+                {userGoogle?.photoURL ? (
+                  <img
+                    className={`w-10 rounded-full`}
+                    src={userGoogle.photoURL}
                   />
-                </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-8 h-8 mr-2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                )}
                 <h6 className="hidden_items ml-2" href="/signin">
-                  Account
+                  {userGoogle?.displayName || userData?.First_Name || "Account"}
                 </h6>
               </label>
-              {userData ? (
+
+              {userData || userGoogle ? (
                 <ul
-                  tabindex="0"
-                  class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 border-t-2"
+                  tabIndex="0"
+                  className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 border-t-2"
                 >
-                  <li>
-                    <a href="/admin-dashboard">Dashboard</a>
+                  <li className="mt-5">
+                    {userData?.First_Name || userGoogle?.displayName}
                   </li>
+                  <div className="divider"></div>
+                  {userData?.User_Type == "Admin" ? (
+                    <li>
+                      <a href="/admin-dashboard">Dashboard</a>
+                    </li>
+                  ) : (
+                    <li>
+                      <a href="/dashboard/order-history">Order History</a>
+                    </li>
+                  )}
+
                   <li className="pb-4">
                     <a>My profile</a>
                   </li>
                   <li className=" border-t-2">
-                    <a onClick={handleLogOutBtn} class=" block mt-1.5">
+                    <a
+                      onClick={userGoogle ? googleSignOut : handleLogOutBtn}
+                      // onClick={userGoogle ? signOut : handleLogOutBtn}
+                      className=" block mt-1.5"
+                    >
                       Sign out
                     </a>
                   </li>
                 </ul>
               ) : (
                 <ul
-                  tabindex="0"
-                  class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+                  tabIndex="0"
+                  className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
                 >
                   <li>
                     <a href="/signin">Sign in</a>
@@ -453,52 +399,70 @@ const Navbar = () => {
                 </ul>
               )}
             </div>
-            {console.log(userData)}
-            {userData?.userType == "Admin" ? (
-              <></>
-            ) : (
+            {console.log(
+              "google user >>> ",
+              userGoogle,
+              "userData >>> ",
+              userData
+            )}
+            {userData?.User_Type == "Customer" ||
+            userData?.User_Type == null ||
+            userGoogle != null ? (
               <button
                 onClick={(event) => {
                   navigate(from, { replace: true });
                 }}
-                className={`mx-2 hover:underline ${
-                  userData?.userType == "Admin" ? "hidden" : ""
+                className={`dropdown dropdown-hover dropdown-end  mx-2 hover:underline ${
+                  userData?.User_Type == "Admin" ? "hidden" : ""
                 }`}
               >
-                <div className={`flex items-center `}>
+                <a
+                  href="/dashboard/cart"
+                  tabIndex="0"
+                  className="flex items-center ml-1"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
-                    class="w-7 h-7"
+                    className="w-7 h-7 mr-2"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
                     />
                   </svg>
-                  <a className="hidden_items ml-2" href="/cart">
-                    Cart
-                  </a>
+                  <h1 className="hidden_items">Shopping Bag</h1>
+                </a>
+                <div
+                  tabIndex="0"
+                  className="dropdown-content p-2 shadow bg-base-200 w-96"
+                >
+                  No items in cart.
                 </div>
               </button>
+            ) : (
+              <></>
             )}
           </div>
         </div>
 
         <div className=" ">
-          {userData?.userType == "Admin" ? (
+          {userData?.User_Type == "Admin" ? (
             <div
               id="Categories"
               className="h-10 grid grid-cols-4 items-center border-t-2 border-green-100"
             >
-              <a href="/addproducts" className="hover:bg-green-100">
+              <a
+                href="/admin-dashboard/addproducts"
+                className="hover:bg-green-100"
+              >
                 Add a Product
               </a>
-              <a href="/all-products" className="hover:bg-green-100">
+              <a href="/admin-dashboard" className="hover:bg-green-100">
                 All Products
               </a>
               <a href="" className="hover:bg-green-100">
@@ -540,7 +504,9 @@ const Navbar = () => {
             </div>
           )}
         </div>
-        {userData?.userType != "Customer" ? (
+        {userData?.User_Type == "Customer" ||
+        userData?.User_Type == null ||
+        userGoogle ? (
           <div className="lg:hidden flex border-2 border-green-400 rounded-3xl px-3 py-2 mx-5 mt-2">
             {" "}
             <input
@@ -553,13 +519,13 @@ const Navbar = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
-                class="w-6 h-6"
+                className="w-6 h-6"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
                 />
               </svg>

@@ -17,6 +17,13 @@ import DailyNeeds from "./components/Categories/DailyNeeds/DailyNeeds";
 import PerfumeAttar from "./components/Categories/PerfumesAttar/PerfumeAttar";
 import Groceries from "./components/Categories/Groceries/Groceries";
 import ItemDetails from "./components/AdminDashboard/ItemDetails/ItemDetails";
+import ProductForm from "./components/ProductForm/ProductForm";
+import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
+import RequireAdminAuth from "./components/RequireAuth/RequireAdminAuth";
+import RequireCustomerAuth from "./components/RequireAuth/RequireCustomerAuth";
+import Cart from "./components/Cart/Cart";
+import CustomerDashboard from "./components/CustomerDashboard/CustomerDashboard";
+import OrderHistory from "./components/OrderHistory/OrderHistory";
 
 function App() {
   return (
@@ -41,9 +48,31 @@ function App() {
         ></Route>
         <Route path="daily-needs" element={<DailyNeeds></DailyNeeds>}></Route>
         <Route path="groceries" element={<Groceries></Groceries>}></Route>
+
+        {/* Routes For Customers  */}
+        <Route
+          path="/dashboard"
+          element={
+            <RequireCustomerAuth>
+              <CustomerDashboard></CustomerDashboard>
+            </RequireCustomerAuth>
+          }
+        >
+          <Route path="cart" element={<Cart></Cart>}></Route>
+          <Route
+            path="order-history"
+            element={<OrderHistory></OrderHistory>}
+          ></Route>
+        </Route>
+        {/* Routes For Customers  */}
+        {/* Routes For Admin  */}
         <Route
           path="/admin-dashboard"
-          element={<AdminDashboard></AdminDashboard>}
+          element={
+            <RequireAdminAuth>
+              <AdminDashboard></AdminDashboard>
+            </RequireAdminAuth>
+          }
         >
           <Route path="addproducts" element={<AddProduct></AddProduct>}></Route>
           <Route
@@ -52,6 +81,10 @@ function App() {
             element={<AllProducts></AllProducts>}
           ></Route>
         </Route>
+        {/* Routes For Admin  */}
+
+        <Route path="/edit/:id" element={<AddProduct></AddProduct>}></Route>
+        <Route path="/*" element={<NotFoundPage></NotFoundPage>}></Route>
       </Routes>
       <Footer></Footer>
     </div>

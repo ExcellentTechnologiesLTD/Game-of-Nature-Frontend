@@ -5,7 +5,7 @@ const Signup = () => {
   // Goto Signin page
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location?.state?.from?.pathname || "/";
+  const from = location?.state?.from?.pathname || "/signin";
   // inputs
   const [FirstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -64,16 +64,16 @@ const Signup = () => {
         }),
       };
 
-      fetch("http://localhost:3302/signup", requestOptions)
+      fetch("https://game-of-nature-backend.vercel.app/signup", requestOptions)
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          if (data.success) {
-            alert("User Signup completed");
+          if (data.status == "Success" && data.user_id != 0) {
+            alert(data.msg);
             // Change UI to signin page
             navigate(from, { replace: true });
           } else {
-            setErrorMsg(data.msg.detail);
+            setErrorMsg(data.msg);
           }
         });
     } else {

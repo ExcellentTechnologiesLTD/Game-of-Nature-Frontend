@@ -2,4 +2,11 @@
     #filter {
         display: none;
     }
+    .hidden-items {
+        display: none;
+    }
+}
+
+.smallThumbnailCard {
+    height: 20px;
 }

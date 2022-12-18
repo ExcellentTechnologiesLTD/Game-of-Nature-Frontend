@@ -40,7 +40,7 @@ const DailyNeeds = () => {
           </span>{" "}
         </div>{" "}
         <div className="border-b-2 border-green-300 pb-10 ">
-          <h1 className="text-3xl font-serif text-left ml-20"> Body Care </h1>{" "}
+          <h1 className="text-3xl font-serif text-left ml-20"> Daily Needs </h1>{" "}
         </div>{" "}
       </div>{" "}
       <div className="flex mt-4">
@@ -62,7 +62,6 @@ const DailyNeeds = () => {
                   d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
                 />
               </svg>{" "}
-              {dailyNeedItems.length}
               products{" "}
             </div>{" "}
             <div class="dropdown dropdown-end">
@@ -99,11 +98,11 @@ const DailyNeeds = () => {
               </ul>{" "}
             </div>{" "}
           </div>{" "}
-          {/ * product Display * /}{" "}
-          <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4 mt-5 p-8 bg-green-100 rounded-tl-2xl">
+          {/* product Display */}{" "}
+          <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4 mt-5  rounded-tl-2xl">
             {" "}
             {dailyNeedItems.map((item) =>
-              item.category == "Daily Needs" ? (
+              item.category == "Daily needs" ? (
                 <ItemThumnailCard props={item}> </ItemThumnailCard>
               ) : (
                 <></>

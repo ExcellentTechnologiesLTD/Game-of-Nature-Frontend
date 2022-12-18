@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import ItemThumnailCard from "../../ItemThumbnailCard/ItemThumnailCard";
+import "../../../Sytles/commonStyles.css";
 
 const ItemDetails = () => {
   const { id } = useParams();
 
   const [item, setItem] = useState({});
+  const [suggestedItem, setSuggestedItem] = useState([]);
   const [orderQuantity, setOrderQuantity] = useState(1);
 
   // const [itemQuantity, setItemQuantity] = useState();
@@ -13,8 +16,17 @@ const ItemDetails = () => {
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
-      .then((data) => setItem(data));
+      .then((data1) => setItem(data1));
   }, []);
+
+  // get suggested items
+  console.log("category: ", item.category);
+  const SuggestedItemsUrl = `https://game-of-nature-backend.vercel.app/get-detailsby/${item.category}`;
+  useEffect(() => {
+    fetch(SuggestedItemsUrl)
+      .then((res) => res.json())
+      .then((data) => setSuggestedItem(data));
+  }, [item?.category]);
 
   const handleReviewSubmitClick = (e) => {};
   const handleRestockbtnClick = (e) => {};
@@ -74,7 +86,7 @@ const ItemDetails = () => {
           </h1>
           <h1 className="text-2xl font-semibold"> ৳{item.price}.00 </h1>
           <small> (MRP INCLUSIVE OF ALL TAXES) </small>
-          {/ * order quantity to cart buttons * /}
+          {/* order quantity to cart buttons */}
           {item.quantity_in_stock >= 10 ? (
             <div className="flex gap-1 items-center mt-5">
               <button className="bg-red-50 hover:bg-red-200 px-5 py-1.5 font-semibold text-2xl rounded-lg">
@@ -109,7 +121,7 @@ const ItemDetails = () => {
               Restock request
             </button>
           )}{" "}
-          <div className="grid mt-2 w-1/2">
+          <div className="grid mt-2 w-1/2 max-w-fit">
             <a className="hover:text-red-600 text-sm" href="">
               Term & Conditions
             </a>
@@ -120,41 +132,15 @@ const ItemDetails = () => {
           <div class="mt-5 rounded-xl">
             <h1 className="font-bold mb-4"> Description </h1>
             <div class="">
-              <p className="overflow-scroll h-40 ">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.Tempore,
-                excepturi.Pariatur debitis assumenda, numquam minus amet tenetur
-                quod enim ratione tempore odit corrupti commodi fugiat error
-                eaque qui fuga accusamus facere cupiditate veritatis maxime
-                reprehenderit veniam.Dicta ipsam exercitationem officia, earum
-                quo ad illum ab consequuntur pariatur voluptatum numquam qui
-                dolor, tenetur id atque sequi porro facilis sapiente.Id,
-                suscipit commodi.Itaque, ad magnam cum dolor voluptatum
-                reiciendis sequi alias cupiditate, quis facere eaque veniam
-                doloribus aperiam.Ad ipsum officiis nam tenetur possimus illo
-                iste delectus mollitia vitae, cumque ratione in asperiores quos
-                natus facere ab, error illum iure fugit sunt similique
-                eligendi.Iste eaque dolorum minima impedit vero sapiente hic,
-                qui mollitia, modi ea iure inventore magni.Voluptatum quae modi
-                sint nam adipisci rem quos quaerat nulla, aliquid provident
-                rerum excepturi officiis iure maiores! Architecto quis quos
-                saepe laudantium numquam quia ex dolorum perspiciatis
-                dignissimos!Adipisci, pariatur dolorum mollitia reiciendis
-                nostrum ea, ad eaque sint nihil consequuntur rerum dolor neque
-                quasi unde earum cum accusantium aperiam totam facere voluptates
-                ? Dolorem aliquam facilis eveniet vitae consequuntur laudantium
-                rem provident laboriosam asperiores eos at reiciendis dicta
-                natus quaerat sunt ipsum, qui sapiente reprehenderit placeat
-                totam ducimus esse quae!Facilis, quas.Dolore!
-              </p>
+              <p className="overflow-scroll h-40 ">{item.description}</p>
             </div>
           </div>{" "}
         </div>{" "}
       </div>
-      <div className=" divider p-10"> </div>
       {/* < div className = " border-green-300 border-2 my-10"> </div> */}
-      <div className="text-left px-10">
-        <h1 className="font-semibold text-lg mt-5">
-          See what our users have commented on this item
+      <div className="text-left px-5 lg:px-10 mb-10">
+        <h1 className="divider font-semibold text-lg mt-20 mb-10 lg:mx-28">
+          See what our users have to say
         </h1>{" "}
         <div>
           <div className="grid lg:grid-cols-4 grid-cols-2 bg-red-300"> </div>{" "}
@@ -167,7 +153,20 @@ const ItemDetails = () => {
             </button>{" "}
           </div>{" "}
         </div>{" "}
-        <h1 className="font-semibold text-lg mt-5"> Suggested products </h1>
+        <div className="">
+          <h1 className="divider font-semibold text-lg mt-14 mb-10 lg:mx-28">
+            {" "}
+            Suggested products {suggestedItem.length}
+          </h1>
+          <div className="lg:px-28 lg:py-5 grid lg:grid-cols-4 grid-cols-2 lg:gap-7 gap-3">
+            {suggestedItem.slice(0, 4).map((item) => (
+              <ItemThumnailCard
+                key={item.product_id}
+                props={item}
+              ></ItemThumnailCard>
+            ))}
+          </div>
+        </div>
       </div>
       {/* modal for reviews */}
       <input type="checkbox" id="my-modal-6" class="modal-toggle" />

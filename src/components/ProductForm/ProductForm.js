@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 
-const ProductForm = () => {
+const ProductForm = (props) => {
+  const { itemData } = props;
+  console.log(itemData);
+
   const imgStorageKey = "29ddb5c3f1924fa5b37d8c1f1a90e4a2";
 
   const [ItemName, setItemName] = useState("");
@@ -32,10 +35,6 @@ const ProductForm = () => {
     event.preventDefault();
     setLoading(true);
     const image = imgFile[0];
-    // console.log(image.size);
-    // if (image.size > 1500000) {
-    //   setImageError("Image size cannot be more than 1.5 MB.");
-    // } else {
     const formData = new FormData();
     formData.append("image", image);
     const url = `https://api.imgbb.com/1/upload?key=${imgStorageKey}`;
@@ -90,21 +89,17 @@ const ProductForm = () => {
     e.preventDefault();
     setImgFile([]);
     setImgFile(e.target.files);
-    // console.log("blur: ", imgFile);
-    // if (imgFile[0]?.size < 1500000) {
-    //   console.log("cholbe");
-    //   setImageError("");
-    // } else {
-    //   // console.log("cholbe na");
-    //   // setImageError("Image size cannot be more than 1.5 MB.");
-    // }
   };
 
+  // if (window.location.pathname.includes("/edit/")) {
+  //   setItemName(itemData.product_name);
+  // }
+
   return (
-    <div>
+    <div className="px-4">
       <form
         onSubmit={handleSaveBtn}
-        className="border-2 bg-green-50 lg:w-1/2 w-3/4  p-5 mx-auto mt-10 rounded-3xl"
+        className="border-2 bg-green-50 lg:w-1/2 p-5 lg:mx-auto mt-10 rounded-3xl"
       >
         <div class="">
           <label class="label">
@@ -113,6 +108,11 @@ const ProductForm = () => {
             </span>
           </label>
           <input
+            value={
+              window.location.pathname.includes("/edit/")
+                ? itemData.product_name
+                : ""
+            }
             required
             onBlur={handleItemNameBlur}
             type="text"
@@ -199,18 +199,28 @@ const ProductForm = () => {
             placeholder="Add description...."
           ></textarea>
         </div>
-
         <input
-          value="submit Item"
+          // value="Save"
+          disabled={loading}
           type="submit"
-          // onClick={handleSaveBtn}
-          className={`${
-            imgFile[0]?.size > 1500000 ? "hover:hidden" : ""
-          } capitalize btn border-0 text-white my-5 bg-green-400 hover:bg-green-500`}
+          className={` capitalize btn border-0 text-white my-5 focus:ring focus:ring-green-500 bg-green-400 hover:bg-green-500`}
         />
-        <progress
-          className={`${loading ? "" : "hidden"} progress w-56 block mx-auto`}
-        ></progress>
+        {/* <input
+          // class style
+          // ${
+          //     imgFile[0]?.size > 1500000 ? "hover:hidden" : ""
+          //   }
+
+          c
+          onClick={handleSaveBtn}
+        >
+          Save item
+        </input> */}
+        {/* <progress
+          className={`${
+            loading ? "" : "hidden"
+          } progress w-56 block my-5 mx-auto`}
+        ></progress> */}
       </form>
     </div>
   );
