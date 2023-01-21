@@ -38,7 +38,7 @@ const CheckOutInfo = ({
     if (e.target.value != "") {
       setEmail(e.target.value);
       setLoading(true);
-      fetch("http://localhost:3300/check-existence", {
+      fetch("https://game-of-nature-backend.vercel.app/check-existence", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -217,7 +217,10 @@ const CheckOutInfo = ({
         body: JSON.stringify({ orderInfo }),
       };
 
-      fetch("http://localhost:3300/confirm-order", requestOptions)
+      fetch(
+        "https://game-of-nature-backend.vercel.app/confirm-order",
+        requestOptions
+      )
         .then((res) => res.json())
         .then((data) => {
           if (data.status == 200 && data.success) {

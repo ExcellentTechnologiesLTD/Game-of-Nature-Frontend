@@ -23,7 +23,7 @@ const Signin = (props, setCurrentUser) => {
     console.log("Authstate: ", user?.user);
     // checkExistence
 
-    fetch("http://localhost:3300/check-existence", {
+    fetch("https://game-of-nature-backend.vercel.app/check-existence", {
       method: "POST",
       headers: {
         "content-type": "application/json",
