@@ -29,32 +29,32 @@ const OrderTable = (props) => {
         </thead>
         <tbody>
           {orders.map((order, index) => (
-            <tr key={order.order_id}>
+            <tr key={order?.order_id}>
               {/* {console.log("Items: \n", order)} */}
               <th>
                 <label className="text-black">{index + 1}</label>
               </th>
               <td>
                 {/* Order ID */}
-                {order.order_id}
+                {order?.order_id}
               </td>
               <td>
                 {/* Total Amount */}
-                {order.total_amount}
+                {order?.total_amount}
               </td>
               <td>
                 {/* P. Method */}
-                {order.payment_method}
+                {order?.payment_method}
               </td>
               <th>
                 {/* status */}
-                {order.order_status}
+                {order?.order_status}
               </th>
               <th className="grid">
                 {googleUser ? (
                   <div>
                     <label
-                      htmlFor={order.order_id}
+                      htmlFor={order?.order_id}
                       className="font-normal hover:text-blue-700 hover:underline"
                     >
                       Details
@@ -62,13 +62,13 @@ const OrderTable = (props) => {
                     {/* Order Details Display modal */}
                     <input
                       type="checkbox"
-                      id={order.order_id}
+                      id={order?.order_id}
                       className="modal-toggle"
                     />
                     <div className="modal">
                       <div className="modal-box relative">
                         <label
-                          htmlFor={order.order_id}
+                          htmlFor={order?.order_id}
                           className="btn btn-sm btn-circle absolute right-2 top-2"
                         >
                           ✕
@@ -77,23 +77,23 @@ const OrderTable = (props) => {
                           Order Details
                         </h3>
                         <div className="font-normal text-sm flex justify-between mt-4">
-                          <span>Order ID: {order.order_id}</span>
+                          <span>Order ID: {order?.order_id}</span>
                           <span className="italic">
                             Status:{" "}
                             <span className="text-red-700">
-                              {order.order_status}
+                              {order?.order_status}
                             </span>
                           </span>
                         </div>
                         <div className="flex gap-4 justify-end font-normal text-xs">
-                          <span>{order.ordered_date}</span>
-                          <span>{order.ordered_time}</span>
+                          <span>{order?.ordered_date}</span>
+                          <span>{order?.ordered_time}</span>
                         </div>
                         {/* Items */}
                         <div>
                           {JSON.parse(order.items).map((item) => (
                             <OrderitemDisplay
-                              key={order.order_id}
+                              key={order?.order_id}
                               item={item}
                             ></OrderitemDisplay>
                           ))}
@@ -106,41 +106,41 @@ const OrderTable = (props) => {
                           <div className="font-normal text-base text-left mt-5">
                             <p>
                               <span className="font-semibold">Address: </span>
-                              {userData.Address}
+                              {userData?.Address}
                             </p>
                             <div className="flex justify-between">
                               <p>
                                 <span className="font-semibold">City:</span>{" "}
-                                {userData.city}
+                                {userData?.city}
                               </p>
                               <p>
                                 <span className="font-semibold ">
                                   Postal code:{" "}
                                 </span>
-                                {userData.postal_code}
+                                {userData?.postal_code}
                               </p>
                             </div>
                             <p>
                               <span className="font-semibold">
                                 Contact number:{" "}
                               </span>
-                              {userData.Mobile}
+                              {userData?.Mobile}
                             </p>
                             <p>
                               <span className="font-semibold">
                                 Payment method:{" "}
                               </span>
                               <span>
-                                {order.payment_method == "BKASH" ? (
+                                {order?.payment_method == "BKASH" ? (
                                   <div>
-                                    {order.payment_method} (
+                                    {order?.payment_method} (
                                     {order?.online_payment_trxID
                                       ? order?.online_payment_trxID
                                       : "Unpaid"}
                                     )
                                   </div>
                                 ) : (
-                                  order.payment_method
+                                  order?.payment_method
                                 )}
                               </span>
                             </p>
@@ -148,8 +148,8 @@ const OrderTable = (props) => {
                               <span className="font-semibold">
                                 Shipping charge BDT.{" "}
                               </span>
-                              {userData.city == "Dhaka" ||
-                              userData.city == "Dhaka"
+                              {userData?.city == "Dhaka" ||
+                              userData?.city == "dhaka"
                                 ? 60
                                 : 100}
                             </p>
@@ -157,7 +157,7 @@ const OrderTable = (props) => {
                         </div>
                         <div>
                           <h1 className="mt-10 font-mono text-lg italic">
-                            Total Amount BDT. {order.total_amount}.00
+                            Total Amount BDT. {order?.total_amount}.00
                           </h1>
                         </div>
                       </div>
