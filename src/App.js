@@ -26,6 +26,7 @@ import CustomerDashboard from "./components/CustomerDashboard/CustomerDashboard"
 import OrderHistory from "./components/OrderHistory/OrderHistory";
 import { useState } from "react";
 import CheckOut from "./components/CheckOut/CheckOut";
+import ManageOrders from "./components/AdminDashboard/ManageOrders/ManageOrders";
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -103,11 +104,15 @@ function App() {
             </RequireAdminAuth>
           }
         >
-          <Route path="addproducts" element={<AddProduct></AddProduct>}></Route>
           <Route
             // path="all-products"
             index
             element={<AllProducts></AllProducts>}
+          ></Route>
+          <Route path="addproducts" element={<AddProduct></AddProduct>}></Route>
+          <Route
+            path="manage-orders"
+            element={<ManageOrders></ManageOrders>}
           ></Route>
         </Route>
         {/* Routes For Admin  */}

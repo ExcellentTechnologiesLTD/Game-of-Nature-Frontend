@@ -14,7 +14,7 @@ const RequireAdminAuth = ({ children }) => {
       <Navigate to="/signin" state={{ from: location }} replace></Navigate>
     );
   }
-  console.log("children: ", children);
+  // console.log("children: ", children);
   return children;
 };
 
