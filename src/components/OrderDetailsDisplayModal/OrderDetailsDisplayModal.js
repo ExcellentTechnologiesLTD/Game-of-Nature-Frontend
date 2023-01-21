@@ -19,7 +19,30 @@ const OrderDetailsDisplayModal = (props) => {
       setUserData(JSON.parse(localStorage.getItem("currentUserDetails")));
     }
   }, []);
-
+  const handleOrderDelete = (orderID) => {
+    console.log("Order Id: ", orderID);
+    const xx = window.confirm("Are you sure you want to delete the order?");
+    // let xx = prompt("Are you sure you want to delete the order?");
+    console.log("xx: ", xx);
+    if (xx) {
+      fetch(
+        `https://game-of-nature-backend.vercel.app/delete-order/${orderID}`,
+        {
+          method: "DELETE",
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.success && data.status == 200) {
+            alert(data.msg);
+            window.location.reload(true);
+          } else {
+            alert("Cannot Delete Item!");
+          }
+        });
+    }
+  };
   return (
     <div>
       <label
@@ -103,6 +126,19 @@ const OrderDetailsDisplayModal = (props) => {
           Total Amount BDT. {order?.total_amount}.00
         </h1>
       </div>
+      {window.location.pathname.endsWith("/manage-orders") ? (
+        <button
+          onClick={() => {
+            handleOrderDelete(order?.order_id);
+          }}
+          className="btn bg-red-500 hover:bg-red-600 px-20 normal-case italic text-lg  font-normal mt-2"
+        >
+          {" "}
+          Delete Order
+        </button>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
