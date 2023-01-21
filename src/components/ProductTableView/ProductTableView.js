@@ -5,14 +5,6 @@ const ProductTableView = (props) => {
   const items = props.props;
 
   const handleDeleteItem = (ItemID) => {
-    // const requestOptions = {
-    //   method: "DELETE",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     pid: item.product_id,
-    //   }),
-    // };
-
     fetch(`https://game-of-nature-backend.vercel.app/delete-item/${ItemID}`, {
       method: "DELETE",
     })

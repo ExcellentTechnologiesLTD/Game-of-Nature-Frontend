@@ -24,8 +24,12 @@ import RequireCustomerAuth from "./components/RequireAuth/RequireCustomerAuth";
 import Cart from "./components/Cart/Cart";
 import CustomerDashboard from "./components/CustomerDashboard/CustomerDashboard";
 import OrderHistory from "./components/OrderHistory/OrderHistory";
+import { useState } from "react";
+import CheckOut from "./components/CheckOut/CheckOut";
 
 function App() {
+  const [cartItems, setCartItems] = useState([]);
+
   return (
     <div className="App ">
       <Navbar></Navbar>
@@ -40,7 +44,12 @@ function App() {
         <Route path="spa&massage" element={<SpaMassage></SpaMassage>}></Route>
         <Route
           path="/item-details/:id"
-          element={<ItemDetails></ItemDetails>}
+          element={
+            <ItemDetails
+              setCartItems={setCartItems}
+              cartItems={cartItems}
+            ></ItemDetails>
+          }
         ></Route>
         <Route
           path="perfumes&attar"
@@ -50,6 +59,7 @@ function App() {
         <Route path="groceries" element={<Groceries></Groceries>}></Route>
 
         {/* Routes For Customers  */}
+
         <Route
           path="/dashboard"
           element={
@@ -58,10 +68,29 @@ function App() {
             </RequireCustomerAuth>
           }
         >
-          <Route path="cart" element={<Cart></Cart>}></Route>
           <Route
             path="order-history"
-            element={<OrderHistory></OrderHistory>}
+            element={
+              <RequireCustomerAuth>
+                <OrderHistory></OrderHistory>
+              </RequireCustomerAuth>
+            }
+          ></Route>
+          {/* <Route
+            path="cart"
+            element={
+              <RequireCustomerAuth>
+                <Cart cartItems={cartItems}></Cart>
+              </RequireCustomerAuth>
+            }
+          ></Route> */}
+          <Route
+            path="checkout"
+            element={
+              <RequireCustomerAuth>
+                <CheckOut cartItems={cartItems}></CheckOut>
+              </RequireCustomerAuth>
+            }
           ></Route>
         </Route>
         {/* Routes For Customers  */}

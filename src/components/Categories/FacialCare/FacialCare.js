@@ -103,7 +103,9 @@ const FacialCare = () => {
             {" "}
             {facialItems.map((item) =>
               item.category == "Facial care" ? (
-                <ItemThumnailCard props={item}> </ItemThumnailCard>
+                <ItemThumnailCard key={item.product_id} props={item}>
+                  {" "}
+                </ItemThumnailCard>
               ) : (
                 <></>
               )

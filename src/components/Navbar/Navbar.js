@@ -14,10 +14,16 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { useSignOut } from "react-firebase-hooks/auth";
 import "../../js/commonJs";
+import Cart from "../Cart/Cart";
 
 const Navbar = () => {
   const [userGoogle] = useAuthState(auth);
   const [signOut, loading, error] = useSignOut(auth);
+  const [myCartItemsJson, setMyCartItems] = useState(
+    JSON.parse(localStorage.getItem("myCartItems"))
+  );
+
+  // console.log("Size: ", myCartItemsJson?.length);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -84,10 +90,10 @@ const Navbar = () => {
         <div className="navbar flex justify-between">
           <div className=" flex-none">
             <div className="navbar-start w-auto lg:hidden ">
-              <div class="dropdown">
+              <div className="dropdown">
                 <label
-                  tabindex="0"
-                  class="btn bg-white hover:bg-slate-200 border-0 rounded-full"
+                  tabIndex="0"
+                  className="btn bg-white hover:bg-slate-200 border-0 rounded-full"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -399,16 +405,16 @@ const Navbar = () => {
                 </ul>
               )}
             </div>
-            {console.log(
+            {/* {console.log(
               "google user >>> ",
               userGoogle,
               "userData >>> ",
               userData
-            )}
+            )} */}
             {userData?.User_Type == "Customer" ||
             userData?.User_Type == null ||
             userGoogle != null ? (
-              <button
+              <div
                 onClick={(event) => {
                   navigate(from, { replace: true });
                 }}
@@ -416,34 +422,59 @@ const Navbar = () => {
                   userData?.User_Type == "Admin" ? "hidden" : ""
                 }`}
               >
-                <a
-                  href="/dashboard/cart"
-                  tabIndex="0"
-                  className="flex items-center ml-1"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-7 h-7 mr-2"
+                <div className="flex items-center">
+                  <a
+                    href="/dashboard/checkout"
+                    tabIndex="0"
+                    className={`ml-1 indicator`}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-                    />
-                  </svg>
+                    <span
+                      className={`${
+                        myCartItemsJson?.length == undefined ||
+                        myCartItemsJson?.length == 0
+                          ? "hidden"
+                          : "indicator-item text-white font-regular text-lg -top-1 -left-1.5 badge bg-green-600 border-0 pt-2 pb-3 h-6"
+                      }`}
+                    >
+                      {myCartItemsJson?.length}
+                    </span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-7 h-7 mr-2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                      />
+                    </svg>
+                  </a>
                   <h1 className="hidden_items">Shopping Bag</h1>
-                </a>
+                </div>
+
                 <div
                   tabIndex="0"
-                  className="dropdown-content p-2 shadow bg-base-200 w-96"
+                  className="z-50 rounded-xl dropdown-content p-2 shadow bg-slate-200 h-96 overflow-auto"
                 >
-                  No items in cart.
+                  <Cart></Cart>
+                  <div className="divider my-0"></div>
+
+                  <a
+                    href="dashboard/checkout"
+                    className={`${
+                      myCartItemsJson == null ? "hidden" : ""
+                    } btn w-full bg-green-500 hover:bg-green-600`}
+                  >
+                    {" "}
+                    Checkout
+                  </a>
+                  {/* No items in cart. */}
                 </div>
-              </button>
+              </div>
             ) : (
               <></>
             )}

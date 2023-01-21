@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import ItemThumnailCard from "../../ItemThumbnailCard/ItemThumnailCard";
 import "../../../Sytles/commonStyles.css";
+import cartItems from "../../Cart/cartArray";
 
 const ItemDetails = () => {
   const { id } = useParams();
@@ -9,6 +10,19 @@ const ItemDetails = () => {
   const [item, setItem] = useState({});
   const [suggestedItem, setSuggestedItem] = useState([]);
   const [orderQuantity, setOrderQuantity] = useState(1);
+
+  const handleIncreaseOrderQuantity = () => {
+    let increasedQnty = parseInt(orderQuantity) + 1;
+    if (increasedQnty <= parseInt(item.quantity_in_stock)) {
+      setOrderQuantity(increasedQnty);
+    }
+  };
+  const handleDecreaseOrderQuantity = () => {
+    let decreasedQnty = parseInt(orderQuantity) - 1;
+    if (decreasedQnty >= 1) {
+      setOrderQuantity(decreasedQnty);
+    }
+  };
 
   // const [itemQuantity, setItemQuantity] = useState();
 
@@ -20,7 +34,7 @@ const ItemDetails = () => {
   }, []);
 
   // get suggested items
-  console.log("category: ", item.category);
+  // console.log("category: ", item.category);
   const SuggestedItemsUrl = `https://game-of-nature-backend.vercel.app/get-detailsby/${item.category}`;
   useEffect(() => {
     fetch(SuggestedItemsUrl)
@@ -31,8 +45,148 @@ const ItemDetails = () => {
   const handleReviewSubmitClick = (e) => {};
   const handleRestockbtnClick = (e) => {};
 
+  const handleAddToBagClick = (e) => {
+    e.preventDefault();
+
+    const newItem = {
+      itemID: item.product_id,
+      itemName: item.product_name,
+      photo_url: item.photo_url,
+      price: item.price,
+      orderQnty: orderQuantity,
+      quantity_in_stock: item.quantity_in_stock,
+    };
+
+    const cartItems = JSON.parse(localStorage.getItem("myCartItems"));
+    let totalCartItemCost = parseInt(localStorage.getItem("totalCartItemCost"));
+    console.log("Type ", typeof totalCartItemCost);
+    console.log("Type price", typeof parseInt(newItem.price));
+    console.log("Type qnty", typeof newItem.orderQnty);
+
+    console.log("details: cart >> ", cartItems);
+    if (cartItems == null) {
+      const newArray = [];
+      totalCartItemCost = 0;
+      newArray.push(newItem);
+      const xx = JSON.stringify(newArray);
+      // Save items and total cost to local storage
+      localStorage.setItem("myCartItems", xx);
+
+      totalCartItemCost += parseInt(newItem.price) * newItem.orderQnty;
+      console.log("total: ", totalCartItemCost);
+      localStorage.setItem("totalCartItemCost", totalCartItemCost.toString());
+      // Send Alert
+      alert("item Added Successfully");
+    } else {
+      let found = false;
+      const stringCartItems = localStorage.getItem("myCartItems");
+      const jsonArrayObject = JSON.parse(stringCartItems);
+
+      jsonArrayObject.map((i) => {
+        if (i.itemID === item.product_id) {
+          i.orderQnty += newItem.orderQnty;
+          found = true;
+          const jsonArrayObjectToString = JSON.stringify(jsonArrayObject);
+          localStorage.setItem("myCartItems", jsonArrayObjectToString);
+
+          // update and save total cost
+          totalCartItemCost += parseInt(newItem.price) * newItem.orderQnty;
+          // totalCartItemCost += parseInt(newItem.price);
+          console.log("total: ", totalCartItemCost);
+          localStorage.setItem(
+            "totalCartItemCost",
+            totalCartItemCost.toString()
+          );
+          // Send Alert
+          alert("item Added Successfully");
+        }
+      });
+      if (found != true) {
+        console.log("hello");
+        const newArray = [...jsonArrayObject, newItem];
+        const jsonArrayObjectToString = JSON.stringify(newArray);
+        console.log("newly added >> ", newArray);
+        localStorage.setItem("myCartItems", jsonArrayObjectToString);
+
+        // update and save total cost
+        totalCartItemCost += parseInt(newItem.price) * newItem.orderQnty;
+        console.log("total: ", totalCartItemCost);
+        localStorage.setItem("totalCartItemCost", totalCartItemCost.toString());
+        // Send Alert
+        alert("item Added Successfully");
+      }
+    }
+    // localStorage.setItem(
+    //   "cartItems",
+    //   JSON.stringify([
+    //     {
+    //       itemID: "1",
+    //       itemName: "Item 1",
+    //       price: "price 1",
+    //       orderQnty: 1,
+    //     },
+    //     {
+    //       itemID: "2",
+    //       itemName: "Item 2",
+    //       price: "price 2",
+    //       orderQnty: 2,
+    //     },
+    //     {
+    //       itemID: "3",
+    //       itemName: "Item 3",
+    //       price: "Price 3",
+    //       orderQnty: 3,
+    //     },
+    //   ])
+    // );
+
+    // console.log("items >> ", JSON.parse(localStorage.getItem("cartItems")));
+    // const array = JSON.parse(localStorage.getItem("cartItems"));
+    // array.push({
+    //   itemID: "4",
+    //   itemName: "item 4",
+    //   price: "price 4",
+    //   orderQnty: 4,
+    // });
+
+    // console.log("array >> ", array);
+
+    // localStorage.setItem("cartItems", JSON.stringify(array));
+
+    // if (cartItems.length == 0) {
+    //   const cartItem = {
+    //     itemID: item.product_id,
+    //     itemName: item.product_name,
+    //     price: item.price,
+    //     orderQnty: 1,
+    //   };
+
+    //   cartItems.push(cartItem);
+    //   localStorage.setItem("cartItems", cartItems);
+    // } else {
+    //   cartItems.map((cartItem) => {
+    //     if (cartItem.itemID === item.product_id) {
+    //       cartItem.orderQnty++;
+    //     } else {
+    //       const cartItem = {
+    //         itemID: item.product_id,
+    //         itemName: item.product_name,
+    //         price: item.price,
+    //         orderQnty: 1,
+    //       };
+    //       cartItems.push(cartItem);
+    //       localStorage.setItem("cartItems", cartItems);
+    //     }
+    //   });
+    // }
+
+    // console.log("cart items pushed >>> ", cartItems);
+    // const newCartItems = [...cartItems, cartItem];
+    // setCartItems(newCartItems);
+  };
+
   return (
-    <div className="">
+    <div className={``}>
       <div
         className={`flex px-10 py-5 bg-gradient-to-b from-slate-100 to-white`}
       >
@@ -40,13 +194,13 @@ const ItemDetails = () => {
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          strokeWidth="1.5"
           stroke="black"
-          class="w-5 h-5 mr-1 hover:cursor-pointer hover:scale-110 ease-in-out duration-300"
+          className="w-5 h-5 mr-1 hover:cursor-pointer hover:scale-110 ease-in-out duration-300"
         >
           <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
           />
         </svg>{" "}
@@ -86,21 +240,32 @@ const ItemDetails = () => {
           </h1>
           <h1 className="text-2xl font-semibold"> ৳{item.price}.00 </h1>
           <small> (MRP INCLUSIVE OF ALL TAXES) </small>
+          <br />
+          <small> In Stock: {item.quantity_in_stock} </small>
           {/* order quantity to cart buttons */}
           {item.quantity_in_stock >= 10 ? (
             <div className="flex gap-1 items-center mt-5">
-              <button className="bg-red-50 hover:bg-red-200 px-5 py-1.5 font-semibold text-2xl rounded-lg">
+              <button
+                onClick={handleDecreaseOrderQuantity}
+                className="bg-red-50 hover:bg-red-200 px-5 py-1.5 font-semibold text-2xl rounded-lg"
+              >
                 -
               </button>
               <div className=" bg-white px-10 py-2.5 rounded-lg">
                 {" "}
                 {orderQuantity}
               </div>
-              <button className="bg-green-100 hover:bg-green-200 px-5 py-1.5 text-2xl rounded-lg">
+              <button
+                onClick={handleIncreaseOrderQuantity}
+                className="bg-green-100 hover:bg-green-200 px-5 py-1.5 text-2xl rounded-lg"
+              >
                 +
               </button>
 
-              <div className="ml-4 capitalize flex justify-center gap-2 items-center btn bg-orange-500 hover:bg-green-500">
+              <button
+                onClick={handleAddToBagClick}
+                className="ml-4 capitalize flex justify-center gap-2 items-center btn bg-orange-500 hover:bg-green-500"
+              >
                 <svg
                   className="w-6 h-6"
                   fill="white"
@@ -111,7 +276,7 @@ const ItemDetails = () => {
                   <path d="M24 0C10.7 0 0 10.7 0 24S10.7 48 24 48H76.1l60.3 316.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H179.9l-9.1-48h317c14.3 0 26.9-9.5 30.8-23.3l54-192C578.3 52.3 563 32 541.8 32H122l-2.4-12.5C117.4 8.2 107.5 0 96 0H24zM176 512c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm336-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM252 160c0-11 9-20 20-20h44V96c0-11 9-20 20-20s20 9 20 20v44h44c11 0 20 9 20 20s-9 20-20 20H356v44c0 11-9 20-20 20s-20-9-20-20V180H272c-11 0-20-9-20-20z" />
                 </svg>
                 Add to bag
-              </div>
+              </button>
             </div>
           ) : (
             <button
@@ -129,15 +294,14 @@ const ItemDetails = () => {
               No Return or Return Policy
             </a>
           </div>
-          <div class="mt-5 rounded-xl">
+          <div className="mt-5 rounded-xl">
             <h1 className="font-bold mb-4"> Description </h1>
-            <div class="">
+            <div className="">
               <p className="overflow-scroll h-40 ">{item.description}</p>
             </div>
           </div>{" "}
         </div>{" "}
       </div>
-      {/* < div className = " border-green-300 border-2 my-10"> </div> */}
       <div className="text-left px-5 lg:px-10 mb-10">
         <h1 className="divider font-semibold text-lg mt-20 mb-10 lg:mx-28">
           See what our users have to say
@@ -169,22 +333,22 @@ const ItemDetails = () => {
         </div>
       </div>
       {/* modal for reviews */}
-      <input type="checkbox" id="my-modal-6" class="modal-toggle" />
-      <div class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box">
+      <input type="checkbox" id="my-modal-6" className="modal-toggle" />
+      <div className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
           <h1 className="font-bold text-lg divider"> Review </h1>{" "}
           <div className="flex justify-between mb-10">
             <div className="flex items-center">
               <img className="w-10 rounded-xl" src={item.photo_url} />
-              <h3 class=" text-left font-semibold ml-2">
+              <h3 className=" text-left font-semibold ml-2">
                 {" "}
                 {item.product_name}{" "}
               </h3>{" "}
             </div>{" "}
-            <h3 class="text-left"> Item ID: {item.product_id} </h3>{" "}
+            <h3 className="text-left"> Item ID: {item.product_id} </h3>{" "}
           </div>{" "}
           <form>
-            <label class="input-group">
+            <label className="input-group">
               <span> Rating </span>{" "}
               <input
                 type="number"
@@ -194,21 +358,21 @@ const ItemDetails = () => {
               />
             </label>{" "}
             <br />
-            <div class="form-control">
-              <label class="label">
-                <span class="label-text"> Your feedback on this item </span>{" "}
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text"> Your feedback on this item </span>{" "}
               </label>{" "}
               <textarea
-                class="textarea textarea-bordered h-24"
+                className="textarea textarea-bordered h-24"
                 placeholder="Type here.."
               ></textarea>{" "}
             </div>{" "}
           </form>{" "}
-          <div class=" modal-action">
+          <div className=" modal-action">
             <label
               onClick={handleReviewSubmitClick}
               for="my-modal-6"
-              class="btn capitalize"
+              className="btn capitalize"
             >
               Submit{" "}
             </label>{" "}

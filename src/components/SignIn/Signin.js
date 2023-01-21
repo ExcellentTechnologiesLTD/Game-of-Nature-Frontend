@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import googleIcon from "../../Assets/icons/google-color-icon.svg";
 import facebookIcon from "../../Assets/icons/facebook-icon.svg";
-import { useSignInWithGoogle } from "react-firebase-hooks/auth";
+import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 
 const Signin = (props, setCurrentUser) => {
   const [signInWithGoogle, user, loading, googleSignInError] =
     useSignInWithGoogle(auth);
+
+  const [userGoogle] = useAuthState(auth);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,9 +19,29 @@ const Signin = (props, setCurrentUser) => {
   const location = useLocation();
   const from = location?.state?.from?.pathname || "/";
 
-  if (user) {
-    console.log("Authstate: ", user.user);
-    navigate(from, { replace: true });
+  if (user || userGoogle) {
+    console.log("Authstate: ", user?.user);
+    // checkExistence
+
+    fetch("http://localhost:3300/check-existence", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ email: userGoogle?.email }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("my data: \n\n", data, "\n");
+        if (data.success) {
+          localStorage.setItem("userID", data.user_id);
+          // setUserInfo(data.info);
+        } else {
+        }
+      });
+    setTimeout(() => {
+      navigate(from, { replace: true });
+    }, 3000);
   }
 
   const handleEmailBlur = (event) => {
@@ -139,7 +161,9 @@ const Signin = (props, setCurrentUser) => {
 
           <div className="lg:flex md:flex sm:grid sm:justify-center xs:grid xs:justify-center lg:justify-center md:justify-center lg:gap-2 md:gap-2">
             <button
-              onClick={() => signInWithGoogle()}
+              onClick={() => {
+                console.log(signInWithGoogle());
+              }}
               className="bg-gray-200 shadow-2xl border-2 hover:border-gray-300 py-2 w-64 flex justify-center lg:mb-0 md:mb-0 mb-5 rounded-2xl"
             >
               <img className="w-6 h-6 mr-4" src={googleIcon} /> Sign in with
