@@ -22,7 +22,7 @@ const OrderHistory = () => {
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({ email: userGoogle.email }),
+      body: JSON.stringify({ email: userGoogle?.email }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -35,11 +35,12 @@ const OrderHistory = () => {
         } else {
         }
       });
-  }, []);
+  }, [userGoogle]);
   return (
     <div className="h-screen bg-base-100">
       <div className=" overflow-x-auto w-full">
         <OrderTable myOrders={myOrders}></OrderTable>
+        {/* {myOrders.length == 0 ? <h1>No orders.</h1> : <></>} */}
       </div>
     </div>
   );

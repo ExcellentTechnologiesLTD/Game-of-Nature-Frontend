@@ -249,7 +249,7 @@ const Navbar = () => {
                       </a>
                     </li>
                     <li>
-                      <a href="">
+                      <a href="/admin-dashboard/manage-deliveries">
                         {" "}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -496,7 +496,10 @@ const Navbar = () => {
               <a href="/admin-dashboard" className="hover:bg-green-100">
                 All Products
               </a>
-              <a href="" className="hover:bg-green-100">
+              <a
+                href="/admin-dashboard/manage-deliveries"
+                className="hover:bg-green-100"
+              >
                 Manage Deliveries
               </a>
               <a

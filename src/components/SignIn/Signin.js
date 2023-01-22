@@ -20,7 +20,7 @@ const Signin = (props, setCurrentUser) => {
   const from = location?.state?.from?.pathname || "/";
 
   if (user || userGoogle) {
-    console.log("Authstate: ", user?.user);
+    console.log("Authstate: ", user?.user, userGoogle);
     // checkExistence
 
     fetch("https://game-of-nature-backend.vercel.app/check-existence", {
@@ -32,7 +32,7 @@ const Signin = (props, setCurrentUser) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("my data: \n\n", data, "\n");
+        // console.lsog("my data: \n\n", data, "\n");
         if (data.success) {
           localStorage.setItem("userID", data.user_id);
           // setUserInfo(data.info);
@@ -99,14 +99,14 @@ const Signin = (props, setCurrentUser) => {
       });
   };
 
-  const handleSignInWithGoogle = (event) => {
-    event.preventDefault();
-    if (user) {
-      console.log("Authstate: ", user);
-    } else {
-      console.log("Google Sign in Error");
-    }
-  };
+  // const handleSignInWithGoogle = (event) => {
+  //   event.preventDefault();
+  //   if (user) {
+  //     console.log("Authstate: ", user);
+  //   } else {
+  //     console.log("Google Sign in Error");
+  //   }
+  // };
 
   return (
     <div className=" grid grid-cols-1 items-center my-20">

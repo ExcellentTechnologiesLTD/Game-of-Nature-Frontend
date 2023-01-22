@@ -5,20 +5,26 @@ const OrderDetailsDisplayModal = (props) => {
   const { order } = props;
   const [userData, setUserData] = useState({});
 
+  // console.log("Order from modal: \n", order);
+  // console.log("userID from modal: \n", order.user_id);
+
   useEffect(() => {
-    if (window.location.pathname.endsWith("/manage-orders")) {
+    if (
+      window.location.pathname.endsWith("/manage-orders") ||
+      window.location.pathname.endsWith("/manage-deliveries")
+    ) {
       fetch(
         `https://game-of-nature-backend.vercel.app/getuser-infobyid/${order?.user_id}`
       )
         .then((res) => res.json())
         .then((data) => {
-          //   console.log(data);
+          // console.log("data from modal: ", data);
           setUserData(data);
         });
     } else {
       setUserData(JSON.parse(localStorage.getItem("currentUserDetails")));
     }
-  }, []);
+  }, [order]);
   const handleOrderDelete = (orderID) => {
     console.log("Order Id: ", orderID);
     const xx = window.confirm("Are you sure you want to delete the order?");
@@ -78,6 +84,10 @@ const OrderDetailsDisplayModal = (props) => {
       <div className="font-serif">
         <h1 className="text-white bg-black rounded-xl">Shipping Details</h1>
         <div className="font-normal text-base text-left mt-5">
+          <p className="">
+            <span className=" font-semibold">User ID: </span>
+            <span className="font-sans">{userData?.user_id}</span>
+          </p>
           <p>
             <span className="font-semibold">Name: </span>
             {userData?.First_Name + " " + userData?.Last_Name}

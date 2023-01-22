@@ -7,23 +7,50 @@ import OrderitemDisplay from "../../OrderItemDisplay/OrderitemDisplay";
 const OrderTable = (props) => {
   let orders;
   let userType = null;
-
-  if (window.location.pathname.endsWith("/manage-orders")) {
+  // console.log("props: \n", props);
+  if (
+    window.location.pathname.endsWith("/manage-orders") ||
+    window.location.pathname.endsWith("/manage-deliveries")
+  ) {
     orders = props.orders;
     userType = props.userType;
   } else {
     orders = props.myOrders;
-    // setuserData(JSON.parse(localStorage.getItem("currentUserDetails")));
   }
 
   const userGoogle = useAuthState(auth);
+
+  const handleProceedToDelivery = (orderID) => {
+    // Update order status
+    fetch("https://game-of-nature-backend.vercel.app/update-order", {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        orderID: orderID,
+        status: "Packaging in process.",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == 200 && data.success) {
+          // alert("Status updated");
+          window.location.reload(true);
+        } else {
+          alert(data.msg);
+        }
+      });
+
+    // Send Order shipping details to Delivery company
+  };
 
   return (
     <div className="">
       <table className=" overflow-x-auto text-center table table-zebra w-full border-2">
         {/* <!-- head --> */}
-        <thead>
-          <tr className="">
+        <thead className="bg-green-100">
+          <tr className="bg-green-50">
             <th>
               <label>SL</label>
             </th>
@@ -36,8 +63,9 @@ const OrderTable = (props) => {
             {/* <th></th> */}
           </tr>
         </thead>
+
         <tbody>
-          {orders.map((order, index) => (
+          {orders?.map((order, index) => (
             <tr key={order.order_id}>
               {/* {console.log("Items: \n", order)} */}
               <th>
@@ -85,9 +113,25 @@ const OrderTable = (props) => {
                     >
                       Details
                     </label>
-                    <button className="btn bg-green-500 text-white border-0 mt-2 hover:bg-green-600">
-                      Proceed to delivery
-                    </button>
+                    {window.location.pathname.endsWith("/manage-orders") ? (
+                      <button
+                        onClick={() => {
+                          handleProceedToDelivery(order?.order_id);
+                        }}
+                        className="normal-case btn bg-green-500 text-white border-0 mt-2 hover:bg-green-600"
+                      >
+                        Proceed to delivery
+                      </button>
+                    ) : (
+                      <button
+                        // onClick={() => {
+                        //   // handleBtnToDeliveryGuy(order?.order_id);
+                        // }}
+                        className=" normal-case btn bg-green-500 text-white border-0 mt-2 hover:bg-green-600"
+                      >
+                        Handover to delivery guy
+                      </button>
+                    )}
                   </div>
                 )}
                 {/******************************************* Order Details Display modal *******************************************/}
@@ -111,6 +155,16 @@ const OrderTable = (props) => {
           ))}
         </tbody>
       </table>
+      {orders?.length == 0 ? (
+        <div>
+          <h1 className="mt-3 mb-2">You have no orders.</h1>
+          <a href="/" className="btn normal-case">
+            Browse to order
+          </a>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
