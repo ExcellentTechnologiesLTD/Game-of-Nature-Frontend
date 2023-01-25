@@ -189,8 +189,8 @@ const CheckOutInfo = ({
         };
 
         fetch(
-          // "https://game-of-nature-backend.vercel.app/confirm-order",
-          "http://localhost:3300/confirm-order",
+          "https://game-of-nature-backend.vercel.app/confirm-order",
+
           requestOptions
         )
           .then((res) => res.json())

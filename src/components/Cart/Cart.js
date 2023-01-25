@@ -33,7 +33,7 @@ const Cart = ({
     } else {
       if (voucher == null) {
       } else {
-        fetch(`http://localhost:3300/get-voucher/${voucher}`)
+        fetch(`http://game-of-nature-backend.vercel.app/get-voucher/${voucher}`)
           .then((res) => res.json())
           .then((data) => {
             if (data?.status != 404 && data?.success != false) {

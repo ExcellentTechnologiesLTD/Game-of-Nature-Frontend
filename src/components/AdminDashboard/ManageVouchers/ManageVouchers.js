@@ -22,7 +22,7 @@ const ManageVouchers = () => {
       voucherAmount: voucherAmount,
     };
     // console.log(voucherData);
-    fetch("http://localhost:3300/add-voucher", {
+    fetch("http://game-of-nature-backend.vercel.app/add-voucher", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -43,7 +43,7 @@ const ManageVouchers = () => {
 
   const handleChangeStatusBtn = (voucherID, status) => {
     // console.log(voucherID, " ", status);
-    fetch(`http://localhost:3300/changestatus-voucher`, {
+    fetch(`http://game-of-nature-backend.vercel.app/changestatus-voucher`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -67,9 +67,12 @@ const ManageVouchers = () => {
       "Are you sure you want to delete this voucher?"
     );
     if (deleteVoucherconfirm) {
-      fetch(`http://localhost:3300/delete-voucher/${voucherID}`, {
-        method: "DELETE",
-      })
+      fetch(
+        `http://game-of-nature-backend.vercel.app/delete-voucher/${voucherID}`,
+        {
+          method: "DELETE",
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           if (data.status == 200 && data.success) {
@@ -82,7 +85,7 @@ const ManageVouchers = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:3300/getall-vouchers")
+    fetch("http://game-of-nature-backend.vercel.app/getall-vouchers")
       .then((res) => res.json())
       .then((data) => setVouchers(data));
   }, [statusChanged, deleted]);
