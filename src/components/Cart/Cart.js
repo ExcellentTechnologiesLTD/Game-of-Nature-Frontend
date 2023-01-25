@@ -1,101 +1,181 @@
 import React, { useEffect, useState } from "react";
-// import cartItems from "./cartArray";
 
-const Cart = (props) => {
-  const { shippingCost } = props;
-  const [myCartItemsJson, setMyCartItems] = useState(
-    JSON.parse(localStorage.getItem("myCartItems"))
+const Cart = ({
+  voucher,
+  setVoucher,
+  discount,
+  setDiscount,
+  shippingCost,
+  totalCartItemCost,
+  setTotalCartItemCost,
+  cartItems,
+  setCartItems,
+}) => {
+  const [discountApplied, setDiscountApplied] = useState(
+    voucher ? true : false
+  );
+  const [subTotal, setSubTotal] = useState(totalCartItemCost);
+  const [showTotal, setShowTotal] = useState(
+    discountApplied ? subTotal - discount : subTotal
   );
 
-  const [totalCartItemCost, setTotalCartItemCost] = useState(
-    parseInt(localStorage.getItem("totalCartItemCost"))
-  );
-  // const myCartItems = localStorage.getItem("myCartItems");
-  // const myCartItemsJson = JSON.parse(myCartItems);
-  // console.log("mycartItems : ", myCartItemsJson);
+  useEffect(() => {
+    setShowTotal(subTotal - discount);
+  }, [subTotal, discountApplied == true]);
 
-  const handleIncreaseBtnClick = (itemID) => {
-    let subTotal = totalCartItemCost;
-    myCartItemsJson.map((item) => {
-      if (item.itemID === itemID) {
-        if (item.orderQnty >= 1) {
-          item.orderQnty++;
-          subTotal += parseInt(item.price);
-          setMyCartItems(myCartItemsJson);
-          localStorage.setItem("myCartItems", JSON.stringify(myCartItemsJson));
-          setTotalCartItemCost(subTotal);
-          localStorage.setItem("totalCartItemCost", subTotal.toString());
-        }
-      }
-    });
-    // setTotalCartItemCost(totalCartItemCost);
+  const handleVoucherBlur = (e) => {
+    setVoucher(e.target.value);
   };
+  const handleVoucherApplyBtn = () => {
+    console.log("Voucher: ", voucher);
+    if (discountApplied) {
+      alert("Discount already applied");
+    } else {
+      if (voucher == null) {
+      } else {
+        fetch(`http://localhost:3300/get-voucher/${voucher}`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data?.status != 404 && data?.success != false) {
+              setVoucher(voucher);
+              setDiscount(data.discount_amount);
+              setDiscountApplied(true);
+              //   calculations
+              //   Save in local Storage
+              localStorage.setItem("discountVoucherName", voucher);
+              localStorage.setItem(
+                "discountVoucherAmount",
+                data.discount_amount
+              );
+              localStorage.setItem("discountApplied", true);
+            } else {
+              alert(data.msg);
+            }
+          });
+      }
+    }
+  };
+
+  const handleRemoveVoucherBtn = () => {
+    let prevTotal = showTotal + discount;
+    if (subTotal == prevTotal) {
+      console.log("true");
+      setShowTotal(prevTotal);
+      setDiscount(0);
+      setVoucher("");
+      setDiscountApplied(false);
+      //    clean Local storage
+      localStorage.removeItem("discountVoucherAmount");
+      localStorage.removeItem("discountVoucherName");
+      localStorage.removeItem("discountApplied");
+      //   reload for voucher name to disappear
+      window.location.reload(true);
+    } else {
+      //   console.log("false");
+      alert("Error removing voucher. Call developer.");
+    }
+  };
+
   const handleDecreaseBtnClick = (itemID) => {
-    let subTotal = totalCartItemCost;
-    myCartItemsJson.map((item) => {
+    let tempSubTotal = subTotal;
+    cartItems.map((item) => {
       if (item.itemID === itemID) {
         if (item.orderQnty > 1) {
           item.orderQnty--;
-          subTotal -= parseInt(item.price);
-          setMyCartItems(myCartItemsJson);
-          localStorage.setItem("myCartItems", JSON.stringify(myCartItemsJson));
-          setTotalCartItemCost(subTotal);
-          localStorage.setItem("totalCartItemCost", subTotal.toString());
+          tempSubTotal -= parseInt(item.price);
+          setCartItems(cartItems);
+          localStorage.setItem("myCartItems", JSON.stringify(cartItems));
+          setSubTotal(tempSubTotal);
+          setTotalCartItemCost(tempSubTotal);
+          localStorage.setItem("totalCartItemCost", tempSubTotal.toString());
         }
       }
     });
-    // setTotalCartItemCost(totalCartItemCost);
+  };
+
+  const handleIncreaseBtnClick = (itemID) => {
+    let tempSubTotal = subTotal;
+    cartItems.map((item) => {
+      if (item.itemID === itemID) {
+        if (item.orderQnty >= 1) {
+          item.orderQnty++;
+          tempSubTotal += parseInt(item.price);
+          setCartItems(cartItems);
+          localStorage.setItem("myCartItems", JSON.stringify(cartItems));
+          setSubTotal(tempSubTotal);
+          setTotalCartItemCost(tempSubTotal);
+          localStorage.setItem("totalCartItemCost", tempSubTotal.toString());
+        }
+      }
+    });
   };
 
   const deleteItem = (itemID) => {
     let cartArray = [];
-    let subTotal = totalCartItemCost;
-    const xx = myCartItemsJson.filter((item) => item.itemID == itemID);
 
-    // Re-calculating total
-    subTotal -= xx[0].orderQnty * parseInt(xx[0].price);
+    let tempSubTotal = subTotal;
 
-    // re-organizing cart without that item.
-    cartArray = myCartItemsJson.filter((item) => item.itemID != itemID);
-    // setting values to its places.
+    console.log("before: ", tempSubTotal);
+    const xx = cartItems.filter((item) => item.itemID == itemID);
+
+    // // Re-calculating total
+    tempSubTotal -= xx[0].orderQnty * parseInt(xx[0].price);
+    console.log("after: ", tempSubTotal);
+    // // re-organizing cart without that item.
+    cartArray = cartItems.filter((item) => item.itemID != itemID);
+    // // setting values to its places.
     localStorage.setItem("myCartItems", JSON.stringify(cartArray));
-    localStorage.setItem("totalCartItemCost", subTotal.toString());
-    setMyCartItems(cartArray);
-    setTotalCartItemCost(subTotal);
+    localStorage.setItem("totalCartItemCost", tempSubTotal.toString());
+
+    setCartItems(cartArray);
+    setTotalCartItemCost(tempSubTotal);
+    setSubTotal(tempSubTotal);
   };
 
   return (
     <div
-      // className=""
       className={`${
         window.location.pathname.endsWith("/dashboard/checkout")
           ? " bg-slate-200 py-5"
           : ""
-      }`}
+      } w-96`}
     >
       <div className={`py-5 px-5 flex justify-between`}>
         <h1 className="text-xl font-semibold font-serif">Order Summary</h1>
         <button
           className={`text-red-600 hover:underline ${
-            myCartItemsJson == null ? "hidden" : ""
+            cartItems == null ? "hidden" : ""
           }`}
           onClick={() => {
-            setMyCartItems(localStorage.removeItem("myCartItems"));
-            setTotalCartItemCost(localStorage.removeItem("totalCartItemCost"));
+            //    voucher & discount
+            localStorage.removeItem("discountVoucherAmount");
+            localStorage.removeItem("discountVoucherName");
+            localStorage.removeItem("discountApplied");
+            setVoucher("");
+            setDiscountApplied(false);
+            setDiscount(0);
+            // cart
+            localStorage.removeItem("myCartItems");
+            localStorage.removeItem("totalCartItemCost");
+            setCartItems([]);
+            setSubTotal(0);
+            setShowTotal(0);
+            setTotalCartItemCost(0);
+            // change UI
+            window.location.replace("/");
           }}
         >
           Reset cart
         </button>
       </div>
       <div className="h-96 overflow-auto">
-        {myCartItemsJson == null ? <div>No items in cart.</div> : <div></div>}
+        {cartItems == null ? <div>No items in cart.</div> : <div></div>}
 
-        {myCartItemsJson?.map((myItem) => (
+        {cartItems?.map((myItem) => (
           <div
             key={myItem.itemID}
             className="flex items-center justify-between gap-4 px-4 mb-5"
           >
-            {/* {setQnty(myItem.orderQnty)} */}
             <div className="flex justify-between items-center gap-4 w-full">
               <figure className="w-36 h-24">
                 <img className=" w-36 h-24 rounded-xl" src={myItem.photo_url} />
@@ -139,22 +219,61 @@ const Cart = (props) => {
                 </svg>
               </button>
             </div>
-
-            {/* <div className="divider"></div> */}
           </div>
         ))}
       </div>
       {/* Calculations */}
       <div className="">
         <div className="divider my-0 px-2"></div>
+        <div className="max-w-full flex justify-between gap-2 px-5 py-2">
+          <input
+            onBlur={handleVoucherBlur}
+            className="w-full px-2 rounded-xl"
+            defaultValue={voucher}
+            type="text"
+            placeholder="Apply Voucher"
+          />
+          {discountApplied == false && discount == 0 ? (
+            <button
+              onClick={() => {
+                handleVoucherApplyBtn();
+              }}
+              className="btn"
+            >
+              Apply
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                handleRemoveVoucherBtn();
+              }}
+              className="btn"
+            >
+              Remove
+            </button>
+          )}
+        </div>
+        <div className="divider my-0 px-2"></div>
         <div>
           <div className=" px-5 flex justify-between">
             <h1 className="">Sub total: </h1>
             <h1 className="  flex justify-between gap-2 items-center w-32">
-              <span className="">BDT.</span>{" "}
-              <span>
-                {totalCartItemCost}
-                .00{" "}
+              <span className="">BDT.</span> <span>{subTotal}.00 </span>
+            </h1>
+          </div>
+          <div className=" px-5 flex justify-between">
+            <h1 className="">
+              Discount: (
+              <span className="text-sm">
+                {localStorage.getItem("discountVoucherName")}
+              </span>
+              ){" "}
+            </h1>
+            <h1 className=" flex gap-2 justify-between items-center w-32">
+              <span className="">BDT.</span>
+              <span className="">
+                - {discount}
+                .00
               </span>
             </h1>
           </div>
@@ -165,6 +284,10 @@ const Cart = (props) => {
               <span className="">{shippingCost}.00</span>
             </h1>
           </div>
+          <div className="text-2xs text-left px-5 text-red-600">
+            <h6>**Inside Dhaka: BDT. 70**</h6>
+            <h6>**Outside Dhaka: BDT. 160**</h6>
+          </div>
         </div>
         <div className="divider my-0 px-2"></div>
         <div>
@@ -173,7 +296,7 @@ const Cart = (props) => {
             <h1 className=" flex justify-between gap-2 items-center ">
               <span className="">BDT.</span>{" "}
               <span className="text-2xl">
-                {totalCartItemCost + shippingCost}
+                {showTotal + shippingCost}
                 .00{" "}
               </span>
             </h1>

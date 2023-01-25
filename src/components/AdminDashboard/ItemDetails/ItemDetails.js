@@ -309,7 +309,10 @@ const ItemDetails = () => {
         <div>
           <div className="grid lg:grid-cols-4 grid-cols-2 bg-red-300"> </div>{" "}
           <div className="flex justify-center gap-1">
-            <label for="my-modal-6" className="border-2 px-5 py-2 rounded-xl">
+            <label
+              htmlFor="my-modal-6"
+              className="border-2 px-5 py-2 rounded-xl"
+            >
               Write a review{" "}
             </label>{" "}
             <button className="border-2 px-5 py-2 rounded-xl">
@@ -371,7 +374,7 @@ const ItemDetails = () => {
           <div className=" modal-action">
             <label
               onClick={handleReviewSubmitClick}
-              for="my-modal-6"
+              htmlFor="my-modal-6"
               className="btn capitalize"
             >
               Submit{" "}

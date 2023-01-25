@@ -6,9 +6,16 @@ import OrderComplete from "../OrderComplete/OrderComplete";
 
 const CheckOutInfo = ({
   userInfo,
-  shippingCost,
-  setShippingCost,
   setCheckOutComplete,
+  setShippingCost,
+  voucher,
+  setVoucher,
+  discount,
+  setDiscount,
+  totalCartItemCost,
+  setTotalCartItemCost,
+  cartItems,
+  setCartItems,
 }) => {
   const [userGoogle] = useAuthState(auth);
   const [paymentMethod, setPaymentMethod] = useState("BKASH");
@@ -16,25 +23,51 @@ const CheckOutInfo = ({
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
-  const [apartment, setApartment] = useState("");
+  // const [apartment, setApartment] = useState("");
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [userFound, setUserFound] = useState(userInfo ? true : false);
 
-  //   const [userFound, setUserFound] = useState(userInfo ? true : false);
-  const [password, setPassword] = useState("");
-  const [passMatch, setPassMatch] = useState(false);
-  //   After Checkout complete
-  //   const [checkOutComplete, setCheckOutComplete] = useState({});
+  const getCurentDate = () => {
+    var today = new Date();
+    var date =
+      today.getDate() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getFullYear();
+
+    return date;
+  };
+  const getCurentTime = () => {
+    var today = new Date();
+    var hours = today.getHours();
+    var minutes = today.getMinutes();
+    var ampm = hours >= 12 ? "pm" : "am";
+
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    var strTime = hours + ":" + minutes + " " + ampm;
+
+    return strTime;
+  };
+
+  useEffect(() => {
+    if (city == "Dhaka" || city == "dhaka") {
+      setShippingCost(70);
+    } else {
+      setShippingCost(160);
+    }
+  }, [city != ""]);
 
   const handlePaymentMethod = (e) => {
     setPaymentMethod(e.target.value);
   };
-
   const handleEmailBlur = (e) => {
-    console.log("value: ??", e.target.value);
+    // console.log("value: ??", e.target.value);
     if (e.target.value != "") {
       setEmail(e.target.value);
       setLoading(true);
@@ -48,7 +81,7 @@ const CheckOutInfo = ({
         .then((res) => res.json())
         .then((data) => {
           setLoading(false);
-          console.log("Data: >>\n", data);
+          // console.log("Data: >>\n", data);
           if (data.success != true) {
             setUserFound(false);
           } else {
@@ -72,18 +105,6 @@ const CheckOutInfo = ({
   const handleAddressBlur = (e) => {
     setAddress(e.target.value);
   };
-  const handleApartmentBlur = (e) => {
-    setApartment(e.target.value);
-  };
-  const handlePassBlur = (e) => {
-    setPassword(e.target.value);
-  };
-  //   const handleRePassBlur = (e) => {
-  //     if (password === e.target.value) {
-  //       setPassMatch(true);
-  //     }
-  //   };
-
   const handleCityBlur = (e) => {
     // e.preventDefault();s
     // console.log("target value: : ", e.target.value);
@@ -98,144 +119,105 @@ const CheckOutInfo = ({
     setCity(e.target.value);
     // console.log("City: ", city);
   };
-
   const handlePostalCodeBlur = (e) => {
     setPostalCode(e.target.value);
   };
   const handlePhoneBlur = (e) => {
     setPhone(e.target.value);
   };
-
-  // For saving
-  //   const handleCheckoutInfoSubmitBtn = (e) => {
-  //     e.preventDefault();
-
-  //     console.log("User ID: ", localStorage.getItem("userID"));
-  //     //   if user found
-  //     setEmail(userGoogle?.email);
-  //     let orderInfo;
-  //     if (userFound) {
-  //       orderInfo = {
-  //         email: email,
-  //         user_id: localStorage.getItem("userID"),
-  //         orderedItems: localStorage.getItem("myCartItems"),
-  //         totalAmount: localStorage.getItem("totalCartItemCost"),
-  //         paymentMethod: paymentMethod,
-  //       };
-  //     } else {
-  //       //   if user not found
-  //       orderInfo = {
-  //         email: email,
-  //         paymentMethod: paymentMethod,
-  //         orderedItems: localStorage.getItem("myCartItems"),
-  //         totalAmount: localStorage.getItem("totalCartItemCost"),
-  //         firstName: firstName,
-  //         lastName: lastName,
-  //         address: address,
-  //         city: city,
-  //         postal_code: postalCode,
-  //         phoneNumber: phone,
-  //         password: password,
-  //       };
-  //     }
-  //     const requestOptions = {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ orderInfo }),
-  //     };
-
-  //     if (paymentMethod != "BKASH") {
-  //       console.log("orderInfo\n");
-  //       console.log(orderInfo);
-
-  //       // Save info to orderTable
-  //       //   console.log(orderInfo);
-  //       //   fetch("http://localhost:3300/confirm-order", requestOptions)
-  //       //     .then((res) => res.json())
-  //       //     .then((data) => {
-  //       //       if (data.status == 200 && data.success) {
-  //       //         // alert(
-  //       //         //   `Order placed with Order ID: ${data.order_id}. Login To know the status of the order.`
-  //       //         // );
-  //       //         console.log("Order Placed: ", data.success);
-  //       //         localStorage.removeItem("myCartItems");
-  //       //         localStorage.removeItem("totalCartItemCost");
-  //       //         setCheckOutComplete(data);
-  //       //       } else {
-  //       //         alert(`Error Order cannot be placed. Call support.`);
-  //       //       }
-  //       //     });
-  //       // Change UI to Thankyou for ordering. With Home Button & orderID
-  //     }
-  //   };
-
+  // Save Confirm Button
   const handleCheckoutInfoSubmitBtn = (e) => {
     e.preventDefault();
+
     let orderInfo;
     let total;
 
     if (city == "Dhaka" || (city == "dhaka" && city != null)) {
-      total = parseInt(localStorage.getItem("totalCartItemCost")) + 60;
-
-      setShippingCost(60);
+      total = totalCartItemCost - discount + 70;
+      // setShippingCost(70);
     } else {
-      total = parseInt(localStorage.getItem("totalCartItemCost")) + 100;
-
-      setShippingCost(100);
+      total = totalCartItemCost - discount + 160;
+      // setShippingCost(160);
     }
+    let agree = window.confirm(
+      "By clicking OK you agree to Game of Nature's Terms & Condition and Refund Policy."
+    );
+    if (agree) {
+      //*********Date & Time******************************************************
 
-    setTimeout(() => {
-      if (userFound != true) {
-        orderInfo = {
-          email: email,
-          paymentMethod: paymentMethod,
-          orderedItems: localStorage.getItem("myCartItems"),
-          totalAmount: total,
-          firstName: firstName,
-          lastName: lastName,
-          address: address,
-          city: city,
-          postal_code: postalCode,
-          phoneNumber: phone,
+      var date = getCurentDate();
+      var time = getCurentTime();
+
+      //*********Date & Time******************************************************
+      setTimeout(() => {
+        if (userFound != true) {
+          orderInfo = {
+            email: email,
+            paymentMethod: paymentMethod,
+            // orderedItems: localStorage.getItem("myCartItems"),
+            orderedItems: JSON.stringify(cartItems),
+            totalAmount: total,
+            discountAmount: discount,
+            voucherName: voucher,
+            firstName: firstName,
+            lastName: lastName,
+            address: address,
+            city: city,
+            postal_code: postalCode,
+            phoneNumber: phone,
+            date: date,
+            time: time,
+          };
+        } else {
+          orderInfo = {
+            email: email,
+            user_id: localStorage.getItem("userID"),
+            orderedItems: JSON.stringify(cartItems),
+            totalAmount: total,
+            discountAmount: discount,
+            voucherName: voucher,
+            paymentMethod: paymentMethod,
+            date: date,
+            time: time,
+          };
+        }
+
+        const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ orderInfo }),
         };
-      } else {
-        orderInfo = {
-          email: email,
-          user_id: localStorage.getItem("userID"),
-          orderedItems: localStorage.getItem("myCartItems"),
-          totalAmount: total,
-          paymentMethod: paymentMethod,
-        };
-      }
 
-      console.log("Payment hobe ki: >>>\n");
-      console.log(orderInfo);
-
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderInfo }),
-      };
-
-      fetch(
-        "https://game-of-nature-backend.vercel.app/confirm-order",
-        requestOptions
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status == 200 && data.success) {
-            // Change UI to Thankyou for ordering. With Home Button & orderID
-
-            console.log("Order Placed: ", data.success);
-            localStorage.removeItem("myCartItems");
-            localStorage.removeItem("totalCartItemCost");
-            localStorage.removeItem("totalAmount");
-            setCheckOutComplete(data);
-          } else {
-            alert(`Error Order cannot be placed. Call support.`);
-          }
-        });
-    }, 2000);
+        fetch(
+          // "https://game-of-nature-backend.vercel.app/confirm-order",
+          "http://localhost:3300/confirm-order",
+          requestOptions
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.status == 200 && data.success) {
+              // Change UI to Thankyou for ordering. With Home Button & orderID
+              console.log("Order Placed: ", data.success);
+              // Delete Local Storages Discount, vouchers, cart
+              localStorage.removeItem("discountVoucherAmount");
+              localStorage.removeItem("discountVoucherName");
+              localStorage.removeItem("discountApplied");
+              setVoucher("");
+              setDiscount(0);
+              // cart
+              localStorage.removeItem("myCartItems");
+              localStorage.removeItem("totalCartItemCost");
+              localStorage.removeItem("totalAmount");
+              setCartItems([]);
+              setTotalCartItemCost(0);
+              // Done
+              setCheckOutComplete(data);
+            } else {
+              alert(`Error Order cannot be placed. Call support.`);
+            }
+          });
+      }, 500);
+    }
   };
 
   return (
@@ -408,13 +390,6 @@ const CheckOutInfo = ({
               placeholder="Address"
               className="input input-bordered w-full"
             />
-            {/* <input
-              type="text"
-              onBlur={handleApartmentBlur}
-              autoFocus
-              placeholder="Apartment, suite,etc. (optional)"
-              className="input input-bordered w-full my-3"
-            /> */}
             <div className="flex justify-between gap-4 mt-3">
               <input
                 required
@@ -448,26 +423,6 @@ const CheckOutInfo = ({
               placeholder="Phone"
               className="input input-bordered w-full mt-3"
             />
-            {/* <div className={`${userFound ? "hidden" : ""}`}>
-              <input
-                // required={userFound}
-                type="password"
-                onBlur={handlePassBlur}
-                placeholder="Set password"
-                className={`${
-                  passMatch ? "border-2 border-green-400" : ""
-                } input input-bordered w-full mt-3`}
-              />
-              <input
-                // required={userFound}
-                type="password"
-                onBlur={handleRePassBlur}
-                placeholder="Re-type password"
-                className={`${
-                  passMatch ? "border-2 border-green-400" : ""
-                } input input-bordered w-full my-3`}
-              />
-            </div> */}
           </div>
         </div>
         {/* <div></div> */}

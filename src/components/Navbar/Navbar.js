@@ -287,6 +287,25 @@ const Navbar = () => {
                         Manage Orders
                       </a>
                     </li>
+                    <li>
+                      <a href="/admin-dashboard/manage-vouchers">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                          />
+                        </svg>
+                        Manage Vouchers
+                      </a>
+                    </li>
                   </ul>
                 )}
               </div>
@@ -365,10 +384,13 @@ const Navbar = () => {
               {userData || userGoogle ? (
                 <ul
                   tabIndex="0"
-                  className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 border-t-2"
+                  className="dropdown-content w-100 menu p-2 shadow bg-base-100 rounded-box lg:w-96 md:w-80 xs:w-72 border-t-2 "
                 >
-                  <li className="mt-5">
+                  <li className="mt-5 font-semibold">
                     {userData?.First_Name || userGoogle?.displayName}
+                  </li>
+                  <li className="flex justify-center items-center text-sm">
+                    {userGoogle?.email || userData?.Email}
                   </li>
                   <div className="divider"></div>
                   {userData?.User_Type == "Admin" ? (
@@ -405,12 +427,7 @@ const Navbar = () => {
                 </ul>
               )}
             </div>
-            {/* {console.log(
-              "google user >>> ",
-              userGoogle,
-              "userData >>> ",
-              userData
-            )} */}
+
             {userData?.User_Type == "Customer" ||
             userData?.User_Type == null ||
             userGoogle != null ? (
@@ -458,8 +475,9 @@ const Navbar = () => {
 
                 <div
                   tabIndex="0"
-                  className="z-50 rounded-xl dropdown-content p-2 shadow bg-slate-200 h-96 overflow-auto"
+                  className="z-50 rounded-xl dropdown-content p-2 shadow bg-slate-200 w-96 h-96 overflow-auto"
                 >
+                  {/* <Cart></Cart> */}
                   <Cart></Cart>
                   <div className="divider my-0"></div>
 
@@ -485,7 +503,7 @@ const Navbar = () => {
           {userData?.User_Type == "Admin" ? (
             <div
               id="Categories"
-              className="h-10 grid grid-cols-4 items-center border-t-2 border-green-100"
+              className="h-10 grid grid-cols-5 items-center border-t-2 border-green-100"
             >
               <a
                 href="/admin-dashboard/addproducts"
@@ -507,6 +525,12 @@ const Navbar = () => {
                 className="hover:bg-green-100"
               >
                 Manage Orders
+              </a>
+              <a
+                href="/admin-dashboard/manage-vouchers"
+                className="hover:bg-green-100"
+              >
+                Manage Vouchers
               </a>
             </div>
           ) : (

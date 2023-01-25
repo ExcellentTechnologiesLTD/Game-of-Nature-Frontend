@@ -28,6 +28,7 @@ import { useState } from "react";
 import CheckOut from "./components/CheckOut/CheckOut";
 import ManageOrders from "./components/AdminDashboard/ManageOrders/ManageOrders";
 import ManageDeliveries from "./components/AdminDashboard/ManageDeliveries/ManageDeliveries";
+import ManageVouchers from "./components/AdminDashboard/ManageVouchers/ManageVouchers";
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -118,6 +119,10 @@ function App() {
           <Route
             path="manage-deliveries"
             element={<ManageDeliveries></ManageDeliveries>}
+          ></Route>
+          <Route
+            path="manage-vouchers"
+            element={<ManageVouchers></ManageVouchers>}
           ></Route>
         </Route>
         {/* Routes For Admin  */}
