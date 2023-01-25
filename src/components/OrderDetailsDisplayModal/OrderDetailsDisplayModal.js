@@ -127,12 +127,26 @@ const OrderDetailsDisplayModal = (props) => {
           </p>
           <p>
             <span className="font-semibold">Shipping charge BDT. </span>
-            {userData?.city == "Dhaka" || userData?.city == "dhaka" ? 60 : 100}
+            {userData?.city == "Dhaka" || userData?.city == "dhaka" ? 70 : 160}
           </p>
+          {/* <p className="border-2">
+            <span className="font-semibold">Voucher: </span>
+            {order?.voucher_name}
+          </p> */}
+          {/* <p>
+            <span className="font-semibold">Discount BDT. </span>
+            {order?.voucher_amount}
+          </p> */}
         </div>
       </div>
       <div>
-        <h1 className="mt-10 font-mono text-lg italic">
+        <h1 className=" w-40 mx-auto bg-yellow-500 text-white mt-10 font-mono text-lg italic">
+          {order?.voucher_name}
+        </h1>
+        <h1 className="font-mono text-lg italic">
+          Discount BDT. {order?.voucher_amount}.00
+        </h1>
+        <h1 className=" font-mono text-lg italic">
           Total Amount BDT. {order?.total_amount}.00
         </h1>
       </div>
