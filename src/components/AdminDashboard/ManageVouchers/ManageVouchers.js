@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 const ManageVouchers = () => {
   const [voucherName, setVoucherName] = useState("");
@@ -8,6 +9,8 @@ const ManageVouchers = () => {
   const [statusChanged, setStatusChanged] = useState(false);
   const [deleted, setDeleted] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
   const handleVoucherNameBlur = (e) => {
     setVoucherName(e.target.value);
   };
@@ -16,13 +19,14 @@ const ManageVouchers = () => {
   };
 
   const handleActivateVoucherBtn = (e) => {
+    setLoading(true);
     e.preventDefault();
     const voucherData = {
       voucherName: voucherName,
       voucherAmount: voucherAmount,
     };
     // console.log(voucherData);
-    fetch("http://game-of-nature-backend.vercel.app/add-voucher", {
+    fetch("https://game-of-nature-backend.vercel.app/add-voucher", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -38,12 +42,14 @@ const ManageVouchers = () => {
           alert(data.msg);
           window.location.reload(true);
         }
+        setLoading(false);
       });
   };
 
   const handleChangeStatusBtn = (voucherID, status) => {
+    setLoading(true);
     // console.log(voucherID, " ", status);
-    fetch(`http://game-of-nature-backend.vercel.app/changestatus-voucher`, {
+    fetch(`https://game-of-nature-backend.vercel.app/changestatus-voucher`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -57,6 +63,7 @@ const ManageVouchers = () => {
       .then((data) => {
         if (data.status == 200 && data.success) {
           setStatusChanged(!statusChanged);
+          setLoading(false);
         }
       });
   };
@@ -68,7 +75,7 @@ const ManageVouchers = () => {
     );
     if (deleteVoucherconfirm) {
       fetch(
-        `http://game-of-nature-backend.vercel.app/delete-voucher/${voucherID}`,
+        `https://game-of-nature-backend.vercel.app/delete-voucher/${voucherID}`,
         {
           method: "DELETE",
         }
@@ -85,7 +92,7 @@ const ManageVouchers = () => {
   };
 
   useEffect(() => {
-    fetch("http://game-of-nature-backend.vercel.app/getall-vouchers")
+    fetch("https://game-of-nature-backend.vercel.app/getall-vouchers")
       .then((res) => res.json())
       .then((data) => setVouchers(data));
   }, [statusChanged, deleted]);
@@ -140,19 +147,24 @@ const ManageVouchers = () => {
                 placeholder="Voucher Amount"
                 className="input w-full"
               />
-              <input
-                className=" normal-case text-base btn w-40 mx-auto mt-4"
-                type="submit"
-                value="Activate"
-              />
+              <div className="mx-auto w-52 flex gap-3 items-center justify-center ">
+                <input
+                  className=" normal-case text-base btn w-40"
+                  type="submit"
+                  value="Activate"
+                />
+                {loading ? <LoadingSpinner></LoadingSpinner> : <></>}
+              </div>
+              {/* {loading ? <LoadingSpinner></LoadingSpinner> : <></>} */}
             </form>
           </div>
         </div>
       </div>
       {/* Active vouchers */}
       <div className="lg:w-3/5 mx-auto">
-        <h1 className="text-left text-xl font-semibold mb-3 ml-5">
+        <h1 className=" flex justify-start gap-4 text-left text-xl font-semibold mb-3 ml-5">
           Active Vouchers
+          {loading ? <LoadingSpinner></LoadingSpinner> : <></>}
         </h1>
         <div className="overflow-x-auto rounded-2xl">
           <table className="table w-full border-2 mb-10 text-center">
@@ -163,43 +175,45 @@ const ManageVouchers = () => {
                 <th>Voucher Name</th>
                 <th>Discount Amount</th>
                 <th>status</th>
-                <th>Action</th>
+                <th className="w-32">Action</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="">
               {/* <!-- row 1 --> */}
               {vouchers.map((voucher, index) => (
-                <tr key={index}>
+                <tr className="" key={index}>
                   <th>{index + 1}</th>
                   <td>{voucher.voucher_name}</td>
                   <td>{voucher.discount_amount}</td>
                   <td>{voucher.isActive ? "Active" : "Inactive"}</td>
-                  <td className="grid grid-cols-1 w-40">
-                    {voucher.isActive ? (
-                      <button
-                        onClick={() => {
-                          handleChangeStatusBtn(
-                            voucher.voucher_id,
-                            !voucher.isActive
-                          );
-                        }}
-                        className="px-5 py-1 bg-red-600 hover:bg-red-700 rounded-xl text-white"
-                      >
-                        Deactivate
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => {
-                          handleChangeStatusBtn(
-                            voucher.voucher_id,
-                            !voucher.isActive
-                          );
-                        }}
-                        className="px-5 py-1 bg-green-600 rounded-xl text-white"
-                      >
-                        Activate
-                      </button>
-                    )}
+                  <td className="grid grid-cols-1 w-32">
+                    <div className="flex justify-center">
+                      {voucher.isActive ? (
+                        <button
+                          onClick={() => {
+                            handleChangeStatusBtn(
+                              voucher.voucher_id,
+                              !voucher.isActive
+                            );
+                          }}
+                          className="px-5 py-1 bg-red-600 hover:bg-red-700 rounded-xl text-white"
+                        >
+                          Deactivate
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            handleChangeStatusBtn(
+                              voucher.voucher_id,
+                              !voucher.isActive
+                            );
+                          }}
+                          className="px-5 py-1 bg-green-600 rounded-xl text-white"
+                        >
+                          Activate
+                        </button>
+                      )}
+                    </div>
 
                     <button
                       onClick={() => {
@@ -214,6 +228,7 @@ const ManageVouchers = () => {
               ))}
             </tbody>
           </table>
+
           {vouchers.length > 0 ? (
             <></>
           ) : (

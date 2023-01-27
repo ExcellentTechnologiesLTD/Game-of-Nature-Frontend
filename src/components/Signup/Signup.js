@@ -117,33 +117,33 @@ const Signup = () => {
                 onBlur={handleFirstNameBlur}
                 type="text"
                 placeholder="First Name"
-                class="input input-bordered w-full mb-7 lg:mr-10 mr-5"
+                className="input input-bordered w-full mb-7 lg:mr-10 mr-5"
               />
               <input
                 onBlur={handleLastNameBlur}
                 type="text"
                 placeholder="Last Name"
-                class="input input-bordered w-full"
+                className="input input-bordered w-full"
               />
             </div>
             <input
               onBlur={handleAddressBlur}
               type="text"
               placeholder="Address"
-              class="input input-bordered w-full mb-7"
+              className="input input-bordered w-full mb-7"
             />
             <div className="flex ">
               <input
                 onBlur={handleEmailBlur}
                 type="email"
                 placeholder="Email"
-                class="input input-bordered w-full mb-7 lg:mr-10 mr-5"
+                className="input input-bordered w-full mb-7 lg:mr-10 mr-5"
               />
               <input
                 onBlur={handlePhoneNumberBlur}
                 type="text"
                 placeholder="Phone number"
-                class="input input-bordered w-full"
+                className="input input-bordered w-full"
               />
             </div>
             <div className="flex">
@@ -152,7 +152,7 @@ const Signup = () => {
                 onBlur={handlePassBlur}
                 type="password"
                 placeholder="Password"
-                class="input input-bordered w-full mb-7"
+                className="input input-bordered w-full mb-7"
               />
               {showingPass ? (
                 <svg
@@ -160,7 +160,7 @@ const Signup = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  class="w-10 h-12 cursor-pointer border-2 p-1 rounded-md"
+                  className="w-10 h-12 cursor-pointer border-2 p-1 rounded-md"
                 >
                   <path d="M3.53 2.47a.75.75 0 00-1.06 1.06l18 18a.75.75 0 101.06-1.06l-18-18zM22.676 12.553a11.249 11.249 0 01-2.631 4.31l-3.099-3.099a5.25 5.25 0 00-6.71-6.71L7.759 4.577a11.217 11.217 0 014.242-.827c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113z" />
                   <path d="M15.75 12c0 .18-.013.357-.037.53l-4.244-4.243A3.75 3.75 0 0115.75 12zM12.53 15.713l-4.243-4.244a3.75 3.75 0 004.243 4.243z" />
@@ -172,7 +172,7 @@ const Signup = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  class="w-10 h-12 cursor-pointer border-2 p-1 rounded-md"
+                  className="w-10 h-12 cursor-pointer border-2 p-1 rounded-md"
                 >
                   <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
                   <path
@@ -189,7 +189,7 @@ const Signup = () => {
                 onBlur={handleConfirmPassBlur}
                 type="password"
                 placeholder="Confirm Password"
-                class="input input-bordered w-full"
+                className="input input-bordered w-full"
               />
               {showingConfirmPass ? (
                 <svg
@@ -197,7 +197,7 @@ const Signup = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  class="w-10 h-12 cursor-pointer border-2 p-1 rounded-md"
+                  className="w-10 h-12 cursor-pointer border-2 p-1 rounded-md"
                 >
                   <path d="M3.53 2.47a.75.75 0 00-1.06 1.06l18 18a.75.75 0 101.06-1.06l-18-18zM22.676 12.553a11.249 11.249 0 01-2.631 4.31l-3.099-3.099a5.25 5.25 0 00-6.71-6.71L7.759 4.577a11.217 11.217 0 014.242-.827c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113z" />
                   <path d="M15.75 12c0 .18-.013.357-.037.53l-4.244-4.243A3.75 3.75 0 0115.75 12zM12.53 15.713l-4.243-4.244a3.75 3.75 0 004.243 4.243z" />
@@ -209,7 +209,7 @@ const Signup = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  class="w-10 h-12 cursor-pointer border-2 p-1 rounded-md"
+                  className="w-10 h-12 cursor-pointer border-2 p-1 rounded-md"
                 >
                   <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
                   <path

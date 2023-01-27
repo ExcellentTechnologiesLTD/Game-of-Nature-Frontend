@@ -101,9 +101,9 @@ const ProductForm = (props) => {
         onSubmit={handleSaveBtn}
         className="border-2 bg-green-50 lg:w-1/2 p-5 lg:mx-auto mt-10 rounded-3xl"
       >
-        <div class="">
-          <label class="label">
-            <span class="label-text">
+        <div className="">
+          <label className="label">
+            <span className="label-text">
               Item Name <span className="text-red-500"> * </span>
             </span>
           </label>
@@ -116,17 +116,17 @@ const ProductForm = (props) => {
             required
             onBlur={handleItemNameBlur}
             type="text"
-            class="input input-bordered w-full"
+            className="input input-bordered w-full"
           />
         </div>
         <br />
         <div className="lg:flex lg:gap-4">
-          <div class="form-control w-full">
-            <label class="label">
-              <span class="label-text">Item Category </span>
+          <div className="form-control w-full">
+            <label className="label">
+              <span className="label-text">Item Category </span>
             </label>
             <select
-              class="select select-bordered"
+              className="select select-bordered"
               value={selectedCategory}
               onChange={handleSelectedCategory}
             >
@@ -140,8 +140,8 @@ const ProductForm = (props) => {
             </select>
           </div>
           <div className="w-full">
-            <label class="label">
-              <span class="label-text">
+            <label className="label">
+              <span className="label-text">
                 Item Stock Quantity <span className="text-red-500"> * </span>
               </span>
             </label>
@@ -149,15 +149,15 @@ const ProductForm = (props) => {
               required
               onBlur={handleQuantityBlur}
               type="text"
-              class="input input-bordered w-full"
+              className="input input-bordered w-full"
             />
           </div>
         </div>
         <br />
         <div className="lg:flex lg:gap-4">
           <div className="w-full">
-            <label class="label">
-              <span class="label-text">
+            <label className="label">
+              <span className="label-text">
                 Price(BDT.) per item
                 <span className="text-red-500"> * </span>
               </span>
@@ -166,19 +166,19 @@ const ProductForm = (props) => {
               required
               onBlur={handlePriceBlur}
               type="text"
-              class="input input-bordered w-full"
+              className="input input-bordered w-full"
             />
           </div>
           <div className="w-full">
-            <label class="label">
-              <span class="label-text"> Item image </span>
+            <label className="label">
+              <span className="label-text"> Item image </span>
             </label>
             <input
               type="file"
               accept=".jpg, .png, .bmp, .gif, .tif, .webp, .heic"
               onBlur={handleFileUploadBlur}
               onChange={handleFileChange}
-              class="input py-1.5 input-bordered w-full"
+              className="input py-1.5 input-bordered w-full"
             />
             {/* <span className="text-red-500 text-xs">
               ** * Image size must be less than 1.5 MB ** *
@@ -186,16 +186,16 @@ const ProductForm = (props) => {
           </div>
         </div>
         <br />
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">
               Item Description <span className="text-red-500"> * </span>
             </span>
           </label>
           <textarea
             required
             onBlur={handleDescriptionBlur}
-            class="textarea textarea-bordered h-24"
+            className="textarea textarea-bordered h-24"
             placeholder="Add description...."
           ></textarea>
         </div>

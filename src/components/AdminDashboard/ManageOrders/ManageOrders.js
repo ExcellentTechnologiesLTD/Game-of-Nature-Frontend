@@ -5,6 +5,8 @@ const ManageOrders = () => {
   const [orders, setOrders] = useState([]);
   // setOrders(orders.filter((order) => order.order_status == "processing"));
 
+  const [loading, setLoading] = useState(false);
+
   const userType = JSON.parse(localStorage.getItem("currentUserDetails"))
     .currentUserInfo.User_Type;
 

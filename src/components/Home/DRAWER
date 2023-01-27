@@ -1,11 +1,11 @@
-<div class="drawer">
-                <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-                <div class="drawer-content">
+<div className="drawer">
+                <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+                <div className="drawer-content">
                   {/* <!-- Page content here --> */}
                 </div>
-                <div class="drawer-side">
-                  <label for="my-drawer" class="drawer-overlay"></label>
-                  <ul class="menu p-4 w-80 bg-base-100 text-base-content">
+                <div className="drawer-side">
+                  <label for="my-drawer" className="drawer-overlay"></label>
+                  <ul className="menu p-4 w-80 bg-base-100 text-base-content">
                     {/* <!-- Sidebar content here --> */}
                     <li>
                       <a>Sidebar Item 1</a>
@@ -54,18 +54,18 @@
         defaultChecked
         type="checkbox"
         id="my-modal-3"
-        class="modal-toggle"
+        className="modal-toggle"
       />
-      <div class="modal">
-        <div class="modal-box relative">
+      <div className="modal">
+        <div className="modal-box relative">
           <label
             for="my-modal-3"
-            class="btn btn-sm btn-circle absolute right-2 top-2"
+            className="btn btn-sm btn-circle absolute right-2 top-2"
           >
             ✕
           </label>
-          <h3 class="text-lg font-bold">Welcome to Game of Nature</h3>
-          <p class="py-4 text-justify">
+          <h3 className="text-lg font-bold">Welcome to Game of Nature</h3>
+          <p className="py-4 text-justify">
             If you are a <span className="font-semibold">new customer</span>,
             you are advised to take the{" "}
             <span className="font-semibold">consultation</span> from our expert
@@ -95,7 +95,7 @@
                 <path d="M256.55 8C116.52 8 8 110.34 8 248.57c0 72.3 29.71 134.78 78.07 177.94 8.35 7.51 6.63 11.86 8.05 58.23A19.92 19.92 0 0 0 122 502.31c52.91-23.3 53.59-25.14 62.56-22.7C337.85 521.8 504 423.7 504 248.57 504 110.34 396.59 8 256.55 8zm149.24 185.13l-73 115.57a37.37 37.37 0 0 1-53.91 9.93l-58.08-43.47a15 15 0 0 0-18 0l-78.37 59.44c-10.46 7.93-24.16-4.6-17.11-15.67l73-115.57a37.36 37.36 0 0 1 53.91-9.93l58.06 43.46a15 15 0 0 0 18 0l78.41-59.38c10.44-7.98 24.14 4.54 17.09 15.62z" />
               </svg>
             </a>
-            <label for="my-modal-3" class="hover:cursor-pointer">
+            <label for="my-modal-3" className="hover:cursor-pointer">
               Continue browsing
             </label>
           </div>
@@ -103,50 +103,50 @@
       </div>
 
       {/* carrosel */}
-      <div class="carousel h-96 bg-gradient-to-b from-white to-gray-900">
-        <div id="slide1" class="carousel-item relative w-full">
-          <img src={slide1} class=" w-min h-80 my-auto mx-auto" />
-          <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <a href="#slide4" class="btn btn-circle">
+      <div className="carousel h-96 bg-gradient-to-b from-white to-gray-900">
+        <div id="slide1" className="carousel-item relative w-full">
+          <img src={slide1} className=" w-min h-80 my-auto mx-auto" />
+          <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+            <a href="#slide4" className="btn btn-circle">
               ❮
             </a>
-            <a href="#slide2" class="btn btn-circle">
+            <a href="#slide2" className="btn btn-circle">
               ❯
             </a>
           </div>
         </div>
-        <div id="slide2" class="carousel-item relative w-full">
+        <div id="slide2" className="carousel-item relative w-full">
           <img
             src="https://scontent.fdac13-1.fna.fbcdn.net/v/t1.6435-9/57038424_577504946065534_3582367973177819136_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=e3f864&_nc_eui2=AeFjBKIi41HVxJDXWh18SxDjBj8-cwuWZAAGPz5zC5ZkAI7OU_U2cEayMdMeU-L_XKpamHGdKIvRED6m6RFJSF8l&_nc_ohc=kkPNOCl_31EAX9QDDm9&_nc_ht=scontent.fdac13-1.fna&oh=00_AT_Y8OP4kvvm83EnSpzCEKHrp1QxqUvJxJurKUR5bI4UmA&oe=637A6D28"
-            class=" bg-gradient-to-b from-slate-300 to bg-slate-500 lg:px-40 px-20 mx-auto w-full"
+            className=" bg-gradient-to-b from-slate-300 to bg-slate-500 lg:px-40 px-20 mx-auto w-full"
           />
-          <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <a href="#slide1" class=" btn-circle">
+          <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+            <a href="#slide1" className=" btn-circle">
               ❮
             </a>
-            <a href="#slide3" class="btn btn-circle">
+            <a href="#slide3" className="btn btn-circle">
               ❯
             </a>
           </div>
         </div>
-        <div id="slide3" class="carousel-item relative w-full">
-          <img src={testPik} class="w-full" />
-          <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <a href="#slide2" class="btn btn-circle">
+        <div id="slide3" className="carousel-item relative w-full">
+          <img src={testPik} className="w-full" />
+          <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+            <a href="#slide2" className="btn btn-circle">
               ❮
             </a>
-            <a href="#slide4" class="btn btn-circle">
+            <a href="#slide4" className="btn btn-circle">
               ❯
             </a>
           </div>
         </div>
-        <div id="slide4" class="carousel-item relative w-full">
-          <img src="https://placeimg.com/800/200/arch" class="w-full" />
-          <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <a href="#slide3" class="btn btn-circle">
+        <div id="slide4" className="carousel-item relative w-full">
+          <img src="https://placeimg.com/800/200/arch" className="w-full" />
+          <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+            <a href="#slide3" className="btn btn-circle">
               ❮
             </a>
-            <a href="#slide1" class="btn btn-circle">
+            <a href="#slide1" className="btn btn-circle">
               ❯
             </a>
           </div>

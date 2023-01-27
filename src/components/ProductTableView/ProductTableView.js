@@ -21,8 +21,8 @@ const ProductTableView = (props) => {
   };
   return (
     <div>
-      <div class="overflow-x-auto w-full">
-        <table class="table w-full">
+      <div className="overflow-x-auto w-full">
+        <table className="table w-full">
           {/* <!-- head --> */}
           <thead className="font-serif">
             <tr>
@@ -49,9 +49,9 @@ const ProductTableView = (props) => {
                 <th className="text-center"> {index + 1} </th>
                 <th className="text-center font-normal"> {item.product_id} </th>
                 <td className="hover:cursor-pointer hover:underline">
-                  <div class="flex items-center space-x-3">
-                    <div class="avatar">
-                      <div class="mask mask-squircle w-12 h-12">
+                  <div className="flex items-center space-x-3">
+                    <div className="avatar">
+                      <div className="mask mask-squircle w-12 h-12">
                         <img
                           src={item.photo_url || itemImg}
                           alt="product pic"
@@ -59,11 +59,17 @@ const ProductTableView = (props) => {
                       </div>
                     </div>
                     <div>
-                      <a href={`/edit/${item.product_id}`} class="font-bold">
+                      <a
+                        href={`/edit/${item.product_id}`}
+                        className="font-bold"
+                      >
                         {" "}
                         {item.product_name}{" "}
                       </a>
-                      <div class="text-sm opacity-50"> {item.category} </div>
+                      <div className="text-sm opacity-50">
+                        {" "}
+                        {item.category}{" "}
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -80,7 +86,7 @@ const ProductTableView = (props) => {
                 </td>
                 <td className="text-center">
                   <button
-                    class={`btn btn-xs ${
+                    className={`btn btn-xs ${
                       item.quantity_in_stock < 20 ? "" : "hidden"
                     }`}
                   >
@@ -90,7 +96,7 @@ const ProductTableView = (props) => {
                 <th className="text-center">
                   <button
                     onClick={() => handleDeleteItem(item.product_id)}
-                    class="btn bg-base-100 border-0 text-red-500 btn-xs"
+                    className="btn bg-base-100 border-0 text-red-500 btn-xs"
                   >
                     delete
                   </button>

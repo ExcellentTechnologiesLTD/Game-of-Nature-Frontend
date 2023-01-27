@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import logo from "../../Assets/image/logo.jpg";
 import facialPic from "../../Assets/image/facial-care.jpg";
@@ -15,15 +15,50 @@ import auth from "../../firebase.init";
 import { useSignOut } from "react-firebase-hooks/auth";
 import "../../js/commonJs";
 import Cart from "../Cart/Cart";
+import { CartContext } from "../../App";
 
-const Navbar = () => {
+const Navbar = (
+  {
+    // reload,
+    // setReload,
+    // cartItems,
+    // totalCartItemCost,
+    // setTotalCartItemCost,
+    // discount,
+    // setDiscount,
+    // discountApplied,
+    // setDiscountApplied,
+    // shippingCost,
+    // setShippingCost,
+  }
+) => {
+  const [
+    userDetails,
+    setUserDetails,
+    cartItems,
+    setCartItems,
+    totalCartItemCost,
+    setTotalCartItemCost,
+    shippingCost,
+    setShippingCost,
+    voucherName,
+    setVoucherName,
+    discount,
+    setDiscount,
+    discountApplied,
+    setDiscountApplied,
+    reload,
+    setReload,
+  ] = useContext(CartContext);
+  // console.log(cartItems);
+
   const [userGoogle] = useAuthState(auth);
   const [signOut, loading, error] = useSignOut(auth);
-  const [myCartItemsJson, setMyCartItems] = useState(
-    JSON.parse(localStorage.getItem("myCartItems"))
-  );
 
-  // console.log("Size: ", myCartItemsJson?.length);
+  // useEffect(() => {
+  //   setMyCartItems(cartItems);
+  //   setTotalCartItemCost(totalCartItemCost);
+  // }, [cartItems, totalCartItemCost]);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -32,7 +67,6 @@ const Navbar = () => {
   const userData = JSON.parse(
     localStorage.getItem("currentUserDetails")
   )?.currentUserInfo;
-  // console.log(userData);
 
   const handleLogOutBtn = () => {
     localStorage.removeItem("currentUserDetails");
@@ -47,6 +81,7 @@ const Navbar = () => {
   };
 
   return (
+    // <div></div>
     <div className="sticky top-0 z-50 font-serif bg-white">
       <div className=" shadow-2xl lg:pb-0 md:pb-5 pb-5">
         <div className="bg-green-500 flex justify-between items-center px-5 py-2">
@@ -441,19 +476,18 @@ const Navbar = () => {
               >
                 <div className="flex items-center">
                   <a
-                    href="/dashboard/checkout"
+                    href={cartItems ? `/dashboard/checkout` : ""}
                     tabIndex="0"
                     className={`ml-1 indicator`}
                   >
                     <span
                       className={`${
-                        myCartItemsJson?.length == undefined ||
-                        myCartItemsJson?.length == 0
+                        cartItems?.length == undefined || cartItems?.length == 0
                           ? "hidden"
                           : "indicator-item text-white font-regular text-lg -top-1 -left-1.5 badge bg-green-600 border-0 pt-2 pb-3 h-6"
                       }`}
                     >
-                      {myCartItemsJson?.length}
+                      {cartItems?.length}
                     </span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -470,27 +504,24 @@ const Navbar = () => {
                       />
                     </svg>
                   </a>
-                  <h1 className="hidden_items">Shopping Bag</h1>
+                  <span className="hidden_items">Shopping Bag</span>
                 </div>
 
                 <div
                   tabIndex="0"
                   className="z-50 rounded-xl dropdown-content p-2 shadow bg-slate-200 w-96 h-96 overflow-auto"
                 >
-                  {/* <Cart></Cart> */}
                   <Cart></Cart>
                   <div className="divider my-0"></div>
 
                   <a
                     href="dashboard/checkout"
                     className={`${
-                      myCartItemsJson == null ? "hidden" : ""
+                      cartItems == null ? "hidden" : ""
                     } btn w-full bg-green-500 hover:bg-green-600`}
                   >
-                    {" "}
                     Checkout
                   </a>
-                  {/* No items in cart. */}
                 </div>
               </div>
             ) : (

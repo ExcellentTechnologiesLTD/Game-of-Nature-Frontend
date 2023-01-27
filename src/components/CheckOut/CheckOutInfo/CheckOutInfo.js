@@ -1,34 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { CartContext } from "../../../App";
 import BkashLogo from "../../../Assets/icons/bKash-logo-vector.png";
 import auth from "../../../firebase.init";
 import OrderComplete from "../OrderComplete/OrderComplete";
 
-const CheckOutInfo = ({
-  userInfo,
-  setCheckOutComplete,
-  setShippingCost,
-  voucher,
-  setVoucher,
-  discount,
-  setDiscount,
-  totalCartItemCost,
-  setTotalCartItemCost,
-  cartItems,
-  setCartItems,
-}) => {
+const CheckOutInfo = ({ userInfo, setCheckOutComplete }) => {
+  const [
+    userDetails,
+    setUserDetails,
+    cartItems,
+    setCartItems,
+    totalCartItemCost,
+    setTotalCartItemCost,
+    shippingCost,
+    setShippingCost,
+    voucherName,
+    setVoucherName,
+    discount,
+    setDiscount,
+    discountApplied,
+    setDiscountApplied,
+    reload,
+    setReload,
+  ] = useContext(CartContext);
+
   const [userGoogle] = useAuthState(auth);
   const [paymentMethod, setPaymentMethod] = useState("BKASH");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
-  // const [apartment, setApartment] = useState("");
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [userFound, setUserFound] = useState(userInfo ? true : false);
+  const [keepDetails, setKeepDetails] = useState(true);
 
   const getCurentDate = () => {
     var today = new Date();
@@ -58,8 +66,10 @@ const CheckOutInfo = ({
   useEffect(() => {
     if (city == "Dhaka" || city == "dhaka") {
       setShippingCost(70);
+      localStorage.setItem("shippingCost", 70);
     } else {
       setShippingCost(160);
+      localStorage.setItem("shippingCost", 160);
     }
   }, [city != ""]);
 
@@ -106,18 +116,14 @@ const CheckOutInfo = ({
     setAddress(e.target.value);
   };
   const handleCityBlur = (e) => {
-    // e.preventDefault();s
-    // console.log("target value: : ", e.target.value);
-
     if (e.target.value != "") {
       if (e.target.value === "Dhaka" || e.target.value === "dhaka") {
-        setShippingCost(60);
+        setShippingCost(70);
       } else {
-        setShippingCost(100);
+        setShippingCost(160);
       }
     }
     setCity(e.target.value);
-    // console.log("City: ", city);
   };
   const handlePostalCodeBlur = (e) => {
     setPostalCode(e.target.value);
@@ -128,7 +134,6 @@ const CheckOutInfo = ({
   // Save Confirm Button
   const handleCheckoutInfoSubmitBtn = (e) => {
     e.preventDefault();
-
     let orderInfo;
     let total;
 
@@ -158,7 +163,7 @@ const CheckOutInfo = ({
             orderedItems: JSON.stringify(cartItems),
             totalAmount: total,
             discountAmount: discount,
-            voucherName: voucher,
+            voucherName: voucherName,
             firstName: firstName,
             lastName: lastName,
             address: address,
@@ -175,7 +180,7 @@ const CheckOutInfo = ({
             orderedItems: JSON.stringify(cartItems),
             totalAmount: total,
             discountAmount: discount,
-            voucherName: voucher,
+            voucherName: voucherName,
             paymentMethod: paymentMethod,
             date: date,
             time: time,
@@ -202,7 +207,7 @@ const CheckOutInfo = ({
               localStorage.removeItem("discountVoucherAmount");
               localStorage.removeItem("discountVoucherName");
               localStorage.removeItem("discountApplied");
-              setVoucher("");
+              setVoucherName("");
               setDiscount(0);
               // cart
               localStorage.removeItem("myCartItems");
@@ -218,6 +223,10 @@ const CheckOutInfo = ({
           });
       }, 500);
     }
+  };
+
+  const handleCheckBoxChange = () => {
+    setKeepDetails(!keepDetails);
   };
 
   return (
@@ -346,9 +355,20 @@ const CheckOutInfo = ({
         </div>
         {/* Shipping Details */}
         <div className="">
-          <h1 className="label-text text-left font-semibold mb-2">
-            Shipping Details
-          </h1>
+          <span className="flex justify-between">
+            <span className="label-text text-left font-semibold mb-2">
+              Shipping Details
+            </span>
+            <span className="flex items-center gap-2">
+              <small className="text-xs">keep existing shipping details</small>
+              <input
+                type="checkbox"
+                checked={keepDetails}
+                onChange={handleCheckBoxChange}
+                className="checkbox checkbox-primary"
+              />
+            </span>
+          </span>
           <div>
             <input
               type="text"
@@ -363,7 +383,7 @@ const CheckOutInfo = ({
                 required
                 type="text"
                 autoFocus
-                disabled={userFound}
+                disabled={userFound && keepDetails == true}
                 defaultValue={userInfo.First_Name}
                 onBlur={handleFirstNameBlur}
                 placeholder="First Name"
@@ -373,7 +393,7 @@ const CheckOutInfo = ({
                 required
                 type="text"
                 autoFocus
-                disabled={userFound}
+                disabled={userFound && keepDetails == true}
                 defaultValue={userInfo.Last_Name}
                 onBlur={handleLastNameBlur}
                 placeholder="Last Name"
@@ -384,7 +404,7 @@ const CheckOutInfo = ({
               required
               type="text"
               autoFocus
-              disabled={userFound}
+              disabled={userFound && keepDetails == true}
               defaultValue={userInfo.Address}
               onBlur={handleAddressBlur}
               placeholder="Address"
@@ -394,7 +414,7 @@ const CheckOutInfo = ({
               <input
                 required
                 type="text"
-                disabled={userFound}
+                disabled={userFound && keepDetails == true}
                 defaultValue={userInfo.city}
                 autoFocus
                 onBlur={handleCityBlur}
@@ -405,7 +425,7 @@ const CheckOutInfo = ({
                 required
                 type="text"
                 autoFocus
-                disabled={userFound}
+                disabled={userFound && keepDetails == true}
                 defaultValue={postalCode}
                 onBlur={handlePostalCodeBlur}
                 placeholder="Postal code"
@@ -415,7 +435,7 @@ const CheckOutInfo = ({
             <input
               required
               type="text"
-              disabled={userFound}
+              disabled={userFound && keepDetails == true}
               //   disabled={userFound?.user_id ? "true" : "false"}
               autoFocus
               defaultValue={phone}
@@ -426,7 +446,7 @@ const CheckOutInfo = ({
           </div>
         </div>
         {/* <div></div> */}
-        {paymentMethod == "BKASH" ? (
+        {paymentMethod == "BKASH" && cartItems ? (
           <button
             autoFocus
             type="submit"
@@ -452,7 +472,9 @@ const CheckOutInfo = ({
           <button
             type="submit"
             autoFocus
-            className="ml-auto flex justify-between gap-4 btn normal-case mt-4"
+            className={`${
+              cartItems ? "" : "hidden"
+            } ml-auto flex justify-between gap-4 btn normal-case mt-4`}
           >
             Confirm Order{" "}
             <svg

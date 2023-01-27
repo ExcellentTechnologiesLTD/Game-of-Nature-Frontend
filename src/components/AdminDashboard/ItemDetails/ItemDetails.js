@@ -1,10 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import ItemThumnailCard from "../../ItemThumbnailCard/ItemThumnailCard";
 import "../../../Sytles/commonStyles.css";
 import cartItems from "../../Cart/cartArray";
+import { CartContext } from "../../../App";
 
-const ItemDetails = () => {
+const ItemDetails = (
+  {
+    // cartItems,
+    // setCartItems,
+    // totalCartItemCost,
+    // setTotalCartItemCost,
+    // reload,
+    // setReload,
+    // cartArray,
+  }
+) => {
+  const [
+    userDetails,
+    setUserDetails,
+    cartItems,
+    setCartItems,
+    totalCartItemCost,
+    setTotalCartItemCost,
+    shippingCost,
+    setShippingCost,
+    voucherName,
+    setVoucherName,
+    discount,
+    setDiscount,
+    discountApplied,
+    setDiscountApplied,
+    reload,
+    setReload,
+  ] = useContext(CartContext);
+
+  useEffect(() => {
+    setCartItems(JSON.parse(localStorage.getItem("myCartItems")));
+    setTotalCartItemCost(parseInt(localStorage.getItem("totalCartItemCost")));
+  }, []);
   const { id } = useParams();
 
   const [item, setItem] = useState({});
@@ -24,17 +58,14 @@ const ItemDetails = () => {
     }
   };
 
-  // const [itemQuantity, setItemQuantity] = useState();
-
   const url = `https://game-of-nature-backend.vercel.app/get-details/${id}`;
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
       .then((data1) => setItem(data1));
-  }, []);
+  }, [id]);
 
   // get suggested items
-  // console.log("category: ", item.category);
   const SuggestedItemsUrl = `https://game-of-nature-backend.vercel.app/get-detailsby/${item.category}`;
   useEffect(() => {
     fetch(SuggestedItemsUrl)
@@ -43,10 +74,14 @@ const ItemDetails = () => {
   }, [item?.category]);
 
   const handleReviewSubmitClick = (e) => {};
-  const handleRestockbtnClick = (e) => {};
+  const handleRestockbtnClick = (e) => {
+    // comming soon
+    alert("Comming Soon");
+  };
 
   const handleAddToBagClick = (e) => {
     e.preventDefault();
+    setReload(false);
 
     const newItem = {
       itemID: item.product_id,
@@ -57,132 +92,67 @@ const ItemDetails = () => {
       quantity_in_stock: item.quantity_in_stock,
     };
 
-    const cartItems = JSON.parse(localStorage.getItem("myCartItems"));
-    let totalCartItemCost = parseInt(localStorage.getItem("totalCartItemCost"));
-    console.log("Type ", typeof totalCartItemCost);
-    console.log("Type price", typeof parseInt(newItem.price));
-    console.log("Type qnty", typeof newItem.orderQnty);
-
-    console.log("details: cart >> ", cartItems);
     if (cartItems == null) {
+      // console.log(cartItems);
       const newArray = [];
-      totalCartItemCost = 0;
+      let tempTotalCost = 0;
       newArray.push(newItem);
       const xx = JSON.stringify(newArray);
-      // Save items and total cost to local storage
+      // // Save items and total cost to local storage
+      setCartItems(newArray);
       localStorage.setItem("myCartItems", xx);
-
-      totalCartItemCost += parseInt(newItem.price) * newItem.orderQnty;
-      console.log("total: ", totalCartItemCost);
-      localStorage.setItem("totalCartItemCost", totalCartItemCost.toString());
-      // Send Alert
-      alert("item Added Successfully");
+      tempTotalCost += parseInt(newItem.price) * newItem.orderQnty;
+      setTotalCartItemCost(tempTotalCost);
+      localStorage.setItem("totalCartItemCost", tempTotalCost);
+      // setReload(true);
+      // // Send Alert
+      // alert("item Added Successfully");
     } else {
       let found = false;
-      const stringCartItems = localStorage.getItem("myCartItems");
-      const jsonArrayObject = JSON.parse(stringCartItems);
-
-      jsonArrayObject.map((i) => {
+      cartItems.map((i) => {
         if (i.itemID === item.product_id) {
           i.orderQnty += newItem.orderQnty;
           found = true;
-          const jsonArrayObjectToString = JSON.stringify(jsonArrayObject);
+          setCartItems(cartItems);
+          const jsonArrayObjectToString = JSON.stringify(cartItems);
           localStorage.setItem("myCartItems", jsonArrayObjectToString);
-
-          // update and save total cost
-          totalCartItemCost += parseInt(newItem.price) * newItem.orderQnty;
-          // totalCartItemCost += parseInt(newItem.price);
-          console.log("total: ", totalCartItemCost);
-          localStorage.setItem(
-            "totalCartItemCost",
-            totalCartItemCost.toString()
-          );
+          let tempTotal =
+            totalCartItemCost + parseInt(newItem.price) * newItem.orderQnty;
+          setTotalCartItemCost(tempTotal);
+          localStorage.setItem("totalCartItemCost", tempTotal);
           // Send Alert
           alert("item Added Successfully");
         }
       });
       if (found != true) {
-        console.log("hello");
-        const newArray = [...jsonArrayObject, newItem];
-        const jsonArrayObjectToString = JSON.stringify(newArray);
-        console.log("newly added >> ", newArray);
+        // console.log(cartItems);
+        const newCartArray = [...cartItems, newItem];
+        const jsonArrayObjectToString = JSON.stringify(newCartArray);
+        setCartItems(newCartArray);
         localStorage.setItem("myCartItems", jsonArrayObjectToString);
+        // console.log(newCartArray);
+        // setCartItems(newCartArray);
 
+        // console.log("dekh to eibar: \n", cartItems);
+        // console.log("nai: \n", totalCartItemCost);
+        // cartItems.push(newItem);
+        // console.log("new nai: ", cartItems);
+        // // const newArray = [...jsonArrayObject, newItem];
+        // const jsonArrayObjectToString = JSON.stringify(cartItems);
+        // //     console.log("newly added >> ", newArray);
+        // localStorage.setItem("myCartItems", jsonArrayObjectToString);
         // update and save total cost
-        totalCartItemCost += parseInt(newItem.price) * newItem.orderQnty;
-        console.log("total: ", totalCartItemCost);
-        localStorage.setItem("totalCartItemCost", totalCartItemCost.toString());
-        // Send Alert
-        alert("item Added Successfully");
+        // // totalCartItemCost += parseInt(newItem.price) * newItem.orderQnty;
+        // // console.log("new nai total: ", totalCartItemCost);
+        let tempTotal =
+          totalCartItemCost + parseInt(newItem.price) * newItem.orderQnty;
+        setTotalCartItemCost(tempTotal);
+        localStorage.setItem("totalCartItemCost", tempTotal);
+        // //     // Send Alert
+        // setReload(true);
+        // alert("item Added Successfully");
       }
     }
-    // localStorage.setItem(
-    //   "cartItems",
-    //   JSON.stringify([
-    //     {
-    //       itemID: "1",
-    //       itemName: "Item 1",
-    //       price: "price 1",
-    //       orderQnty: 1,
-    //     },
-    //     {
-    //       itemID: "2",
-    //       itemName: "Item 2",
-    //       price: "price 2",
-    //       orderQnty: 2,
-    //     },
-    //     {
-    //       itemID: "3",
-    //       itemName: "Item 3",
-    //       price: "Price 3",
-    //       orderQnty: 3,
-    //     },
-    //   ])
-    // );
-
-    // console.log("items >> ", JSON.parse(localStorage.getItem("cartItems")));
-    // const array = JSON.parse(localStorage.getItem("cartItems"));
-    // array.push({
-    //   itemID: "4",
-    //   itemName: "item 4",
-    //   price: "price 4",
-    //   orderQnty: 4,
-    // });
-
-    // console.log("array >> ", array);
-
-    // localStorage.setItem("cartItems", JSON.stringify(array));
-
-    // if (cartItems.length == 0) {
-    //   const cartItem = {
-    //     itemID: item.product_id,
-    //     itemName: item.product_name,
-    //     price: item.price,
-    //     orderQnty: 1,
-    //   };
-
-    //   cartItems.push(cartItem);
-    //   localStorage.setItem("cartItems", cartItems);
-    // } else {
-    //   cartItems.map((cartItem) => {
-    //     if (cartItem.itemID === item.product_id) {
-    //       cartItem.orderQnty++;
-    //     } else {
-    //       const cartItem = {
-    //         itemID: item.product_id,
-    //         itemName: item.product_name,
-    //         price: item.price,
-    //         orderQnty: 1,
-    //       };
-    //       cartItems.push(cartItem);
-    //       localStorage.setItem("cartItems", cartItems);
-    //     }
-    //   });
-    // }
-
-    // console.log("cart items pushed >>> ", cartItems);
-    // const newCartItems = [...cartItems, cartItem];
-    // setCartItems(newCartItems);
   };
 
   return (

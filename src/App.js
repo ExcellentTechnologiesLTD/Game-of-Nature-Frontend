@@ -24,62 +24,133 @@ import RequireCustomerAuth from "./components/RequireAuth/RequireCustomerAuth";
 import Cart from "./components/Cart/Cart";
 import CustomerDashboard from "./components/CustomerDashboard/CustomerDashboard";
 import OrderHistory from "./components/OrderHistory/OrderHistory";
-import { useState } from "react";
+import { createContext, useState } from "react";
 import CheckOut from "./components/CheckOut/CheckOut";
 import ManageOrders from "./components/AdminDashboard/ManageOrders/ManageOrders";
 import ManageDeliveries from "./components/AdminDashboard/ManageDeliveries/ManageDeliveries";
 import ManageVouchers from "./components/AdminDashboard/ManageVouchers/ManageVouchers";
+import MyCart from "./components/Cart/MyCart.js";
+
+export const CartContext = createContext("cartInfo");
 
 function App() {
-  const [cartItems, setCartItems] = useState([]);
+  // Reset LocalStorage
+  // localStorage.clear();
+
+  //Global Shareable data
+  const [userDetails, setUserDetails] = useState(
+    localStorage.getItem("currentUserDetails")
+  );
+  const [cartItems, setCartItems] = useState(
+    JSON.parse(localStorage.getItem("myCartItems"))
+  );
+  const [totalCartItemCost, setTotalCartItemCost] = useState(
+    parseInt(localStorage.getItem("totalCartItemCost"))
+  );
+
+  const [shippingCost, setShippingCost] = useState(
+    localStorage.getItem("shippingCost")
+      ? parseInt(localStorage.getItem("shippingCost"))
+      : 0
+  );
+  const [voucherName, setVoucherName] = useState(
+    localStorage.getItem("discountVoucherName")
+  );
+  const [discount, setDiscount] = useState(
+    localStorage.getItem("discountVoucherAmount")
+      ? parseInt(localStorage.getItem("discountVoucherAmount"))
+      : 0
+  );
+  const [discountApplied, setDiscountApplied] = useState(
+    localStorage.getItem("discountApplied") == true ? true : false
+  );
+  const [reload, setReload] = useState(false);
 
   return (
-    <div className="App ">
-      <Navbar></Navbar>
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="signin" element={<Signin></Signin>}></Route>
-        <Route path="signup" element={<Signup></Signup>}></Route>
-        <Route path="facial-care" element={<FacialCare></FacialCare>}></Route>
-        <Route path="hair-care" element={<Haircare></Haircare>}></Route>
-        <Route path="body-care" element={<BodyCare></BodyCare>}></Route>
-        <Route path="baby-care" element={<BabyCare></BabyCare>}></Route>
-        <Route path="spa&massage" element={<SpaMassage></SpaMassage>}></Route>
-        <Route
-          path="/item-details/:id"
-          element={
-            <ItemDetails
-              setCartItems={setCartItems}
-              cartItems={cartItems}
-            ></ItemDetails>
-          }
-        ></Route>
-        <Route
-          path="perfumes&attar"
-          element={<PerfumeAttar></PerfumeAttar>}
-        ></Route>
-        <Route path="daily-needs" element={<DailyNeeds></DailyNeeds>}></Route>
-        <Route path="groceries" element={<Groceries></Groceries>}></Route>
-
-        {/* Routes For Customers  */}
-
-        <Route
-          path="/dashboard"
-          element={
-            <RequireCustomerAuth>
-              <CustomerDashboard></CustomerDashboard>
-            </RequireCustomerAuth>
-          }
-        >
+    <CartContext.Provider
+      value={[
+        userDetails,
+        setUserDetails,
+        cartItems,
+        setCartItems,
+        totalCartItemCost,
+        setTotalCartItemCost,
+        shippingCost,
+        setShippingCost,
+        voucherName,
+        setVoucherName,
+        discount,
+        setDiscount,
+        discountApplied,
+        setDiscountApplied,
+        reload,
+        setReload,
+      ]}
+    >
+      <div className="App ">
+        <Navbar
+        // reload={reload}
+        // setReload={setReload}
+        // discount={discount}
+        // setDiscount={setDiscount}
+        // discountApplied={discountApplied}
+        // setDiscountApplied={setDiscountApplied}
+        // shippingCost={shippingCost}
+        // setShippingCost={setShippingCost}
+        // cartItems={cartItems}
+        // setCartItems={setCartItems}
+        // totalCartItemCost={totalCartItemCost}
+        // setTotalCartItemCost={setTotalCartItemCost}
+        ></Navbar>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="signin" element={<Signin></Signin>}></Route>
+          <Route path="signup" element={<Signup></Signup>}></Route>
+          <Route path="facial-care" element={<FacialCare></FacialCare>}></Route>
+          <Route path="hair-care" element={<Haircare></Haircare>}></Route>
+          <Route path="body-care" element={<BodyCare></BodyCare>}></Route>
+          <Route path="baby-care" element={<BabyCare></BabyCare>}></Route>
+          <Route path="spa&massage" element={<SpaMassage></SpaMassage>}></Route>
           <Route
-            path="order-history"
+            path="/item-details/:id"
             element={
-              <RequireCustomerAuth>
-                <OrderHistory></OrderHistory>
-              </RequireCustomerAuth>
+              <ItemDetails
+              // cartArray={cartArray}
+              // setCartItems={setCartItems}
+              // cartItems={cartItems}
+              // totalCartItemCost={totalCartItemCost}
+              // setTotalCartItemCost={setTotalCartItemCost}
+              // reload={reload}
+              // setReload={setReload}
+              ></ItemDetails>
             }
           ></Route>
-          {/* <Route
+          <Route
+            path="perfumes&attar"
+            element={<PerfumeAttar></PerfumeAttar>}
+          ></Route>
+          <Route path="daily-needs" element={<DailyNeeds></DailyNeeds>}></Route>
+          <Route path="groceries" element={<Groceries></Groceries>}></Route>
+
+          {/* Routes For Customers  */}
+
+          <Route
+            path="/dashboard"
+            element={
+              <RequireCustomerAuth>
+                <CustomerDashboard></CustomerDashboard>
+              </RequireCustomerAuth>
+            }
+          >
+            <Route
+              path="order-history"
+              element={
+                <RequireCustomerAuth>
+                  <OrderHistory></OrderHistory>
+                </RequireCustomerAuth>
+              }
+            ></Route>
+            {/* <Route
             path="cart"
             element={
               <RequireCustomerAuth>
@@ -87,51 +158,55 @@ function App() {
               </RequireCustomerAuth>
             }
           ></Route> */}
+            <Route
+              path="checkout"
+              element={
+                <RequireCustomerAuth>
+                  <CheckOut cartItems={cartItems}></CheckOut>
+                </RequireCustomerAuth>
+              }
+            ></Route>
+          </Route>
+          {/* Routes For Customers  */}
+          {/* Routes For Admin  */}
           <Route
-            path="checkout"
+            path="/admin-dashboard"
             element={
-              <RequireCustomerAuth>
-                <CheckOut cartItems={cartItems}></CheckOut>
-              </RequireCustomerAuth>
+              <RequireAdminAuth>
+                <AdminDashboard></AdminDashboard>
+              </RequireAdminAuth>
             }
-          ></Route>
-        </Route>
-        {/* Routes For Customers  */}
-        {/* Routes For Admin  */}
-        <Route
-          path="/admin-dashboard"
-          element={
-            <RequireAdminAuth>
-              <AdminDashboard></AdminDashboard>
-            </RequireAdminAuth>
-          }
-        >
-          <Route
-            // path="all-products"
-            index
-            element={<AllProducts></AllProducts>}
-          ></Route>
-          <Route path="addproducts" element={<AddProduct></AddProduct>}></Route>
-          <Route
-            path="manage-orders"
-            element={<ManageOrders></ManageOrders>}
-          ></Route>
-          <Route
-            path="manage-deliveries"
-            element={<ManageDeliveries></ManageDeliveries>}
-          ></Route>
-          <Route
-            path="manage-vouchers"
-            element={<ManageVouchers></ManageVouchers>}
-          ></Route>
-        </Route>
-        {/* Routes For Admin  */}
+          >
+            <Route
+              // path="all-products"
+              index
+              element={<AllProducts></AllProducts>}
+            ></Route>
+            <Route
+              path="addproducts"
+              element={<AddProduct></AddProduct>}
+            ></Route>
+            <Route
+              path="manage-orders"
+              element={<ManageOrders></ManageOrders>}
+            ></Route>
+            <Route
+              path="manage-deliveries"
+              element={<ManageDeliveries></ManageDeliveries>}
+            ></Route>
+            <Route
+              path="manage-vouchers"
+              element={<ManageVouchers></ManageVouchers>}
+            ></Route>
+          </Route>
+          {/* Routes For Admin  */}
 
-        <Route path="/edit/:id" element={<AddProduct></AddProduct>}></Route>
-        <Route path="/*" element={<NotFoundPage></NotFoundPage>}></Route>
-      </Routes>
-      <Footer></Footer>
-    </div>
+          <Route path="/edit/:id" element={<AddProduct></AddProduct>}></Route>
+          <Route path="/*" element={<NotFoundPage></NotFoundPage>}></Route>
+        </Routes>
+        <Footer></Footer>
+      </div>
+    </CartContext.Provider>
   );
 }
 

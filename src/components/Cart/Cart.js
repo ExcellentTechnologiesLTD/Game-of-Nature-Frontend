@@ -1,55 +1,95 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { CartContext } from "../../App";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
-const Cart = ({
-  voucher,
-  setVoucher,
-  discount,
-  setDiscount,
-  shippingCost,
-  totalCartItemCost,
-  setTotalCartItemCost,
-  cartItems,
-  setCartItems,
-}) => {
-  const [discountApplied, setDiscountApplied] = useState(
-    voucher ? true : false
-  );
+const Cart = (
+  {
+    // voucher,
+    // setVoucher,
+    // discount,
+    // setDiscount,
+    // shippingCost,
+    // totalCartItemCost,
+    // setTotalCartItemCost,
+    // cartItems,
+    // setCartItems,
+    // reload,
+  }
+) => {
+  const [
+    userDetails,
+    setUserDetails,
+    cartItems,
+    setCartItems,
+    totalCartItemCost,
+    setTotalCartItemCost,
+    shippingCost,
+    setShippingCost,
+    voucherName,
+    setVoucherName,
+    discount,
+    setDiscount,
+    discountApplied,
+    setDiscountApplied,
+    reload,
+    setReload,
+  ] = useContext(CartContext);
+
+  // const [discountApplied, setDiscountApplied] = useState(
+  //   voucher ? true : false
+  // );
+
+  const [loading, setLoading] = useState(false);
   const [subTotal, setSubTotal] = useState(totalCartItemCost);
-  const [showTotal, setShowTotal] = useState(
-    discountApplied ? subTotal - discount : subTotal
-  );
+  const [showTotal, setShowTotal] = useState(subTotal - discount);
+
+  // console.log("totalCartItemCost : ", totalCartItemCost);
+  // console.log("subTotal : ", subTotal);
+  // console.log("showTotal : ", showTotal);
+  // console.log("discount : ", discount);
+  // console.log("shippingCost : ", shippingCost);
+
+  useEffect(() => {
+    setSubTotal(totalCartItemCost);
+    setShowTotal(totalCartItemCost - discount + shippingCost);
+  }, [cartItems, totalCartItemCost]);
 
   useEffect(() => {
     setShowTotal(subTotal - discount);
   }, [subTotal, discountApplied == true]);
 
   const handleVoucherBlur = (e) => {
-    setVoucher(e.target.value);
+    setVoucherName(e.target.value);
   };
   const handleVoucherApplyBtn = () => {
-    console.log("Voucher: ", voucher);
+    setLoading(true);
+
     if (discountApplied) {
       alert("Discount already applied");
     } else {
-      if (voucher == null) {
+      if (voucherName == null) {
       } else {
-        fetch(`http://game-of-nature-backend.vercel.app/get-voucher/${voucher}`)
+        fetch(
+          `https://game-of-nature-backend.vercel.app/get-voucher/${voucherName}`
+        )
           .then((res) => res.json())
           .then((data) => {
             if (data?.status != 404 && data?.success != false) {
-              setVoucher(voucher);
+              setVoucherName(voucherName);
               setDiscount(data.discount_amount);
               setDiscountApplied(true);
               //   calculations
               //   Save in local Storage
-              localStorage.setItem("discountVoucherName", voucher);
+              localStorage.setItem("discountVoucherName", voucherName);
               localStorage.setItem(
                 "discountVoucherAmount",
                 data.discount_amount
               );
               localStorage.setItem("discountApplied", true);
+              setLoading(false);
             } else {
               alert(data.msg);
+              setLoading(false);
             }
           });
       }
@@ -57,21 +97,21 @@ const Cart = ({
   };
 
   const handleRemoveVoucherBtn = () => {
+    setLoading(true);
     let prevTotal = showTotal + discount;
     if (subTotal == prevTotal) {
-      console.log("true");
       setShowTotal(prevTotal);
       setDiscount(0);
-      setVoucher("");
+      setVoucherName("");
       setDiscountApplied(false);
       //    clean Local storage
       localStorage.removeItem("discountVoucherAmount");
       localStorage.removeItem("discountVoucherName");
       localStorage.removeItem("discountApplied");
+      setLoading(false);
       //   reload for voucher name to disappear
       window.location.reload(true);
     } else {
-      //   console.log("false");
       alert("Error removing voucher. Call developer.");
     }
   };
@@ -112,15 +152,12 @@ const Cart = ({
 
   const deleteItem = (itemID) => {
     let cartArray = [];
-
     let tempSubTotal = subTotal;
-
-    console.log("before: ", tempSubTotal);
     const xx = cartItems.filter((item) => item.itemID == itemID);
 
     // // Re-calculating total
     tempSubTotal -= xx[0].orderQnty * parseInt(xx[0].price);
-    console.log("after: ", tempSubTotal);
+
     // // re-organizing cart without that item.
     cartArray = cartItems.filter((item) => item.itemID != itemID);
     // // setting values to its places.
@@ -138,7 +175,7 @@ const Cart = ({
         window.location.pathname.endsWith("/dashboard/checkout")
           ? " bg-slate-200 py-5"
           : ""
-      } w-96`}
+      }`}
     >
       <div className={`py-5 px-5 flex justify-between`}>
         <h1 className="text-xl font-semibold font-serif">Order Summary</h1>
@@ -151,7 +188,7 @@ const Cart = ({
             localStorage.removeItem("discountVoucherAmount");
             localStorage.removeItem("discountVoucherName");
             localStorage.removeItem("discountApplied");
-            setVoucher("");
+            setVoucherName("");
             setDiscountApplied(false);
             setDiscount(0);
             // cart
@@ -223,86 +260,98 @@ const Cart = ({
         ))}
       </div>
       {/* Calculations */}
-      <div className="">
-        <div className="divider my-0 px-2"></div>
-        <div className="max-w-full flex justify-between gap-2 px-5 py-2">
-          <input
-            onBlur={handleVoucherBlur}
-            className="w-full px-2 rounded-xl"
-            defaultValue={voucher}
-            type="text"
-            placeholder="Apply Voucher"
-          />
-          {discountApplied == false && discount == 0 ? (
-            <button
-              onClick={() => {
-                handleVoucherApplyBtn();
-              }}
-              className="btn"
-            >
-              Apply
-            </button>
-          ) : (
-            <button
-              onClick={() => {
-                handleRemoveVoucherBtn();
-              }}
-              className="btn"
-            >
-              Remove
-            </button>
-          )}
+      {cartItems ? (
+        <div className="">
+          <div className="divider my-0 px-2"></div>
+          <div className="max-w-full flex items-center justify-between gap-2 px-5 py-2">
+            <input
+              onBlur={handleVoucherBlur}
+              className="w-full px-2 py-3 rounded-xl"
+              defaultValue={voucherName}
+              type="text"
+              placeholder="Apply Voucher"
+            />
+            {discountApplied == false && discount == 0 ? (
+              <button
+                onClick={() => {
+                  handleVoucherApplyBtn();
+                }}
+                className="btn"
+              >
+                Apply
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  handleRemoveVoucherBtn();
+                }}
+                className="btn"
+              >
+                Remove
+              </button>
+            )}
+            <div className={`${loading == true ? "" : "hidden"}`}>
+              <LoadingSpinner></LoadingSpinner>
+            </div>
+          </div>
+          {/* <div>
+          <progress class="progress w-56"></progress>
+        </div> */}
+          <div className="divider my-0 px-2"></div>
+          <div>
+            <div className=" px-5 flex justify-between">
+              <h1 className="">Sub total: </h1>
+              <h1 className="  flex justify-between gap-2 items-center w-32">
+                <span className="">BDT.</span> <span>{subTotal}.00 </span>
+              </h1>
+            </div>
+            <div className=" px-5 flex justify-between">
+              <h1 className="">
+                Discount: (
+                <span className="text-sm">
+                  {localStorage.getItem("discountVoucherName")
+                    ? localStorage.getItem("discountVoucherName")
+                    : "No Voucher"}
+                </span>
+                ){" "}
+              </h1>
+              <h1 className=" flex gap-2 justify-between items-center w-32">
+                <span className="">BDT.</span>
+                <span className="">
+                  - {discount}
+                  .00
+                </span>
+              </h1>
+            </div>
+            <div className=" px-5 flex justify-between">
+              <h1 className="">Shipping: </h1>
+              <h1 className=" flex gap-2 justify-between items-center w-32">
+                <span className="">BDT.</span>
+                <span className="">{shippingCost}.00</span>
+              </h1>
+            </div>
+            <div className="text-2xs text-left px-5 text-red-600">
+              <h6>**Inside Dhaka: BDT. 70**</h6>
+              <h6>**Outside Dhaka: BDT. 160**</h6>
+            </div>
+          </div>
+          <div className="divider my-0 px-2"></div>
+          <div>
+            <div className=" px-5 flex justify-between ">
+              <h1 className="font-semibold text-2xl">Total: </h1>
+              <h1 className=" flex justify-between gap-2 items-center ">
+                <span className="">BDT.</span>{" "}
+                <span className="text-2xl">
+                  {showTotal + shippingCost}
+                  .00{" "}
+                </span>
+              </h1>
+            </div>
+          </div>
         </div>
-        <div className="divider my-0 px-2"></div>
-        <div>
-          <div className=" px-5 flex justify-between">
-            <h1 className="">Sub total: </h1>
-            <h1 className="  flex justify-between gap-2 items-center w-32">
-              <span className="">BDT.</span> <span>{subTotal}.00 </span>
-            </h1>
-          </div>
-          <div className=" px-5 flex justify-between">
-            <h1 className="">
-              Discount: (
-              <span className="text-sm">
-                {localStorage.getItem("discountVoucherName")}
-              </span>
-              ){" "}
-            </h1>
-            <h1 className=" flex gap-2 justify-between items-center w-32">
-              <span className="">BDT.</span>
-              <span className="">
-                - {discount}
-                .00
-              </span>
-            </h1>
-          </div>
-          <div className=" px-5 flex justify-between">
-            <h1 className="">Shipping: </h1>
-            <h1 className=" flex gap-2 justify-between items-center w-32">
-              <span className="">BDT.</span>
-              <span className="">{shippingCost}.00</span>
-            </h1>
-          </div>
-          <div className="text-2xs text-left px-5 text-red-600">
-            <h6>**Inside Dhaka: BDT. 70**</h6>
-            <h6>**Outside Dhaka: BDT. 160**</h6>
-          </div>
-        </div>
-        <div className="divider my-0 px-2"></div>
-        <div>
-          <div className=" px-5 flex justify-between ">
-            <h1 className="font-semibold text-2xl">Total: </h1>
-            <h1 className=" flex justify-between gap-2 items-center ">
-              <span className="">BDT.</span>{" "}
-              <span className="text-2xl">
-                {showTotal + shippingCost}
-                .00{" "}
-              </span>
-            </h1>
-          </div>
-        </div>
-      </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

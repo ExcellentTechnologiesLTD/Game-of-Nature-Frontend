@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { CartContext } from "../../App";
 import auth from "../../firebase.init";
 import Cart from "../Cart/Cart";
 
@@ -7,6 +8,25 @@ import CheckOutInfo from "./CheckOutInfo/CheckOutInfo";
 import OrderComplete from "./OrderComplete/OrderComplete";
 
 const CheckOut = () => {
+  const [
+    userDetails,
+    setUserDetails,
+    cartItems,
+    setCartItems,
+    totalCartItemCost,
+    setTotalCartItemCost,
+    shippingCost,
+    setShippingCost,
+    voucherName,
+    setVoucherName,
+    discount,
+    setDiscount,
+    discountApplied,
+    setDiscountApplied,
+    reload,
+    setReload,
+  ] = useContext(CartContext);
+
   const userData = JSON.parse(localStorage.getItem("currentUserDetails"));
   const [userGoogle, loading, error] = useAuthState(auth);
   const [checkOutComplete, setCheckOutComplete] = useState({});
@@ -14,25 +34,25 @@ const CheckOut = () => {
 
   // ************************************************************************************************************************************************************
   // Discount
-  const [discount, setDiscount] = useState(
-    localStorage.getItem("discountVoucherAmount")
-      ? parseInt(localStorage.getItem("discountVoucherAmount"))
-      : 0
-  );
+  // const [discount, setDiscount] = useState(
+  //   localStorage.getItem("discountVoucherAmount")
+  //     ? parseInt(localStorage.getItem("discountVoucherAmount"))
+  //     : 0
+  // );
   // Voucher Name
-  const [voucher, setVoucher] = useState(
-    localStorage.getItem("discountVoucherName")
-  );
+  // const [voucher, setVoucher] = useState(
+  //   localStorage.getItem("discountVoucherName")
+  // );
   // shipping
-  const [shippingCost, setShippingCost] = useState(0);
+  // const [shippingCost, setShippingCost] = useState(0);
   // cart Items
-  const [cartItems, setCartItems] = useState(
-    JSON.parse(localStorage.getItem("myCartItems"))
-  );
+  // const [cartItems, setCartItems] = useState(
+  //   JSON.parse(localStorage.getItem("myCartItems"))
+  // );
   // Total cart item cost
-  const [totalCartItemCost, setTotalCartItemCost] = useState(
-    parseInt(localStorage.getItem("totalCartItemCost"))
-  );
+  // const [totalCartItemCost, setTotalCartItemCost] = useState(
+  //   parseInt(localStorage.getItem("totalCartItemCost"))
+  // );
   // ************************************************************************************************************************************************************
 
   //   check existence
@@ -82,7 +102,7 @@ const CheckOut = () => {
 
             {/* <span>Total: BDT. {localStorage.getItem("totalCartItemCost")}</span> */}
             <span>
-              Total: BDT. {totalCartItemCost + shippingCost}
+              Total: BDT. {totalCartItemCost - discount + shippingCost}
               {/* {parseInt(localStorage.getItem("totalCartItemCost")) +
                 shippingCost} */}
             </span>
@@ -113,44 +133,44 @@ const CheckOut = () => {
                 </label>
               </div>
               <Cart
-                voucher={voucher}
-                setVoucher={setVoucher}
-                discount={discount}
-                setDiscount={setDiscount}
-                shippingCost={shippingCost}
-                totalCartItemCost={totalCartItemCost}
-                setTotalCartItemCost={setTotalCartItemCost}
-                cartItems={cartItems}
-                setCartItems={setCartItems}
+              // voucher={voucher}
+              // setVoucher={setVoucher}
+              // discount={discount}
+              // setDiscount={setDiscount}
+              // shippingCost={shippingCost}
+              // totalCartItemCost={totalCartItemCost}
+              // setTotalCartItemCost={setTotalCartItemCost}
+              // cartItems={cartItems}
+              // setCartItems={setCartItems}
               ></Cart>
             </div>
           </div>
           <div className="hidden-items  bg-slate-200">
             <Cart
-              voucher={voucher}
-              setVoucher={setVoucher}
-              discount={discount}
-              setDiscount={setDiscount}
-              shippingCost={shippingCost}
-              totalCartItemCost={totalCartItemCost}
-              setTotalCartItemCost={setTotalCartItemCost}
-              cartItems={cartItems}
-              setCartItems={setCartItems}
+            // voucher={voucher}
+            // setVoucher={setVoucher}
+            // discount={discount}
+            // setDiscount={setDiscount}
+            // shippingCost={shippingCost}
+            // totalCartItemCost={totalCartItemCost}
+            // setTotalCartItemCost={setTotalCartItemCost}
+            // cartItems={cartItems}
+            // setCartItems={setCartItems}
             ></Cart>
           </div>
           <div className="w-full ">
             <CheckOutInfo
               userInfo={userInfo}
               setCheckOutComplete={setCheckOutComplete}
-              setShippingCost={setShippingCost}
-              voucher={voucher}
-              setVoucher={setVoucher}
-              discount={discount}
-              setDiscount={setDiscount}
-              totalCartItemCost={totalCartItemCost}
-              setTotalCartItemCost={setTotalCartItemCost}
-              cartItems={cartItems}
-              setCartItems={setCartItems}
+              // setShippingCost={setShippingCost}
+              // voucher={voucher}
+              // setVoucher={setVoucher}
+              // discount={discount}
+              // setDiscount={setDiscount}
+              // totalCartItemCost={totalCartItemCost}
+              // setTotalCartItemCost={setTotalCartItemCost}
+              // cartItems={cartItems}
+              // setCartItems={setCartItems}
             ></CheckOutInfo>
           </div>
         </div>

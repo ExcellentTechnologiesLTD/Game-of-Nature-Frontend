@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../../firebase.init";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 import OrderDetailsDisplayModal from "../../OrderDetailsDisplayModal/OrderDetailsDisplayModal";
 import OrderitemDisplay from "../../OrderItemDisplay/OrderitemDisplay";
 
@@ -19,9 +20,21 @@ const OrderTable = (props) => {
   }
 
   const userGoogle = useAuthState(auth);
+  const [loading, setLoading] = useState(false);
+  const [orderID, setOrderID] = useState();
 
+  const handleBtnToDeliveryGuy = (orderID) => {
+    setLoading(true);
+    setOrderID(orderID);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  };
   const handleProceedToDelivery = (orderID) => {
     // Update order status
+    setLoading(true);
+    setOrderID(orderID);
     fetch("https://game-of-nature-backend.vercel.app/update-order", {
       method: "PUT",
       headers: {
@@ -37,9 +50,11 @@ const OrderTable = (props) => {
         if (data.status == 200 && data.success) {
           // alert("Status updated");
           window.location.reload(true);
+          setOrderID(orderID);
         } else {
           alert(data.msg);
         }
+        setLoading(false);
       });
 
     // Send Order shipping details to Delivery company
@@ -59,7 +74,7 @@ const OrderTable = (props) => {
             <th>Total Amount (BDT.)</th>
             <th>Payment Method</th>
             <th>Status</th>
-            <th>Action Buttons</th>
+            <th className="w-96">Action Buttons</th>
             {/* <th></th> */}
           </tr>
         </thead>
@@ -95,7 +110,7 @@ const OrderTable = (props) => {
                 {/* status */}
                 {order?.order_status}
               </th>
-              <th className="grid">
+              <th className="grid grid-cols-1 w-60">
                 {userType != "Admin" ? (
                   <div>
                     <label
@@ -106,7 +121,7 @@ const OrderTable = (props) => {
                     </label>
                   </div>
                 ) : (
-                  <div className="grid">
+                  <div className="grid grid-cols-1">
                     <label
                       htmlFor={order?.order_id}
                       className="font-normal hover:text-blue-700 hover:underline"
@@ -118,18 +133,28 @@ const OrderTable = (props) => {
                         onClick={() => {
                           handleProceedToDelivery(order?.order_id);
                         }}
-                        className="normal-case btn bg-green-500 text-white border-0 mt-2 hover:bg-green-600"
+                        className=" gap-3 normal-case btn bg-green-500 text-white border-0 mt-2 hover:bg-green-600"
                       >
                         Proceed to delivery
+                        {loading && order.order_id == orderID ? (
+                          <LoadingSpinner></LoadingSpinner>
+                        ) : (
+                          <></>
+                        )}
                       </button>
                     ) : (
                       <button
-                        // onClick={() => {
-                        //   // handleBtnToDeliveryGuy(order?.order_id);
-                        // }}
-                        className=" normal-case btn bg-green-500 text-white border-0 mt-2 hover:bg-green-600"
+                        onClick={() => {
+                          handleBtnToDeliveryGuy(order?.order_id);
+                        }}
+                        className=" gap-3 normal-case btn bg-green-500 text-white border-0 mt-2 hover:bg-green-600"
                       >
                         Handover to delivery guy
+                        {loading && order.order_id == orderID ? (
+                          <LoadingSpinner></LoadingSpinner>
+                        ) : (
+                          <></>
+                        )}
                       </button>
                     )}
                   </div>
