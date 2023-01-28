@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { CartContext } from "../../../App";
 import OrderTable from "../../OrderHistory/OrderTable/OrderTable";
 
 const ManageOrders = () => {
   const [orders, setOrders] = useState([]);
+  const [userDetails] = useContext(CartContext);
   // setOrders(orders.filter((order) => order.order_status == "processing"));
 
   const [loading, setLoading] = useState(false);
 
-  const userType = JSON.parse(localStorage.getItem("currentUserDetails"))
-    .currentUserInfo.User_Type;
+  const userType = userDetails?.User_Type;
+  //   .currentUserInfo.User_Type;
 
   useEffect(() => {
     fetch(`https://game-of-nature-backend.vercel.app/getallorders`)
@@ -24,8 +26,10 @@ const ManageOrders = () => {
   return (
     <div className="h-screen bg-base-100">
       <div className=" overflow-x-auto w-full">
-        <OrderTable userType={userType} orders={orders}></OrderTable>
-      </div>
+        <OrderTable userType={userType} orders={orders}>
+          {" "}
+        </OrderTable>{" "}
+      </div>{" "}
     </div>
   );
 };

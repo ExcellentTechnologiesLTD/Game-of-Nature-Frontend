@@ -27,8 +27,6 @@ const CheckOut = () => {
     setReload,
   ] = useContext(CartContext);
 
-  const userData = JSON.parse(localStorage.getItem("currentUserDetails"));
-  const [userGoogle, loading, error] = useAuthState(auth);
   const [checkOutComplete, setCheckOutComplete] = useState({});
 
   return (

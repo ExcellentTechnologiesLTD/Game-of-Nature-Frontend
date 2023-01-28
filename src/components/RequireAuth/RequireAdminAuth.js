@@ -1,20 +1,16 @@
-import React from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
+import React, { useContext } from "react";
 import { Navigate, useLocation } from "react-router";
-import auth from "../../firebase.init";
+import { CartContext } from "../../App";
 
 const RequireAdminAuth = ({ children }) => {
-  const userData = JSON.parse(
-    localStorage.getItem("currentUserDetails")
-  )?.currentUserInfo;
-  const [userGoogle] = useAuthState(auth);
+  const [userDetails] = useContext(CartContext);
+  const userData = userDetails;
   const location = useLocation();
   if (userData?.User_Type != "Admin") {
     return (
       <Navigate to="/signin" state={{ from: location }} replace></Navigate>
     );
   }
-  // console.log("children: ", children);
   return children;
 };
 

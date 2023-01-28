@@ -17,21 +17,7 @@ import "../../js/commonJs";
 import Cart from "../Cart/Cart";
 import { CartContext } from "../../App";
 
-const Navbar = (
-  {
-    // reload,
-    // setReload,
-    // cartItems,
-    // totalCartItemCost,
-    // setTotalCartItemCost,
-    // discount,
-    // setDiscount,
-    // discountApplied,
-    // setDiscountApplied,
-    // shippingCost,
-    // setShippingCost,
-  }
-) => {
+const Navbar = () => {
   const [
     userDetails,
     setUserDetails,
@@ -50,25 +36,18 @@ const Navbar = (
     reload,
     setReload,
   ] = useContext(CartContext);
-  // console.log(cartItems);
 
   const [userGoogle] = useAuthState(auth);
   const [signOut, loading, error] = useSignOut(auth);
-
-  // useEffect(() => {
-  //   setMyCartItems(cartItems);
-  //   setTotalCartItemCost(totalCartItemCost);
-  // }, [cartItems, totalCartItemCost]);
 
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || `/signin`;
 
-  const userData = JSON.parse(
-    localStorage.getItem("currentUserDetails")
-  )?.currentUserInfo;
+  const userData = userDetails;
 
   const handleLogOutBtn = () => {
+    setUserDetails(null);
     localStorage.removeItem("currentUserDetails");
     window.location.reload(true);
   };
@@ -77,6 +56,13 @@ const Navbar = (
     const success = await signOut();
     if (success) {
       navigate(from, { replace: true });
+    }
+  };
+
+  const handleCheckOutBtn = () => {
+    console.log("Hocche ki?");
+    if (cartItems) {
+      navigate("dashboard/checkout", { replace: true });
     }
   };
 
@@ -466,17 +452,17 @@ const Navbar = (
             {userData?.User_Type == "Customer" ||
             userData?.User_Type == null ||
             userGoogle != null ? (
-              <div
-                onClick={(event) => {
-                  navigate(from, { replace: true });
+              <button
+                onClick={() => {
+                  navigate("dashboard/checkout", { replace: true });
                 }}
-                className={`dropdown dropdown-hover dropdown-end  mx-2 hover:underline ${
+                className={`dropdown lg:dropdown-hover dropdown-end mx-2 hover:underline ${
                   userData?.User_Type == "Admin" ? "hidden" : ""
                 }`}
               >
                 <label className="flex items-center hover:no-underline hover:scale-105 hover:ease-in-out hover:duration-300">
                   <a
-                    href={cartItems ? `/dashboard/checkout` : ""}
+                    // href={cartItems ? `dashboard/checkout` : ""}
                     tabIndex="0"
                     className={`ml-1 indicator flex items-center hover:no-underline`}
                   >
@@ -495,7 +481,7 @@ const Navbar = (
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
-                      className="w-7 h-7 mr-2 hover:no-underline"
+                      className="w-7 h-7 mr-2 hover:no-underline -z-50"
                     >
                       <path
                         strokeLinecap="round"
@@ -516,16 +502,19 @@ const Navbar = (
                   <Cart></Cart>
                   <div className="divider my-0"></div>
 
-                  <a
-                    href="dashboard/checkout"
+                  <button
+                    onClick={() => {
+                      handleCheckOutBtn();
+                    }}
+                    // href="dashboard/checkout"
                     className={`${
                       cartItems == null ? "hidden" : ""
                     } btn w-full bg-green-500 hover:bg-green-600`}
                   >
                     Checkout
-                  </a>
+                  </button>
                 </div>
-              </div>
+              </button>
             ) : (
               <></>
             )}

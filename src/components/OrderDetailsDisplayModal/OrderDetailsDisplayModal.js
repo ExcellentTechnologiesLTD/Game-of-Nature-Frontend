@@ -1,35 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import OrderitemDisplay from "../OrderItemDisplay/OrderitemDisplay";
 
 const OrderDetailsDisplayModal = (props) => {
   const { order } = props;
-  const [userData, setUserData] = useState({});
-
-  // console.log("Order from modal: \n", order);
-  // console.log("userID from modal: \n", order.user_id);
-
-  useEffect(() => {
-    if (
-      window.location.pathname.endsWith("/manage-orders") ||
-      window.location.pathname.endsWith("/manage-deliveries")
-    ) {
-      fetch(
-        `https://game-of-nature-backend.vercel.app/getuser-infobyid/${order?.user_id}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          // console.log("data from modal: ", data);
-          setUserData(data);
-        });
-    } else {
-      setUserData(JSON.parse(localStorage.getItem("currentUserDetails")));
-    }
-  }, [order]);
   const handleOrderDelete = (orderID) => {
     console.log("Order Id: ", orderID);
     const xx = window.confirm("Are you sure you want to delete the order?");
-    // let xx = prompt("Are you sure you want to delete the order?");
-    console.log("xx: ", xx);
     if (xx) {
       fetch(
         `https://game-of-nature-backend.vercel.app/delete-order/${orderID}`,
@@ -86,28 +62,28 @@ const OrderDetailsDisplayModal = (props) => {
         <div className="font-normal text-base text-left mt-5">
           <p className="">
             <span className=" font-semibold">User ID: </span>
-            <span className="font-sans">{userData?.user_id}</span>
+            <span className="font-sans">{order?.user_id}</span>
           </p>
           <p>
             <span className="font-semibold">Name: </span>
-            {userData?.First_Name + " " + userData?.Last_Name}
+            {order?.full_name}
           </p>
           <p>
             <span className="font-semibold">Address: </span>
-            {userData?.Address}
+            {order?.address}
           </p>
           <div className="flex justify-between">
             <p>
-              <span className="font-semibold">City:</span> {userData?.city}
+              <span className="font-semibold">City:</span> {order?.city}
             </p>
             <p>
               <span className="font-semibold ">Postal code: </span>
-              {userData?.postal_code}
+              {order?.postal_code}
             </p>
           </div>
           <p>
             <span className="font-semibold">Contact number: </span>
-            {userData?.Mobile}
+            {order?.phone}
           </p>
           <p>
             <span className="font-semibold">Payment method: </span>
@@ -127,7 +103,7 @@ const OrderDetailsDisplayModal = (props) => {
           </p>
           <p>
             <span className="font-semibold">Shipping charge BDT. </span>
-            {userData?.city == "Dhaka" || userData?.city == "dhaka" ? 70 : 160}
+            {order?.city == "Dhaka" || order?.city == "dhaka" ? 70 : 160}
           </p>
           {/* <p className="border-2">
             <span className="font-semibold">Voucher: </span>

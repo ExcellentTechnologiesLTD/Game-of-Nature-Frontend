@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { CartContext } from "../../../App";
 import OrderTable from "../../OrderHistory/OrderTable/OrderTable";
 
 const ManageDeliveries = () => {
+  const [userdetails] = useContext(CartContext);
+
   const [orders, setOrders] = useState([]);
   //   let ordersToDeliver = orders.filter(
   //     (order) => order.order_status != "processing"
   //   );
 
-  const userType = JSON.parse(localStorage.getItem("currentUserDetails"))
-    .currentUserInfo.User_Type;
+  const userType = userdetails?.User_Type;
 
   useEffect(() => {
     fetch(`https://game-of-nature-backend.vercel.app/getallorders`)

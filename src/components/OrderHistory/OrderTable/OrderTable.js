@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { CartContext } from "../../../App";
 import auth from "../../../firebase.init";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 import OrderDetailsDisplayModal from "../../OrderDetailsDisplayModal/OrderDetailsDisplayModal";
 import OrderitemDisplay from "../../OrderItemDisplay/OrderitemDisplay";
 
 const OrderTable = (props) => {
+  const [userDetails] = useContext(CartContext);
   let orders;
-  let userType = null;
-  // console.log("props: \n", props);
+  let userType = userDetails?.User_Type;
+
   if (
     window.location.pathname.endsWith("/manage-orders") ||
     window.location.pathname.endsWith("/manage-deliveries")
   ) {
     orders = props.orders;
-    userType = props.userType;
   } else {
     orders = props.myOrders;
   }
 
-  const userGoogle = useAuthState(auth);
   const [loading, setLoading] = useState(false);
   const [orderID, setOrderID] = useState();
 
@@ -74,7 +74,7 @@ const OrderTable = (props) => {
             <th>Total Amount (BDT.)</th>
             <th>Payment Method</th>
             <th>Status</th>
-            <th className="w-96">Action Buttons</th>
+            <th className="w-96"></th>
             {/* <th></th> */}
           </tr>
         </thead>
@@ -110,7 +110,7 @@ const OrderTable = (props) => {
                 {/* status */}
                 {order?.order_status}
               </th>
-              <th className="grid grid-cols-1 w-60">
+              <th className="grid grid-cols-1 w-60 lg:w-full">
                 {userType != "Admin" ? (
                   <div>
                     <label

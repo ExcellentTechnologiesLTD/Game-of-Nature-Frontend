@@ -1,45 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { CartContext } from "../../App";
 import auth from "../../firebase.init";
 import OrderTable from "./OrderTable/OrderTable";
 
 const OrderHistory = () => {
-  const [userGoogle] = useAuthState(auth);
-  const userID = localStorage.getItem("userID");
-
+  const [userDetails] = useContext(CartContext);
+  const userID = userDetails.user_id;
+  console.log("UserID : ", userID);
   const [myOrders, setMyOrders] = useState([]);
 
-  // console.log(userID);
   useEffect(() => {
-    // fetch(`https://game-of-nature-backend.vercel.app/getmyorders/${userID}`)
-    fetch(`http://localhost:3300/getmyorders/${userID}`)
+    fetch(`https://game-of-nature-backend.vercel.app/getmyorders/${userID}`)
       .then((res) => res.json())
       .then((data) => setMyOrders(data));
   }, []);
 
-  useEffect(() => {
-    // fetch("https://game-of-nature-backend.vercel.app/check-existence", {
-    fetch("http://localhost:3300/check-existence", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ email: userGoogle?.email }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log("my data: \n\n", data, "\n");
-        if (data.success) {
-          // console.log("UserData: \n", data.info);
-          localStorage.setItem("currentUserDetails", JSON.stringify(data.info));
-          // localStorage.setItem("userID", data.user_id);
-          // setUserInfo(data.info);
-        } else {
-        }
-      });
-  }, [userGoogle]);
   return (
     <div className="h-screen bg-base-100">
+      <div className=" h-28 flex justify-center items-center text-white font-serif font-semibold text-3xl bg-gradient-to-b from-green-700 to-green-600">
+        My Order History
+      </div>
       <div className=" overflow-x-auto w-full">
         <OrderTable myOrders={myOrders}></OrderTable>
         {/* {myOrders.length == 0 ? <h1>No orders.</h1> : <></>} */}

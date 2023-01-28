@@ -8,24 +8,7 @@ import { CartContext } from "../../App";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const Signin = () => {
-  const [
-    userDetails,
-    setUserDetails,
-    cartItems,
-    setCartItems,
-    totalCartItemCost,
-    setTotalCartItemCost,
-    shippingCost,
-    setShippingCost,
-    voucherName,
-    setVoucherName,
-    discount,
-    setDiscount,
-    discountApplied,
-    setDiscountApplied,
-    reload,
-    setReload,
-  ] = useContext(CartContext);
+  const [userDetails, setUserDetails] = useContext(CartContext);
 
   const [signInWithGoogle, user, loading, googleSignInError] =
     useSignInWithGoogle(auth);
@@ -48,9 +31,6 @@ const Signin = () => {
     );
   }
   if (user || userGoogle) {
-    // console.log("Authstate: ", user?.user, userGoogle);
-    // checkExistence
-
     fetch("https://game-of-nature-backend.vercel.app/check-existence", {
       method: "POST",
       headers: {
@@ -60,21 +40,15 @@ const Signin = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.lsog("my data: \n\n", data, "\n");
         if (data.success && data.status == 200 && data.user_id) {
-          // localStorage.setItem("userID", data.user_id);
-          setUserDetails(data.info);
+          setUserDetails(data?.info);
           localStorage.setItem("currentUserDetails", JSON.stringify(data.info));
           navigate(from, { replace: true });
-          // setUserInfo(data.info);
         } else {
           // Ask user info
           navigate("/signup", { replace: true });
         }
       });
-    // setTimeout(() => {
-    //   navigate(from, { replace: true });
-    // }, 3000);
   }
 
   const handleEmailBlur = (event) => {
@@ -91,19 +65,6 @@ const Signin = () => {
   const handleLoginBtn = async (event) => {
     event.preventDefault();
     console.log(email, " >>> ", password);
-    // for admin hard code
-    // if (email == "Admin@gon.com" && password == "123456") {
-    //   localStorage.setItem(
-    //     "currentUserDetails",
-    //     JSON.stringify({
-    //       userType: "Admin",
-    //       email: "Admin@gon.com",
-    //       password: "123456",
-    //     })
-    //   );
-    //   navigate("/admin-dashboard", { replace: true });
-    // console.log(from);
-
     // For Actual Login
     const requestOptions = {
       method: "POST",
@@ -118,14 +79,10 @@ const Signin = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status == "Success") {
-          console.log("Okay, ", data.user_id);
-
-          console.log(data);
+          setUserDetails(data.currentUserInfo);
           localStorage.setItem(
             "currentUserDetails",
-            JSON.stringify({
-              currentUserInfo: data.currentUserInfo,
-            })
+            JSON.stringify(data.currentUserInfo)
           );
 
           navigate(from, { replace: true });
@@ -135,16 +92,6 @@ const Signin = () => {
         }
       });
   };
-
-  // const handleSignInWithGoogle = (event) => {
-  //   event.preventDefault();
-  //   if (user) {
-  //     console.log("Authstate: ", user);
-  //   } else {
-  //     console.log("Google Sign in Error");
-  //   }
-  // };
-
   return (
     <div className=" grid grid-cols-1 items-center my-20">
       <div className=" lg:mx-auto md:mx-40 sm:mx-20 sm:p-10 md:p-14 mx-5 p-5 border-2 rounded-3xl lg:max-w-fit grid grid-cols-1 shadow-2xl">

@@ -1,30 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Navigate, useLocation } from "react-router";
+import { CartContext } from "../../App";
 import auth from "../../firebase.init";
 
 const RequireCustomerAuth = ({ children }) => {
-  const userData = JSON.parse(
-    localStorage.getItem("currentUserDetails")
-  )?.currentUserInfo;
-  const [userGoogle, loading, error] = useAuthState(auth);
-  // console.log("from require cust auth: ", userData);
-  // console.log("from require google auth: ", userGoogle);
+  const [userDetails] = useContext(CartContext);
+  const userData = userDetails;
   const location = useLocation();
-  if (loading) {
-    return <div>loading.....</div>;
-  }
-  if (error) {
-    return (
-      <div>
-        <p className="text-red-400">{error}</p>
-      </div>
-    );
-  }
 
-  if (userData != null) {
-    return children;
-  } else if (userGoogle != null) {
+  if (userData.User_Type === "Customer") {
     return children;
   } else {
     return (
