@@ -11,13 +11,15 @@ const OrderHistory = () => {
 
   // console.log(userID);
   useEffect(() => {
-    fetch(`https://game-of-nature-backend.vercel.app/getmyorders/${userID}`)
+    // fetch(`https://game-of-nature-backend.vercel.app/getmyorders/${userID}`)
+    fetch(`http://localhost:3300/getmyorders/${userID}`)
       .then((res) => res.json())
       .then((data) => setMyOrders(data));
   }, []);
 
   useEffect(() => {
-    fetch("https://game-of-nature-backend.vercel.app/check-existence", {
+    // fetch("https://game-of-nature-backend.vercel.app/check-existence", {
+    fetch("http://localhost:3300/check-existence", {
       method: "POST",
       headers: {
         "content-type": "application/json",

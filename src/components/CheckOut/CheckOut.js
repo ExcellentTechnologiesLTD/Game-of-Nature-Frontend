@@ -30,49 +30,6 @@ const CheckOut = () => {
   const userData = JSON.parse(localStorage.getItem("currentUserDetails"));
   const [userGoogle, loading, error] = useAuthState(auth);
   const [checkOutComplete, setCheckOutComplete] = useState({});
-  // const [userInfo, setUserInfo] = useState({});
-
-  // ************************************************************************************************************************************************************
-  // Discount
-  // const [discount, setDiscount] = useState(
-  //   localStorage.getItem("discountVoucherAmount")
-  //     ? parseInt(localStorage.getItem("discountVoucherAmount"))
-  //     : 0
-  // );
-  // Voucher Name
-  // const [voucher, setVoucher] = useState(
-  //   localStorage.getItem("discountVoucherName")
-  // );
-  // shipping
-  // const [shippingCost, setShippingCost] = useState(0);
-  // cart Items
-  // const [cartItems, setCartItems] = useState(
-  //   JSON.parse(localStorage.getItem("myCartItems"))
-  // );
-  // Total cart item cost
-  // const [totalCartItemCost, setTotalCartItemCost] = useState(
-  //   parseInt(localStorage.getItem("totalCartItemCost"))
-  // );
-  // ************************************************************************************************************************************************************
-
-  //   check existence
-  // useEffect(() => {
-  //   fetch("https://game-of-nature-backend.vercel.app/check-existence", {
-  //     method: "POST",
-  //     headers: {
-  //       "content-type": "application/json",
-  //     },
-  //     body: JSON.stringify({ email: userGoogle.email }),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (data.success) {
-  //         localStorage.setItem("userID", data.user_id);
-  //         setUserInfo(data.info);
-  //       } else {
-  //       }
-  //     });
-  // }, []);
 
   return (
     <div>
@@ -99,12 +56,8 @@ const CheckOut = () => {
                 d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5"
               />
             </svg>
-
-            {/* <span>Total: BDT. {localStorage.getItem("totalCartItemCost")}</span> */}
             <span>
               Total: BDT. {totalCartItemCost - discount + shippingCost}
-              {/* {parseInt(localStorage.getItem("totalCartItemCost")) +
-                shippingCost} */}
             </span>
           </label>
           {/* Modal */}

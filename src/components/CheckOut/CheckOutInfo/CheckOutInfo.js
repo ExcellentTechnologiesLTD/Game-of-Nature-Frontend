@@ -4,7 +4,6 @@ import { CartContext } from "../../../App";
 import BkashLogo from "../../../Assets/icons/bKash-logo-vector.png";
 import PaymentCards from "../../../Assets/icons/payment-cards.png";
 import auth from "../../../firebase.init";
-import OrderComplete from "../OrderComplete/OrderComplete";
 
 const CheckOutInfo = ({ setCheckOutComplete }) => {
   const [
@@ -149,10 +148,8 @@ const CheckOutInfo = ({ setCheckOutComplete }) => {
 
     if (city == "Dhaka" || (city == "dhaka" && city != null)) {
       total = totalCartItemCost - discount + 70;
-      // setShippingCost(70);
     } else {
       total = totalCartItemCost - discount + 160;
-      // setShippingCost(160);
     }
     let agree = window.confirm(
       "By clicking OK you agree to Game of Nature's Terms & Condition and Refund Policy."
@@ -172,14 +169,11 @@ const CheckOutInfo = ({ setCheckOutComplete }) => {
               user_id: userDetails?.user_id,
               email: email,
               paymentMethod: paymentMethod,
-              // orderedItems: localStorage.getItem("myCartItems"),
               orderedItems: JSON.stringify(cartItems),
               totalAmount: total,
               discountAmount: discount,
               voucherName: voucherName,
               full_name: firstName + " " + lastName,
-              // firstName: userDetails?.First_Name,
-              // lastName: userDetails?.Last_Name,
               address: userDetails?.Address,
               city: userDetails?.city,
               postal_code: userDetails?.postal_code,
@@ -194,14 +188,11 @@ const CheckOutInfo = ({ setCheckOutComplete }) => {
               user_id: userDetails?.user_id,
               email: email,
               paymentMethod: paymentMethod,
-              // orderedItems: localStorage.getItem("myCartItems"),
               orderedItems: JSON.stringify(cartItems),
               totalAmount: total,
               discountAmount: discount,
               voucherName: voucherName,
               full_name: firstName + " " + lastName,
-              // firstName: firstName,
-              // lastName: lastName,
               address: address,
               city: city,
               postal_code: postalCode,
@@ -210,38 +201,6 @@ const CheckOutInfo = ({ setCheckOutComplete }) => {
               time: time,
             };
           }
-
-          // } else {
-          //   // orderInfo = {
-          //   //   email: email,
-          //   //   user_id: userDetails?.user_id,
-          //   //   orderedItems: JSON.stringify(cartItems),
-          //   //   totalAmount: total,
-          //   //   discountAmount: discount,
-          //   //   voucherName: voucherName,
-          //   //   paymentMethod: paymentMethod,
-          //   //   date: date,
-          //   //   time: time,
-          //   // };
-          //   orderInfo = {
-          //     user_id: userDetails?.user_id,
-          //     email: email,
-          //     paymentMethod: paymentMethod,
-          //     // orderedItems: localStorage.getItem("myCartItems"),
-          //     orderedItems: JSON.stringify(cartItems),
-          //     totalAmount: total,
-          //     discountAmount: discount,
-          //     voucherName: voucherName,
-          //     firstName: firstName,
-          //     lastName: lastName,
-          //     address: address,
-          //     city: city,
-          //     postal_code: postalCode,
-          //     phoneNumber: phone,
-          //     date: date,
-          //     time: time,
-          //   };
-          // }
 
           const requestOptions = {
             method: "POST",
@@ -299,22 +258,11 @@ const CheckOutInfo = ({ setCheckOutComplete }) => {
         className=" lg:px-10 xs:px-3 mb-16"
       >
         {/* Contact Information */}
-
         <div className="form-control w-full">
           <label className="label px-0">
             <span className="label-text font-semibold">
               Current User Contact Information
             </span>
-            {/* {!userGoogle ? (
-              <span className="label-text-alt">
-                Already have an account?{" "}
-                <span>
-                  <a href="">Log in</a>
-                </span>
-              </span>
-            ) : (
-              <></>
-            )} */}
           </label>
           <div className="flex justify-between">
             <input
