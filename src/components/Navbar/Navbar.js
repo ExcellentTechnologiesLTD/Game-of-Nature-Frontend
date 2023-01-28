@@ -474,18 +474,18 @@ const Navbar = (
                   userData?.User_Type == "Admin" ? "hidden" : ""
                 }`}
               >
-                <div className="flex items-center">
+                <label className="flex items-center hover:no-underline hover:scale-105 hover:ease-in-out hover:duration-300">
                   <a
                     href={cartItems ? `/dashboard/checkout` : ""}
                     tabIndex="0"
-                    className={`ml-1 indicator`}
+                    className={`ml-1 indicator flex items-center hover:no-underline`}
                   >
                     <span
                       className={`${
                         cartItems?.length == undefined || cartItems?.length == 0
                           ? "hidden"
                           : "indicator-item text-white font-regular text-lg -top-1 -left-1.5 badge bg-green-600 border-0 pt-2 pb-3 h-6"
-                      }`}
+                      } hover:no-underline`}
                     >
                       {cartItems?.length}
                     </span>
@@ -495,7 +495,7 @@ const Navbar = (
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
-                      className="w-7 h-7 mr-2"
+                      className="w-7 h-7 mr-2 hover:no-underline"
                     >
                       <path
                         strokeLinecap="round"
@@ -503,9 +503,11 @@ const Navbar = (
                         d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
                       />
                     </svg>
+                    <span className="hidden_items hover:no-underline ">
+                      Shopping Bag
+                    </span>
                   </a>
-                  <span className="hidden_items">Shopping Bag</span>
-                </div>
+                </label>
 
                 <div
                   tabIndex="0"

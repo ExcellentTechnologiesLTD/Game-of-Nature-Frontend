@@ -1,11 +1,32 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import googleIcon from "../../Assets/icons/google-color-icon.svg";
 import facebookIcon from "../../Assets/icons/facebook-icon.svg";
 import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
+import { CartContext } from "../../App";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
-const Signin = (props, setCurrentUser) => {
+const Signin = () => {
+  const [
+    userDetails,
+    setUserDetails,
+    cartItems,
+    setCartItems,
+    totalCartItemCost,
+    setTotalCartItemCost,
+    shippingCost,
+    setShippingCost,
+    voucherName,
+    setVoucherName,
+    discount,
+    setDiscount,
+    discountApplied,
+    setDiscountApplied,
+    reload,
+    setReload,
+  ] = useContext(CartContext);
+
   const [signInWithGoogle, user, loading, googleSignInError] =
     useSignInWithGoogle(auth);
 
@@ -14,13 +35,20 @@ const Signin = (props, setCurrentUser) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  // console.log(props.setCurrentUser);
+
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state?.from?.pathname || "/";
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <LoadingSpinner></LoadingSpinner>
+      </div>
+    );
+  }
   if (user || userGoogle) {
-    console.log("Authstate: ", user?.user, userGoogle);
+    // console.log("Authstate: ", user?.user, userGoogle);
     // checkExistence
 
     fetch("https://game-of-nature-backend.vercel.app/check-existence", {
@@ -33,15 +61,20 @@ const Signin = (props, setCurrentUser) => {
       .then((res) => res.json())
       .then((data) => {
         // console.lsog("my data: \n\n", data, "\n");
-        if (data.success) {
-          localStorage.setItem("userID", data.user_id);
+        if (data.success && data.status == 200 && data.user_id) {
+          // localStorage.setItem("userID", data.user_id);
+          setUserDetails(data.info);
+          localStorage.setItem("currentUserDetails", JSON.stringify(data.info));
+          navigate(from, { replace: true });
           // setUserInfo(data.info);
         } else {
+          // Ask user info
+          navigate("/signup", { replace: true });
         }
       });
-    setTimeout(() => {
-      navigate(from, { replace: true });
-    }, 3000);
+    // setTimeout(() => {
+    //   navigate(from, { replace: true });
+    // }, 3000);
   }
 
   const handleEmailBlur = (event) => {
@@ -49,6 +82,10 @@ const Signin = (props, setCurrentUser) => {
   };
   const handlePasswordBlur = (event) => {
     setPassword(event.target.value);
+  };
+
+  const handleGoogleSignIn = () => {
+    signInWithGoogle();
   };
 
   const handleLoginBtn = async (event) => {
@@ -162,7 +199,8 @@ const Signin = (props, setCurrentUser) => {
           <div className="lg:flex md:flex sm:grid sm:justify-center xs:grid xs:justify-center lg:justify-center md:justify-center lg:gap-2 md:gap-2">
             <button
               onClick={() => {
-                console.log(signInWithGoogle());
+                handleGoogleSignIn();
+                // console.log();
               }}
               className="bg-gray-200 shadow-2xl border-2 hover:border-gray-300 py-2 w-64 flex justify-center lg:mb-0 md:mb-0 mb-5 rounded-2xl"
             >

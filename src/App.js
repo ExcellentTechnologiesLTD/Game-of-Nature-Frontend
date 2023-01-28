@@ -39,7 +39,7 @@ function App() {
 
   //Global Shareable data
   const [userDetails, setUserDetails] = useState(
-    localStorage.getItem("currentUserDetails")
+    JSON.parse(localStorage.getItem("currentUserDetails"))
   );
   const [cartItems, setCartItems] = useState(
     JSON.parse(localStorage.getItem("myCartItems"))
@@ -88,20 +88,7 @@ function App() {
       ]}
     >
       <div className="App ">
-        <Navbar
-        // reload={reload}
-        // setReload={setReload}
-        // discount={discount}
-        // setDiscount={setDiscount}
-        // discountApplied={discountApplied}
-        // setDiscountApplied={setDiscountApplied}
-        // shippingCost={shippingCost}
-        // setShippingCost={setShippingCost}
-        // cartItems={cartItems}
-        // setCartItems={setCartItems}
-        // totalCartItemCost={totalCartItemCost}
-        // setTotalCartItemCost={setTotalCartItemCost}
-        ></Navbar>
+        <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="signin" element={<Signin></Signin>}></Route>
@@ -113,17 +100,7 @@ function App() {
           <Route path="spa&massage" element={<SpaMassage></SpaMassage>}></Route>
           <Route
             path="/item-details/:id"
-            element={
-              <ItemDetails
-              // cartArray={cartArray}
-              // setCartItems={setCartItems}
-              // cartItems={cartItems}
-              // totalCartItemCost={totalCartItemCost}
-              // setTotalCartItemCost={setTotalCartItemCost}
-              // reload={reload}
-              // setReload={setReload}
-              ></ItemDetails>
-            }
+            element={<ItemDetails></ItemDetails>}
           ></Route>
           <Route
             path="perfumes&attar"

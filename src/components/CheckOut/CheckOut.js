@@ -30,7 +30,7 @@ const CheckOut = () => {
   const userData = JSON.parse(localStorage.getItem("currentUserDetails"));
   const [userGoogle, loading, error] = useAuthState(auth);
   const [checkOutComplete, setCheckOutComplete] = useState({});
-  const [userInfo, setUserInfo] = useState({});
+  // const [userInfo, setUserInfo] = useState({});
 
   // ************************************************************************************************************************************************************
   // Discount
@@ -56,23 +56,23 @@ const CheckOut = () => {
   // ************************************************************************************************************************************************************
 
   //   check existence
-  useEffect(() => {
-    fetch("https://game-of-nature-backend.vercel.app/check-existence", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ email: userGoogle.email }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          localStorage.setItem("userID", data.user_id);
-          setUserInfo(data.info);
-        } else {
-        }
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch("https://game-of-nature-backend.vercel.app/check-existence", {
+  //     method: "POST",
+  //     headers: {
+  //       "content-type": "application/json",
+  //     },
+  //     body: JSON.stringify({ email: userGoogle.email }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       if (data.success) {
+  //         localStorage.setItem("userID", data.user_id);
+  //         setUserInfo(data.info);
+  //       } else {
+  //       }
+  //     });
+  // }, []);
 
   return (
     <div>
@@ -132,45 +132,16 @@ const CheckOut = () => {
                   </svg>
                 </label>
               </div>
-              <Cart
-              // voucher={voucher}
-              // setVoucher={setVoucher}
-              // discount={discount}
-              // setDiscount={setDiscount}
-              // shippingCost={shippingCost}
-              // totalCartItemCost={totalCartItemCost}
-              // setTotalCartItemCost={setTotalCartItemCost}
-              // cartItems={cartItems}
-              // setCartItems={setCartItems}
-              ></Cart>
+              <Cart></Cart>
             </div>
           </div>
           <div className="hidden-items  bg-slate-200">
-            <Cart
-            // voucher={voucher}
-            // setVoucher={setVoucher}
-            // discount={discount}
-            // setDiscount={setDiscount}
-            // shippingCost={shippingCost}
-            // totalCartItemCost={totalCartItemCost}
-            // setTotalCartItemCost={setTotalCartItemCost}
-            // cartItems={cartItems}
-            // setCartItems={setCartItems}
-            ></Cart>
+            <Cart></Cart>
           </div>
           <div className="w-full ">
             <CheckOutInfo
-              userInfo={userInfo}
+              // userInfo={userInfo}
               setCheckOutComplete={setCheckOutComplete}
-              // setShippingCost={setShippingCost}
-              // voucher={voucher}
-              // setVoucher={setVoucher}
-              // discount={discount}
-              // setDiscount={setDiscount}
-              // totalCartItemCost={totalCartItemCost}
-              // setTotalCartItemCost={setTotalCartItemCost}
-              // cartItems={cartItems}
-              // setCartItems={setCartItems}
             ></CheckOutInfo>
           </div>
         </div>

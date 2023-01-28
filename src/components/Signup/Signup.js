@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 import { useLocation, useNavigate } from "react-router-dom";
+import auth from "../../firebase.init";
 
 const Signup = () => {
+  const [userGoogle] = useAuthState(auth);
+  const [signOut, loading, error] = useSignOut(auth);
+  console.log("Google: user>> \n", userGoogle?.email);
+
   // Goto Signin page
   const navigate = useNavigate();
   const location = useLocation();
@@ -10,7 +16,9 @@ const Signup = () => {
   const [FirstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
+  const [city, setCity] = useState();
+  const [postalCode, setPostalCode] = useState();
+  const [email, setEmail] = useState(userGoogle?.email);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [pass, setPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
@@ -18,9 +26,14 @@ const Signup = () => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const [response, setResponse] = useState("");
+
   //   Eye Icon passwords
   const [showingPass, setShowingPass] = useState(false);
   const [showingConfirmPass, setShowingConfirmPass] = useState(false);
+
+  useEffect(() => {
+    setEmail(userGoogle?.email);
+  }, [userGoogle]);
 
   //   Inputs
   const handleFirstNameBlur = (event) => {
@@ -30,9 +43,13 @@ const Signup = () => {
     setLastName(event.target.value);
   };
   const handleAddressBlur = (event) => {
-    // setAddress(event.target.value);
-    // console.log("Address: >> ", );
     setAddress(event.target.value);
+  };
+  const handleCityBlur = (event) => {
+    setCity(event.target.value);
+  };
+  const handlePostalCodeBlur = (event) => {
+    setPostalCode(event.target.value);
   };
   const handleEmailBlur = (event) => {
     setEmail(event.target.value);
@@ -46,7 +63,12 @@ const Signup = () => {
   const handleConfirmPassBlur = (event) => {
     setConfirmPass(event.target.value);
   };
-
+  const googleSignOut = async () => {
+    const success = await signOut();
+    // if (success) {
+    //   // navigate(from, { replace: true });
+    // }
+  };
   const handleRegisterBtn = (event) => {
     event.preventDefault();
     if (pass == confirmPass && pass.length != 0 && confirmPass.length != 0) {
@@ -58,6 +80,8 @@ const Signup = () => {
           firstName: FirstName,
           lastName: lastName,
           address: address,
+          city: city,
+          postal_code: postalCode,
           email: email,
           phoneNumber: phoneNumber,
           password: pass,
@@ -71,6 +95,7 @@ const Signup = () => {
           if (data.status == "Success" && data.user_id != 0) {
             alert(data.msg);
             // Change UI to signin page
+            googleSignOut();
             navigate(from, { replace: true });
           } else {
             setErrorMsg(data.msg);
@@ -126,16 +151,12 @@ const Signup = () => {
                 className="input input-bordered w-full"
               />
             </div>
-            <input
-              onBlur={handleAddressBlur}
-              type="text"
-              placeholder="Address"
-              className="input input-bordered w-full mb-7"
-            />
             <div className="flex ">
               <input
                 onBlur={handleEmailBlur}
                 type="email"
+                defaultValue={email}
+                disabled={userGoogle ? true : false}
                 placeholder="Email"
                 className="input input-bordered w-full mb-7 lg:mr-10 mr-5"
               />
@@ -146,6 +167,27 @@ const Signup = () => {
                 className="input input-bordered w-full"
               />
             </div>
+            <input
+              onBlur={handleAddressBlur}
+              type="text"
+              placeholder="Address"
+              className="input input-bordered w-full mb-7"
+            />
+            <div className="flex ">
+              <input
+                onBlur={handleCityBlur}
+                type="text"
+                placeholder="City"
+                className="input input-bordered w-full mb-7 lg:mr-10 mr-5"
+              />
+              <input
+                onBlur={handlePostalCodeBlur}
+                type="text"
+                placeholder="Postal code"
+                className="input input-bordered w-full"
+              />
+            </div>
+
             <div className="flex">
               <input
                 id="PasswordInput"
@@ -176,9 +218,9 @@ const Signup = () => {
                 >
                   <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
               )}
@@ -213,9 +255,9 @@ const Signup = () => {
                 >
                   <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
               )}

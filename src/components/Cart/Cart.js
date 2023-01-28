@@ -2,20 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../App";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
-const Cart = (
-  {
-    // voucher,
-    // setVoucher,
-    // discount,
-    // setDiscount,
-    // shippingCost,
-    // totalCartItemCost,
-    // setTotalCartItemCost,
-    // cartItems,
-    // setCartItems,
-    // reload,
-  }
-) => {
+const Cart = () => {
   const [
     userDetails,
     setUserDetails,
@@ -35,19 +22,9 @@ const Cart = (
     setReload,
   ] = useContext(CartContext);
 
-  // const [discountApplied, setDiscountApplied] = useState(
-  //   voucher ? true : false
-  // );
-
   const [loading, setLoading] = useState(false);
   const [subTotal, setSubTotal] = useState(totalCartItemCost);
   const [showTotal, setShowTotal] = useState(subTotal - discount);
-
-  // console.log("totalCartItemCost : ", totalCartItemCost);
-  // console.log("subTotal : ", subTotal);
-  // console.log("showTotal : ", showTotal);
-  // console.log("discount : ", discount);
-  // console.log("shippingCost : ", shippingCost);
 
   useEffect(() => {
     setSubTotal(totalCartItemCost);
@@ -198,6 +175,9 @@ const Cart = (
             setSubTotal(0);
             setShowTotal(0);
             setTotalCartItemCost(0);
+            //shipping
+            setShippingCost(0);
+            localStorage.removeItem("shippingCost");
             // change UI
             window.location.replace("/");
           }}
