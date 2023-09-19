@@ -1,21 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import ItemThumnailCard from "../../ItemThumbnailCard/ItemThumnailCard";
 import "../../../Sytles/commonStyles.css";
 import cartItems from "../../Cart/cartArray";
 import { CartContext } from "../../../App";
 
-const ItemDetails = (
-  {
-    // cartItems,
-    // setCartItems,
-    // totalCartItemCost,
-    // setTotalCartItemCost,
-    // reload,
-    // setReload,
-    // cartArray,
-  }
-) => {
+export const ADDToCartContext = createContext("addToCartFunction");
+
+const ItemDetails = () => {
   const [
     userDetails,
     setUserDetails,
@@ -93,7 +85,6 @@ const ItemDetails = (
     };
 
     if (cartItems == null) {
-      // console.log(cartItems);
       const newArray = [];
       let tempTotalCost = 0;
       newArray.push(newItem);
@@ -104,9 +95,6 @@ const ItemDetails = (
       tempTotalCost += parseInt(newItem.price) * newItem.orderQnty;
       setTotalCartItemCost(tempTotalCost);
       localStorage.setItem("totalCartItemCost", tempTotalCost);
-      // setReload(true);
-      // // Send Alert
-      // alert("item Added Successfully");
     } else {
       let found = false;
       cartItems.map((i) => {
@@ -125,32 +113,14 @@ const ItemDetails = (
         }
       });
       if (found != true) {
-        // console.log(cartItems);
         const newCartArray = [...cartItems, newItem];
         const jsonArrayObjectToString = JSON.stringify(newCartArray);
         setCartItems(newCartArray);
         localStorage.setItem("myCartItems", jsonArrayObjectToString);
-        // console.log(newCartArray);
-        // setCartItems(newCartArray);
-
-        // console.log("dekh to eibar: \n", cartItems);
-        // console.log("nai: \n", totalCartItemCost);
-        // cartItems.push(newItem);
-        // console.log("new nai: ", cartItems);
-        // // const newArray = [...jsonArrayObject, newItem];
-        // const jsonArrayObjectToString = JSON.stringify(cartItems);
-        // //     console.log("newly added >> ", newArray);
-        // localStorage.setItem("myCartItems", jsonArrayObjectToString);
-        // update and save total cost
-        // // totalCartItemCost += parseInt(newItem.price) * newItem.orderQnty;
-        // // console.log("new nai total: ", totalCartItemCost);
         let tempTotal =
           totalCartItemCost + parseInt(newItem.price) * newItem.orderQnty;
         setTotalCartItemCost(tempTotal);
         localStorage.setItem("totalCartItemCost", tempTotal);
-        // //     // Send Alert
-        // setReload(true);
-        // alert("item Added Successfully");
       }
     }
   };
@@ -197,12 +167,11 @@ const ItemDetails = (
           />
         </figure>
         {/* <div className="flex-none w-1/2 bg-blue-400">
-                          
-                          <small className="text-red-700 text-2xs">
-                            Disclaimer: The image is for representation purposes only. The
-                            packaging you receive might vary.
-                          </small>
-                        </div> */}
+          <small className="text-red-700 text-2xs">
+            Disclaimer: The image is for representation purposes only. The
+            packaging you receive might vary.
+          </small>
+        </div> */}
         <div className="lg:w-3/4 text-justify lg:p-4 px-10 py-5 lg:mt-0 rounded-xl mt-5">
           <h1 className="font-serif font-semibold text-3xl text-left">
             {" "}

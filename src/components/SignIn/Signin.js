@@ -9,7 +9,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const Signin = () => {
   const [userDetails, setUserDetails] = useContext(CartContext);
-
+  console.log("New>> \n", userDetails);
   const [signInWithGoogle, user, loading, googleSignInError] =
     useSignInWithGoogle(auth);
 
@@ -30,7 +30,7 @@ const Signin = () => {
       </div>
     );
   }
-  if (user || userGoogle) {
+  if (user || userGoogle || userDetails) {
     fetch("https://game-of-nature-backend.vercel.app/check-existence", {
       method: "POST",
       headers: {

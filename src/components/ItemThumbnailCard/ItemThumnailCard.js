@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router";
+import { CartContext } from "../../App";
 import itemimg from "../../Assets/image/item_pic.jpeg";
 // import "../../Sytles/commonStyles.css";
 
@@ -13,9 +15,81 @@ const ItemThumnailCard = (props) => {
     photo_url,
   } = props.props;
 
+  // const [
+  //   cartItems,
+  //   setCartItems,
+  //   totalCartItemCost,
+  //   setTotalCartItemCost,
+  //   setReload,
+  // ] = useContext(CartContext);
+
+  const navigate = useNavigate();
+
+  // const handleAddToCart = (e) => {
+  //   e.preventDefault();
+  //   setReload(false);
+
+  //   const newItem = {
+  //     itemID: product_id,
+  //     itemName: product_name,
+  //     photo_url: photo_url,
+  //     price: price,
+  //     orderQnty: 1,
+  //     quantity_in_stock: quantity_in_stock,
+  //   };
+
+  //   console.log("cartItems mmmm: ", cartItems);
+
+  //   if (cartItems == null) {
+  //     const newArray = [];
+  //     let tempTotalCost = 0;
+  //     newArray.push(newItem);
+  //     const xx = JSON.stringify(newArray);
+  //     console.log("xx\n\n", xx);
+  //     // // Save items and total cost to local storage
+  //     setCartItems(newArray);
+  //     localStorage.setItem("myCartItems", xx);
+  //     tempTotalCost += parseInt(newItem.price) * newItem.orderQnty;
+  //     setTotalCartItemCost(tempTotalCost);
+  //     localStorage.setItem("totalCartItemCost", tempTotalCost);
+  //   } else {
+  //     let found = false;
+  //     cartItems.map((i) => {
+  //       if (i.itemID === product_id) {
+  //         i.orderQnty += newItem.orderQnty;
+  //         found = true;
+  //         setCartItems(cartItems);
+  //         const jsonArrayObjectToString = JSON.stringify(cartItems);
+  //         localStorage.setItem("myCartItems", jsonArrayObjectToString);
+  //         let tempTotal =
+  //           totalCartItemCost + parseInt(newItem.price) * newItem.orderQnty;
+  //         setTotalCartItemCost(tempTotal);
+  //         localStorage.setItem("totalCartItemCost", tempTotal);
+  //         // Send Alert
+  //         alert("item Added Successfully");
+  //       }
+  //     });
+  //     if (found != true) {
+  //       const newCartArray = [...cartItems, newItem];
+  //       const jsonArrayObjectToString = JSON.stringify(newCartArray);
+  //       setCartItems(newCartArray);
+  //       localStorage.setItem("myCartItems", jsonArrayObjectToString);
+  //       let tempTotal =
+  //         totalCartItemCost + parseInt(newItem.price) * newItem.orderQnty;
+  //       setTotalCartItemCost(tempTotal);
+  //       localStorage.setItem("totalCartItemCost", tempTotal);
+  //     }
+  //   }
+  // };
+
   return (
     <div className="">
-      <div className=" bg-base-100 shadow-2xl ">
+      <div
+        onClick={() => {
+          navigate(`/item-details/${product_id}`, { replace: true });
+        }}
+        className=" bg-base-100 shadow-2xl "
+      >
         <h1 className="absolute text-sm"> ID: {product_id} </h1>
         <figure className="">
           <img
@@ -52,19 +126,6 @@ const ItemThumnailCard = (props) => {
             >
               {product_name}
             </a>
-            {/* <small className=" flex justify-between text-xs text-left text-gray-400">
-              {category}
-              {quantity_in_stock < 20 ? (
-                <h1 className="text-xs text-white bg-red-500 px-3 rounded-2xl">
-                  {quantity_in_stock}
-                  remaining
-                </h1>
-              ) : (
-                <h1 className=" text-green-500 text-xs">
-                  {quantity_in_stock} remaining
-                </h1>
-              )}
-            </small> */}
           </div>
           <h6 className="mt-4 font-bold text-xl text-green-500 text-center">
             <span className="font-bold text-2xl"> ৳ </span> {price}.00

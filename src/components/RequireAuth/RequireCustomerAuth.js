@@ -9,7 +9,7 @@ const RequireCustomerAuth = ({ children }) => {
   const userData = userDetails;
   const location = useLocation();
 
-  if (userData.User_Type === "Customer") {
+  if (userData?.User_Type === "Customer") {
     return children;
   } else {
     return (

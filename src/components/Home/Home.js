@@ -15,7 +15,7 @@ import groceriesPic from "../../Assets/image/groceries.jpg";
 import dailyNeedsPic from "../../Assets/image/daily-needs.jpg";
 
 import slide1 from "../../Assets/image/slide-1.png";
-
+import "./home.css";
 const Home = () => {
   const [items, seTitems] = useState([]);
 
@@ -89,9 +89,13 @@ const Home = () => {
         <></>
       )}
       {/* carrosel */}{" "}
-      <div className="carousel h-96 bg-gradient-to-b from-white to-gray-900">
-        <div id="slide1" className="carousel-item relative w-full">
-          <img src={slide1} className=" w-min h-80 my-auto mx-auto" />
+      <div className="carousel h-96 ">
+        <div id="slide1" className="carousel-item relative w-full slides">
+          {/* <img
+            src={slide1}
+            className="bg-cover bg-blend-screen mx-auto "
+            //  className=" w-min h-80 my-auto mx-auto"
+          /> */}
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
             <a href="#slide4" className="btn btn-circle">
               {" "}
@@ -103,7 +107,7 @@ const Home = () => {
             </a>{" "}
           </div>{" "}
         </div>{" "}
-        <div id="slide2" className="carousel-item relative w-full">
+        <div id="slide2" className="carousel-item relative w-full slides">
           <img
             src="https://scontent.fdac13-1.fna.fbcdn.net/v/t1.6435-9/57038424_577504946065534_3582367973177819136_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=e3f864&_nc_eui2=AeFjBKIi41HVxJDXWh18SxDjBj8-cwuWZAAGPz5zC5ZkAI7OU_U2cEayMdMeU-L_XKpamHGdKIvRED6m6RFJSF8l&_nc_ohc=kkPNOCl_31EAX9QDDm9&_nc_ht=scontent.fdac13-1.fna&oh=00_AT_Y8OP4kvvm83EnSpzCEKHrp1QxqUvJxJurKUR5bI4UmA&oe=637A6D28"
             className=" bg-gradient-to-b from-slate-300 to bg-slate-500 lg:px-40 px-20 mx-auto w-full"
@@ -285,7 +289,103 @@ const Home = () => {
             )
           )}{" "}
         </div>{" "}
-      </div>{" "}
+      </div>
+      {/* faq */}
+      <div className="lg:px-32 px-10 mb-10">
+        <h1 className="text-left text-base font-semibold mb-5">
+          Frequently Asked Questions (FAQ){" "}
+        </h1>
+        <div
+          tabIndex="0"
+          className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-t-xl"
+        >
+          <div className="collapse-title text-xl font-medium">Question 1</div>
+          <div className="collapse-content">
+            <p>Answer 1</p>
+          </div>
+        </div>
+        <div
+          tabIndex="0"
+          className="collapse collapse-arrow border border-base-300 bg-base-100 "
+        >
+          <div className="collapse-title text-xl font-medium">Question 2</div>
+          <div className="collapse-content">
+            <p>Answer 2</p>
+          </div>
+        </div>
+        <div
+          tabIndex="0"
+          className="collapse collapse-arrow border border-base-300 bg-base-100 "
+        >
+          <div className="collapse-title text-xl font-medium">Question 3</div>
+          <div className="collapse-content">
+            <p>Answer 3</p>
+          </div>
+        </div>
+        <div
+          tabIndex="0"
+          className="collapse collapse-arrow border border-base-300 bg-base-100 "
+        >
+          <div className="collapse-title text-xl font-medium">Question 4</div>
+          <div className="collapse-content">
+            <p>Answer 4</p>
+          </div>
+        </div>
+        <div
+          tabIndex="0"
+          className="collapse collapse-arrow border border-base-300 bg-base-100 "
+        >
+          <div className="collapse-title text-xl font-medium">Question 5</div>
+          <div className="collapse-content">
+            <p>Answer 5</p>
+          </div>
+        </div>
+        <div
+          tabIndex="0"
+          className="collapse collapse-arrow border border-base-300 bg-base-100 "
+        >
+          <div className="collapse-title text-xl font-medium">Question 6</div>
+          <div className="collapse-content">
+            <p>Answer 6</p>
+          </div>
+        </div>
+        <div
+          tabIndex="0"
+          className="collapse collapse-arrow border border-base-300 bg-base-100 "
+        >
+          <div className="collapse-title text-xl font-medium">Question 7</div>
+          <div className="collapse-content">
+            <p>Answer 7</p>
+          </div>
+        </div>
+        <div
+          tabIndex="0"
+          className="collapse collapse-arrow border border-base-300 bg-base-100 "
+        >
+          <div className="collapse-title text-xl font-medium">Question 8</div>
+          <div className="collapse-content">
+            <p>Answer 8</p>
+          </div>
+        </div>
+        <div
+          tabIndex="0"
+          className="collapse collapse-arrow border border-base-300 bg-base-100 "
+        >
+          <div className="collapse-title text-xl font-medium">Question 9</div>
+          <div className="collapse-content">
+            <p>Answer 9</p>
+          </div>
+        </div>
+        <div
+          tabIndex="0"
+          className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-b-xl"
+        >
+          <div className="collapse-title text-xl font-medium">Question 10</div>
+          <div className="collapse-content">
+            <p>Answer 10</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -89,30 +89,6 @@ const CheckOutInfo = ({ setCheckOutComplete }) => {
   const handleEmailBlur = (e) => {
     if (e.target.value != "") {
       setEmail(e.target.value);
-      // setLoading(true);
-      // fetch("https://game-of-nature-backend.vercel.app/check-existence", {
-      //   method: "POST",
-      //   headers: {
-      //     "content-type": "application/json",
-      //   },
-      //   body: JSON.stringify({ email: e.target.value }),
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     setLoading(false);
-      //     // console.log("Data: >>\n", data);
-      //     if (data.success != true) {
-      //       setUserFound(false);
-      //     } else {
-      //       setUserFound(true);
-      //       setFirstName(data?.info?.First_Name);
-      //       setLastName(data?.info?.Last_Name);
-      //       setAddress(data?.info?.Address);
-      //       setPhone(data?.info?.Mobile);
-      //       setCity(data?.info?.city);
-      //       setPostalCode(data?.info?.postal_code);
-      //     }
-      //   });
     }
   };
   const handleFirstNameBlur = (e) => {
@@ -563,26 +539,51 @@ const CheckOutInfo = ({ setCheckOutComplete }) => {
             </svg>
           </button>
         ) : (
-          <button
-            type="submit"
-            className="ml-auto flex justify-between gap-4 btn normal-case mt-4"
-          >
-            Proceed to payment{" "}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-              />
-            </svg>
-          </button>
+          <div>
+            {paymentMethod == "BKASH" ? (
+              <button
+                type="submit"
+                className="ml-auto flex justify-between gap-4 btn normal-case mt-4"
+              >
+                Pay with Bkash
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                  />
+                </svg>
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="ml-auto flex justify-between gap-4 btn normal-case mt-4"
+              >
+                Pay with Card
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
         )}
       </form>
     </div>

@@ -16,6 +16,7 @@ import { useSignOut } from "react-firebase-hooks/auth";
 import "../../js/commonJs";
 import Cart from "../Cart/Cart";
 import { CartContext } from "../../App";
+import SearchBox from "../SearchBox/SearchBox";
 
 const Navbar = () => {
   const [
@@ -55,12 +56,13 @@ const Navbar = () => {
   const googleSignOut = async () => {
     const success = await signOut();
     if (success) {
+      setUserDetails(null);
+      localStorage.removeItem("currentUserDetails");
       navigate(from, { replace: true });
     }
   };
 
   const handleCheckOutBtn = () => {
-    console.log("Hocche ki?");
     if (cartItems) {
       navigate("dashboard/checkout", { replace: true });
     }
@@ -327,6 +329,25 @@ const Navbar = () => {
                         Manage Vouchers
                       </a>
                     </li>
+                    <li>
+                      <a href="/admin-dashboard/promotions">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                          />
+                        </svg>
+                        Promotions
+                      </a>
+                    </li>
                   </ul>
                 )}
               </div>
@@ -347,25 +368,9 @@ const Navbar = () => {
           {userData?.User_Type == "Customer" ||
           userData?.User_Type == null ||
           userGoogle != null ? (
-            <div className="hidden_items flex w-96 border-2 border-green-400 rounded-3xl px-3 py-2">
+            <div className="hidden_items w-2/5">
               {" "}
-              <input className="w-full" type="text" placeholder="Search..." />
-              <a href="">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                  />
-                </svg>
-              </a>
+              <SearchBox placeholder="Search any item...."></SearchBox>
             </div>
           ) : (
             <></>
@@ -452,7 +457,7 @@ const Navbar = () => {
             {userData?.User_Type == "Customer" ||
             userData?.User_Type == null ||
             userGoogle != null ? (
-              <button
+              <div
                 onClick={() => {
                   navigate("dashboard/checkout", { replace: true });
                 }}
@@ -514,7 +519,7 @@ const Navbar = () => {
                     Checkout
                   </button>
                 </div>
-              </button>
+              </div>
             ) : (
               <></>
             )}
@@ -525,7 +530,7 @@ const Navbar = () => {
           {userData?.User_Type == "Admin" ? (
             <div
               id="Categories"
-              className="h-10 grid grid-cols-5 items-center border-t-2 border-green-100"
+              className="h-10 grid grid-cols-6 items-center border-t-2 border-green-100"
             >
               <a
                 href="/admin-dashboard/addproducts"
@@ -553,6 +558,12 @@ const Navbar = () => {
                 className="hover:bg-green-100"
               >
                 Manage Vouchers
+              </a>
+              <a
+                href="/admin-dashboard/promotions"
+                className="hover:bg-green-100"
+              >
+                Promotions
               </a>
             </div>
           ) : (
@@ -590,29 +601,9 @@ const Navbar = () => {
         {userData?.User_Type == "Customer" ||
         userData?.User_Type == null ||
         userGoogle ? (
-          <div className="lg:hidden flex border-2 border-green-400 rounded-3xl px-3 py-2 mx-5 mt-2">
+          <div className="lg:hidden w-11/12 mx-auto mt-2">
             {" "}
-            <input
-              className="w-full px-2"
-              type="text"
-              placeholder="Search..."
-            />
-            <a href="">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                />
-              </svg>
-            </a>
+            <SearchBox placeholder="Search any item...."></SearchBox>
           </div>
         ) : (
           <></>

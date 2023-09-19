@@ -108,11 +108,11 @@ const ProductForm = (props) => {
             </span>
           </label>
           <input
-            value={
-              window.location.pathname.includes("/edit/")
-                ? itemData.product_name
-                : ""
-            }
+            // value={
+            //   window.location.pathname.includes("/edit/")
+            //     ? itemData.product_name
+            //     : ""
+            // }
             required
             onBlur={handleItemNameBlur}
             type="text"

@@ -134,15 +134,15 @@ const Signup = () => {
         <h1 className="text-2xl mb-5 font-semibold">SIGN UP</h1>
         <form
           onSubmit={handleRegisterBtn}
-          className="lg:mx-auto mx-14 p-14 border-2 rounded-3xl lg:w-1/2"
+          className=" lg:mx-auto xs:mx-5 lg:p-14 xs:p-5 border-2 rounded-3xl lg:w-1/2 shadow-2xl"
         >
           <div>
-            <div className="flex">
+            <div className="flex mb-4 ">
               <input
                 onBlur={handleFirstNameBlur}
                 type="text"
                 placeholder="First Name"
-                className="input input-bordered w-full mb-7 lg:mr-10 mr-5"
+                className="input input-bordered w-full lg:mr-10 mr-5"
               />
               <input
                 onBlur={handleLastNameBlur}
@@ -151,14 +151,14 @@ const Signup = () => {
                 className="input input-bordered w-full"
               />
             </div>
-            <div className="flex ">
+            <div className="flex mb-4">
               <input
                 onBlur={handleEmailBlur}
                 type="email"
                 defaultValue={email}
                 disabled={userGoogle ? true : false}
                 placeholder="Email"
-                className="input input-bordered w-full mb-7 lg:mr-10 mr-5"
+                className="input input-bordered w-full lg:mr-10 mr-5"
               />
               <input
                 onBlur={handlePhoneNumberBlur}
@@ -171,14 +171,14 @@ const Signup = () => {
               onBlur={handleAddressBlur}
               type="text"
               placeholder="Address"
-              className="input input-bordered w-full mb-7"
+              className="input input-bordered w-full mb-4"
             />
-            <div className="flex ">
+            <div className="flex mb-4">
               <input
                 onBlur={handleCityBlur}
                 type="text"
                 placeholder="City"
-                className="input input-bordered w-full mb-7 lg:mr-10 mr-5"
+                className="input input-bordered w-full lg:mr-10 mr-5"
               />
               <input
                 onBlur={handlePostalCodeBlur}
@@ -194,7 +194,7 @@ const Signup = () => {
                 onBlur={handlePassBlur}
                 type="password"
                 placeholder="Password"
-                className="input input-bordered w-full mb-7"
+                className="input input-bordered w-full mb-4"
               />
               {showingPass ? (
                 <svg

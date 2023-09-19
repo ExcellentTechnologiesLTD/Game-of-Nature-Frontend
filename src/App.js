@@ -29,7 +29,7 @@ import CheckOut from "./components/CheckOut/CheckOut";
 import ManageOrders from "./components/AdminDashboard/ManageOrders/ManageOrders";
 import ManageDeliveries from "./components/AdminDashboard/ManageDeliveries/ManageDeliveries";
 import ManageVouchers from "./components/AdminDashboard/ManageVouchers/ManageVouchers";
-import MyCart from "./components/Cart/MyCart.js";
+import Promotions from "./components/Promotions/Promotions";
 
 export const CartContext = createContext("cartInfo");
 
@@ -99,10 +99,6 @@ function App() {
           <Route path="baby-care" element={<BabyCare></BabyCare>}></Route>
           <Route path="spa&massage" element={<SpaMassage></SpaMassage>}></Route>
           <Route
-            path="/item-details/:id"
-            element={<ItemDetails></ItemDetails>}
-          ></Route>
-          <Route
             path="perfumes&attar"
             element={<PerfumeAttar></PerfumeAttar>}
           ></Route>
@@ -110,7 +106,10 @@ function App() {
           <Route path="groceries" element={<Groceries></Groceries>}></Route>
 
           {/* Routes For Customers  */}
-
+          <Route
+            path="/item-details/:id"
+            element={<ItemDetails></ItemDetails>}
+          ></Route>
           <Route
             path="/dashboard"
             element={
@@ -174,6 +173,10 @@ function App() {
             <Route
               path="manage-vouchers"
               element={<ManageVouchers></ManageVouchers>}
+            ></Route>
+            <Route
+              path="promotions"
+              element={<Promotions></Promotions>}
             ></Route>
           </Route>
           {/* Routes For Admin  */}
