@@ -26,6 +26,10 @@ const ManageOrders = () => {
   return (
     <div className="h-screen bg-base-100">
       <div className=" overflow-x-auto w-full">
+        <h1 className=" font-serif font-bold text-xl text-center p-5">
+          {" "}
+          Manage Orders{" "}
+        </h1>
         <OrderTable userType={userType} orders={orders}>
           {" "}
         </OrderTable>{" "}

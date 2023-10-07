@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { CartContext } from "../../../App";
-import OrderTable from "../../OrderHistory/OrderTable/OrderTable";
+import { CartContext } from "../../App";
+import OrderTable from "../OrderHistory/OrderTable/OrderTable";
 
-const ManageDeliveries = () => {
+const CompletedOrders = () => {
   const [userdetails] = useContext(CartContext);
 
   const [orders, setOrders] = useState([]);
@@ -18,8 +18,8 @@ const ManageDeliveries = () => {
       .then((data) => {
         let ordersToDeliver = data.filter(
           (data) =>
-            data.order_status === "Packaging in process." ||
-            data.order_status === "Package with Delivery Guy"
+            data.order_status === "Order Delivered" ||
+            data.order_status === "Order Canceled"
         );
         setOrders(ordersToDeliver);
         // console.log(data);
@@ -31,7 +31,7 @@ const ManageDeliveries = () => {
       <div className=" overflow-x-auto w-full">
         <h1 className=" font-serif font-bold text-xl text-center p-5">
           {" "}
-          Manage Deliveries{" "}
+          Completed Orders
         </h1>
         <OrderTable userType={userType} orders={orders}></OrderTable>
       </div>
@@ -39,4 +39,4 @@ const ManageDeliveries = () => {
   );
 };
 
-export default ManageDeliveries;
+export default CompletedOrders;

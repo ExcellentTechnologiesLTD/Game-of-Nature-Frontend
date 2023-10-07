@@ -226,11 +226,14 @@ const ItemDetails = () => {
             </button>
           )}{" "}
           <div className="grid mt-2 w-1/2 max-w-fit">
-            <a className="hover:text-red-600 text-sm" href="">
+            <a className="hover:text-red-600 text-sm" href="/terms&Conditions">
               Term & Conditions
             </a>
-            <a className="hover:text-red-600 text-sm" href="">
-              No Return or Return Policy
+            <a
+              className="hover:text-red-600 text-sm"
+              href="/return_or_refund_policy"
+            >
+              Return or Return Policy
             </a>
           </div>
           <div className="mt-5 rounded-xl">

@@ -30,6 +30,9 @@ import ManageOrders from "./components/AdminDashboard/ManageOrders/ManageOrders"
 import ManageDeliveries from "./components/AdminDashboard/ManageDeliveries/ManageDeliveries";
 import ManageVouchers from "./components/AdminDashboard/ManageVouchers/ManageVouchers";
 import Promotions from "./components/Promotions/Promotions";
+import Policies from "./components/Policies/Policies";
+import PolicyPage from "./components/PolicyPage/PolicyPage";
+import CompletedOrders from "./components/CompletedOrders/CompletedOrders";
 
 export const CartContext = createContext("cartInfo");
 
@@ -91,6 +94,14 @@ function App() {
         <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Home />}></Route>
+          <Route
+            path="/terms&Conditions"
+            element={<PolicyPage></PolicyPage>}
+          ></Route>
+          <Route
+            path="/return_or_refund_policy"
+            element={<PolicyPage></PolicyPage>}
+          ></Route>
           <Route path="signin" element={<Signin></Signin>}></Route>
           <Route path="signup" element={<Signup></Signup>}></Route>
           <Route path="facial-care" element={<FacialCare></FacialCare>}></Route>
@@ -144,6 +155,7 @@ function App() {
             ></Route>
           </Route>
           {/* Routes For Customers  */}
+
           {/* Routes For Admin  */}
           <Route
             path="/admin-dashboard"
@@ -163,6 +175,10 @@ function App() {
               element={<AddProduct></AddProduct>}
             ></Route>
             <Route
+              path="completed-orders"
+              element={<CompletedOrders></CompletedOrders>}
+            ></Route>
+            <Route
               path="manage-orders"
               element={<ManageOrders></ManageOrders>}
             ></Route>
@@ -178,6 +194,7 @@ function App() {
               path="promotions"
               element={<Promotions></Promotions>}
             ></Route>
+            <Route path="policies" element={<Policies></Policies>}></Route>
           </Route>
           {/* Routes For Admin  */}
 

@@ -1,5 +1,8 @@
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import React from "react";
+import Invoice from "../Invoice/Invoice";
 import OrderitemDisplay from "../OrderItemDisplay/OrderitemDisplay";
+import PDFFile from "../PDFFile/PDFFile";
 
 const OrderDetailsDisplayModal = (props) => {
   const { order } = props;
@@ -25,8 +28,10 @@ const OrderDetailsDisplayModal = (props) => {
         });
     }
   };
+  const handleDownloadInvoice = (orderID) => {};
+
   return (
-    <div>
+    <div className="">
       <label
         htmlFor={order?.order_id}
         className="btn btn-sm btn-circle absolute right-2 top-2"
@@ -68,7 +73,7 @@ const OrderDetailsDisplayModal = (props) => {
             <span className="font-semibold">Name: </span>
             {order?.full_name}
           </p>
-          <p>
+          <p className=" whitespace-normal">
             <span className="font-semibold">Address: </span>
             {order?.address}
           </p>
@@ -85,7 +90,7 @@ const OrderDetailsDisplayModal = (props) => {
             <span className="font-semibold">Contact number: </span>
             {order?.phone}
           </p>
-          <p>
+          <p className="flex gap-2">
             <span className="font-semibold">Payment method: </span>
             <span>
               {order?.payment_method == "BKASH" ? (
@@ -126,7 +131,7 @@ const OrderDetailsDisplayModal = (props) => {
           Total Amount BDT. {order?.total_amount}.00
         </h1>
       </div>
-      {window.location.pathname.endsWith("/manage-orders") ? (
+      {order?.order_status === "processing" ? (
         <button
           onClick={() => {
             handleOrderDelete(order?.order_id);
@@ -134,7 +139,7 @@ const OrderDetailsDisplayModal = (props) => {
           className="btn bg-red-500 hover:bg-red-600 px-20 normal-case italic text-lg  font-normal mt-2"
         >
           {" "}
-          Delete Order
+          Cancel Order
         </button>
       ) : (
         <></>
@@ -144,3 +149,21 @@ const OrderDetailsDisplayModal = (props) => {
 };
 
 export default OrderDetailsDisplayModal;
+
+{
+  //   <a
+  //   // href=
+  //   download="Example-PDF-document"
+  //   target="_blank"
+  //   rel="noreferrer"
+  // >
+  //   <button>Download .pdf file</button>
+  // </a>
+  /* <button
+          onClick={() => {
+            handleDownloadInvoice(order?.order_id);
+          }}
+        >
+          Download Invoice
+        </button> */
+}

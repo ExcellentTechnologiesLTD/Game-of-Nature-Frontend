@@ -17,7 +17,7 @@ const AllProducts = () => {
       <div className="flex justify-between items-center p-5">
         <h1 className=" font-serif font-bold text-xl text-left">
           {" "}
-          All product{" "}
+          All products{" "}
         </h1>
         <div className="dropdown dropdown-end">
           <label

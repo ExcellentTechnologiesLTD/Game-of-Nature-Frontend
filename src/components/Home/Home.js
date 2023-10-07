@@ -270,9 +270,9 @@ const Home = () => {
           <h1 className="font-serif font-semibold text-left">
             Best Selling products{" "}
           </h1>
-          <a className="font-serif text-lg hover:text-green-400 text-left">
+          {/* <a className="font-serif text-lg hover:text-green-400 text-left">
             View All{" "}
-          </a>{" "}
+          </a>{" "} */}
         </div>
         <div className="py-10 grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4">
           {" "}
@@ -291,7 +291,7 @@ const Home = () => {
         </div>{" "}
       </div>
       {/* faq */}
-      <div className="lg:px-32 px-10 mb-10">
+      {/* <div className="lg:px-32 px-10 mb-10">
         <h1 className="text-left text-base font-semibold mb-5">
           Frequently Asked Questions (FAQ){" "}
         </h1>
@@ -385,7 +385,7 @@ const Home = () => {
             <p>Answer 10</p>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
