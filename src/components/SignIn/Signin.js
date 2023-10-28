@@ -154,10 +154,10 @@ const Signin = () => {
               <img className="w-6 h-6 mr-4" src={googleIcon} /> Sign in with
               Google
             </button>
-            <button className="bg-gray-200 shadow-2xl border-2 hover:border-gray-300 py-2 w-64 flex justify-center items-center rounded-2xl">
+            {/* <button className="bg-gray-200 shadow-2xl border-2 hover:border-gray-300 py-2 w-64 flex justify-center items-center rounded-2xl">
               <img className="w-6 h-6 mr-4" src={facebookIcon} /> Sign in with
               Facebook
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

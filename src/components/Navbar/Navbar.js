@@ -71,7 +71,7 @@ const Navbar = () => {
   return (
     // <div></div>
     <div className="sticky top-0 z-50 font-serif bg-white">
-      <div className=" shadow-2xl lg:pb-0 md:pb-5 pb-5">
+      <div className=" shadow-2xl lg:pb-0 md:pb-1 pb-1">
         <div className="bg-green-500 flex justify-between items-center px-5 py-2">
           <div className="flex justify-start font-bold text-white">
             <svg
@@ -114,8 +114,9 @@ const Navbar = () => {
             </a>
           </div>
         </div>
-        <div className="navbar flex justify-between">
+        <div className="navbar flex justify-between p-0">
           <div className=" flex-none">
+            {/* Navbar menu */}
             <div className="navbar-start w-auto lg:hidden ">
               <div className="dropdown">
                 <label
@@ -395,6 +396,7 @@ const Navbar = () => {
                 )}
               </div>
             </div>
+            {/* Logo */}
             <div className="font-bold text-xl">
               <a href="/" className="flex  items-center">
                 <img
@@ -569,7 +571,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        <div className=" ">
+        <div className="">
           {userData?.User_Type == "Admin" ? (
             <div
               id="Categories"
@@ -656,7 +658,7 @@ const Navbar = () => {
         {userData?.User_Type == "Customer" ||
         userData?.User_Type == null ||
         userGoogle ? (
-          <div className="lg:hidden w-11/12 mx-auto mt-2">
+          <div className="lg:hidden w-full mx-auto mt-2">
             {" "}
             <SearchBox placeholder="Search any item...."></SearchBox>
           </div>

@@ -1,6 +1,5 @@
 #slide1 {
     background: url("/public/slide-1.png");
-    background-size: cover;
+    background-size: contain;
     background-position: center;
-    background-blend-mode: screen;
 }

@@ -26,11 +26,11 @@ const SearchBox = ({ placeholder, ClassNames }) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full px-2">
       {/* search bar */}
       <div>
         <input
-          className="w-full border-2 px-3 py-2 rounded-t-xl border-green-500"
+          className="w-full border-2 px-3 py-2 border-green-200"
           type="text"
           placeholder={placeholder}
           onChange={handleInputChange}
@@ -39,10 +39,11 @@ const SearchBox = ({ placeholder, ClassNames }) => {
       {/* Search result */}
       {filteredData?.length != 0 && (
         <div
-          className={` absolute lg:w-2/5 w-11/12  ${
+          // className={` absolute lg:w-2/5 w-11/12  ${
+          className={` absolute lg:w-2/5 w-full ${
             filteredData?.length > 5 ? "h-60" : `h-30`
           }
-           overflow-auto bg-green-50 rounded-b-xl`}
+           overflow-auto bg-green-200 rounded-b-xl`}
         >
           {filteredData.map((i) => (
             <a

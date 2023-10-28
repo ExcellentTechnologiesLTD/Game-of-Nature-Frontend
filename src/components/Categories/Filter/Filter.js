@@ -2,7 +2,7 @@ import React from "react";
 
 const Filter = () => {
   return (
-    <div id="filter" className=" bg-slate-50">
+    <div id="filter" className=" bg-slate-100 rounded-xl ">
       <div className=" w-52">
         <div className="collapse">
           <input type="checkbox" className="peer" />

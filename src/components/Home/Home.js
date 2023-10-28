@@ -151,9 +151,10 @@ const Home = () => {
         </div>{" "}
       </div>{" "}
       {/* Tags */}{" "}
-      <div className="my-10 grid lg:grid-cols-4 grid-cols-2 divide-x-2 gap-2 lg:mx-36 mx-5 p-5 justify-center rounded-2xl bg-gray-50">
+      {/* <div className=" container border-black border-4 my-10 grid lg:grid-cols-4 grid-cols-2 divide-x-2 gap-2 lg:mx-36 mx-5 p-5 justify-center rounded-2xl bg-gray-50 "> */}
+      <div className=" mx-auto my-10 grid lg:grid-cols-4 grid-cols-2 divide-x-2 gap-2 p-5 rounded-2xl bg-gray-50 ">
         <div className="grid grid-cols-2 justify-item-center p-2 ">
-          <img className="w-28 h-28 mx-auto" src={fastDelivery} />{" "}
+          <img className="w-28 sm:h-28 xs:h-24 mx-auto" src={fastDelivery} />{" "}
           <h1 className="text-sm font-serif  my-auto"> Fast Delivery </h1>{" "}
         </div>{" "}
         <div className="grid grid-cols-2 justify-item-center p-2 ">

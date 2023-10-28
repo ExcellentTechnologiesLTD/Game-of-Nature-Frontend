@@ -2,13 +2,19 @@ import React, { useEffect, useState } from "react";
 import ItemThumnailCard from "../../ItemThumbnailCard/ItemThumnailCard";
 import Filter from "../Filter/Filter";
 import "../../../Sytles/commonStyles.css";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 const FacialCare = () => {
   const [facialItems, setFacialItems] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetch("https://game-of-nature-backend.vercel.app/")
       .then((res) => res.json())
-      .then((data) => setFacialItems(data));
+      .then((data) => {
+        // setLoading(true);
+        setFacialItems(data);
+        setLoading(false);
+      });
   }, []);
   return (
     <div>
@@ -99,18 +105,25 @@ const FacialCare = () => {
             </div>{" "}
           </div>{" "}
           {/* product Display */}{" "}
-          <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4 mt-5 px-5 rounded-tl-2xl">
-            {" "}
-            {facialItems.map((item) =>
-              item.category == "Facial care" ? (
-                <ItemThumnailCard key={item.product_id} props={item}>
-                  {" "}
-                </ItemThumnailCard>
-              ) : (
-                <></>
-              )
-            )}{" "}
-          </div>{" "}
+          {loading ? (
+            <div>
+              <LoadingSpinner></LoadingSpinner>
+              <h1>Loading</h1>
+            </div>
+          ) : (
+            <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4 mt-5 px-5 rounded-tl-2xl">
+              {" "}
+              {facialItems.map((item) =>
+                item.category == "Facial care" ? (
+                  <ItemThumnailCard key={item.product_id} props={item}>
+                    {" "}
+                  </ItemThumnailCard>
+                ) : (
+                  <></>
+                )
+              )}{" "}
+            </div>
+          )}
         </div>{" "}
       </div>{" "}
     </div>

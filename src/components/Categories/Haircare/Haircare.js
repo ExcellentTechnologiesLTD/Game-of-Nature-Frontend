@@ -2,20 +2,25 @@ import React, { useEffect, useState } from "react";
 import ItemThumnailCard from "../../ItemThumbnailCard/ItemThumnailCard";
 import Filter from "../Filter/Filter";
 import "../../../Sytles/commonStyles.css";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 const Haircare = () => {
   const [hairItems, setHairItems] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetch("https://game-of-nature-backend.vercel.app/")
       .then((res) => res.json())
-      .then((data) => setHairItems(data));
+      .then((data) => {
+        setHairItems(data);
+        setLoading(false);
+      });
   }, []);
   return (
-    <div className="">
+    <div className="bg-green-50">
       {" "}
       {/* Route */}{" "}
       <div className="">
-        <div className="flex px-10 py-5 ">
+        <div className="flex px-10 py-5 bg-slate-100 ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -39,15 +44,17 @@ const Haircare = () => {
             /{" "}
           </span>{" "}
         </div>{" "}
-        <div className="border-b-2 border-green-300 pb-10 ">
+        {/* <div className="border-b-2 border-green-300 pb-10 "> */}
+        <div className="bg-slate-100 mb-4 pb-10 ">
           <h1 className="text-3xl font-serif text-left ml-20"> Hair Care </h1>{" "}
         </div>{" "}
       </div>{" "}
-      <div className="flex">
+      <div className="flex gap-4">
         <Filter> </Filter>{" "}
-        <div className="w-full py-5">
-          <div className="flex justify-between px-5 ">
+        <div className="w-full py-5 bg-slate-100 rounded-xl">
+          <div className="flex justify-between px-5">
             <div className="flex gap-5">
+              {/* options for filer */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -99,16 +106,23 @@ const Haircare = () => {
             </div>{" "}
           </div>{" "}
           {/* product Display */}{" "}
-          <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4 mt-2 rounded-tl-2xl">
-            {" "}
-            {hairItems.map((item) =>
-              item.category == "Hair care" ? (
-                <ItemThumnailCard props={item}> </ItemThumnailCard>
-              ) : (
-                <></>
-              )
-            )}{" "}
-          </div>{" "}
+          {loading ? (
+            <div className="">
+              <LoadingSpinner></LoadingSpinner>
+              <h1>Loading</h1>
+            </div>
+          ) : (
+            <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4 rounded-tl-2xl p-4">
+              {" "}
+              {hairItems.map((item) =>
+                item.category == "Hair care" ? (
+                  <ItemThumnailCard props={item}> </ItemThumnailCard>
+                ) : (
+                  <></>
+                )
+              )}{" "}
+            </div>
+          )}
         </div>{" "}
       </div>{" "}
     </div>
