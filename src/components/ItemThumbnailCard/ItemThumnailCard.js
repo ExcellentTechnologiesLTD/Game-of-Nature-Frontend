@@ -88,9 +88,9 @@ const ItemThumnailCard = (props) => {
         onClick={() => {
           navigate(`/item-details/${product_id}`, { replace: true });
         }}
-        className=" bg-base-100 shadow-2xl "
+        className="relative bg-base-100 shadow-2xl "
       >
-        <h1 className="absolute text-sm"> ID: {product_id} </h1>
+        <h1 className="absolute top-1 left-2 text-sm"> ID: {product_id} </h1>
         <figure className="">
           <img
             src={photo_url || itemimg}

@@ -547,7 +547,7 @@ const Navbar = () => {
 
                 <div
                   tabIndex="0"
-                  className="z-50 rounded-xl dropdown-content p-2 shadow bg-slate-200 w-96 h-96 overflow-auto"
+                  className="z-50 rounded-xl dropdown-content p-2 shadow bg-slate-200 h-96 overflow-auto"
                 >
                   <Cart></Cart>
                   <div className="divider my-0"></div>

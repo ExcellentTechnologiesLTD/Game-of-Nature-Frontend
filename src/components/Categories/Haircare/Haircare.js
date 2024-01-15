@@ -16,11 +16,11 @@ const Haircare = () => {
       });
   }, []);
   return (
-    <div className="bg-green-50">
+    <div className="bg-white">
       {" "}
       {/* Route */}{" "}
       <div className="">
-        <div className="flex px-10 py-5 bg-slate-100 ">
+        <div className="flex px-10 py-5 bg-slate-200 ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -45,13 +45,13 @@ const Haircare = () => {
           </span>{" "}
         </div>{" "}
         {/* <div className="border-b-2 border-green-300 pb-10 "> */}
-        <div className="bg-slate-100 mb-4 pb-10 ">
+        <div className="bg-slate-200 mb-4 pb-10 ">
           <h1 className="text-3xl font-serif text-left ml-20"> Hair Care </h1>{" "}
         </div>{" "}
       </div>{" "}
-      <div className="flex gap-4">
+      <div className="flex gap-4 my-4">
         <Filter> </Filter>{" "}
-        <div className="w-full py-5 bg-slate-100 rounded-xl">
+        <div className="w-full py-5 bg-gradient-to-br from-slate-200 to-slate-100 rounded-xl">
           <div className="flex justify-between px-5">
             <div className="flex gap-5">
               {/* options for filer */}
@@ -69,9 +69,9 @@ const Haircare = () => {
                   d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
                 />
               </svg>{" "}
-              products
+              Hair-care products
             </div>{" "}
-            <div className="dropdown dropdown-end">
+            {/* <div className="dropdown dropdown-end">
               <label
                 tabIndex="0"
                 className="flex justify-between border-2 m-1 px-3"
@@ -103,7 +103,7 @@ const Haircare = () => {
                   <a> Item 2 </a>{" "}
                 </li>{" "}
               </ul>{" "}
-            </div>{" "}
+            </div>{" "} */}
           </div>{" "}
           {/* product Display */}{" "}
           {loading ? (
@@ -112,7 +112,7 @@ const Haircare = () => {
               <h1>Loading</h1>
             </div>
           ) : (
-            <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4 rounded-tl-2xl p-4">
+            <div className="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 gap-4 mt-5 px-5 rounded-tl-2xl">
               {" "}
               {hairItems.map((item) =>
                 item.category == "Hair care" ? (

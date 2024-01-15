@@ -46,7 +46,7 @@ const CheckOut = () => {
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="gray"
-              className="w-6 h-6 hover:stroke-black"
+              className="w-6 h-6 hover:stroke-black animate-bounce"
             >
               <path
                 strokeLinecap="round"

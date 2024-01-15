@@ -26,6 +26,18 @@ const Cart = () => {
   const [subTotal, setSubTotal] = useState(totalCartItemCost);
   const [showTotal, setShowTotal] = useState(subTotal - discount);
 
+  const [insideDhakaDeliveryCost, setInsideDhakaDeliveryCost] = useState(0);
+  const [outsideDhakaDeliveryCost, setOutsideDhakaDeliveryCost] = useState(0);
+
+  useEffect(() => {
+    fetch("https://game-of-nature-backend.vercel.app/get-policies")
+      .then((res) => res.json())
+      .then((data) => {
+        setInsideDhakaDeliveryCost(data.info.Inside_Dhaka_Delivery_Cost);
+        setOutsideDhakaDeliveryCost(data.info.Outside_Dhaka_Delivery_Cost);
+      });
+  }, []);
+
   useEffect(() => {
     setSubTotal(totalCartItemCost);
     setShowTotal(totalCartItemCost - discount + shippingCost);
@@ -185,26 +197,27 @@ const Cart = () => {
           Reset cart
         </button>
       </div>
-      <div className="h-96 overflow-auto">
+      <div className=" overflow-auto">
         {cartItems == null ? <div>No items in cart.</div> : <div></div>}
 
         {cartItems?.map((myItem) => (
           <div
             key={myItem.itemID}
             className="flex items-center justify-between gap-4 px-4 mb-5"
+            // className=" flex items-center justify-between gap-4 px-4 mb-5 bg-red-200"
           >
-            <div className="flex justify-between items-center gap-4 w-full">
-              <figure className="w-36 h-24">
-                <img className=" w-36 h-24 rounded-xl" src={myItem.photo_url} />
+            <div className="flex flex-none items-center gap-4">
+              <figure className="w-24 h-24">
+                <img className=" w-24 h-24 rounded-xl" src={myItem.photo_url} />
               </figure>
-              <div className="text-left w-full">
+              <div className="text-left w-40">
                 <h1 className="font-bold">{myItem.itemName}</h1>
                 <div className="text-xl">BDT. {myItem.price}</div>
               </div>
             </div>
             {/* Cart Buttons */}
-            <div className="flex items-center gap-4 ">
-              <div className="flex justify-center items-center border-2">
+            <div className="flex gap-2 flex-none items-center">
+              <div className="flex justify-center items-center">
                 <button
                   onClick={() => handleDecreaseBtnClick(myItem.itemID)}
                   className="bg-red-50 hover:bg-red-200 px-2 font-semibold text-2xl"
@@ -219,7 +232,11 @@ const Cart = () => {
                   +
                 </button>
               </div>
-              <button onClick={() => deleteItem(myItem.itemID)}>
+              {/* delete button */}
+              <button
+                className="flex-none"
+                onClick={() => deleteItem(myItem.itemID)}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="red"
@@ -311,8 +328,8 @@ const Cart = () => {
               </h1>
             </div>
             <div className="text-2xs text-left px-5 text-red-600">
-              <h6>**Inside Dhaka: BDT. 70**</h6>
-              <h6>**Outside Dhaka: BDT. 160**</h6>
+              <h6>**Inside Dhaka: BDT. {insideDhakaDeliveryCost}**</h6>
+              <h6>**Outside Dhaka: BDT. {outsideDhakaDeliveryCost}**</h6>
             </div>
           </div>
           <div className="divider my-0 px-2"></div>

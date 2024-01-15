@@ -2,19 +2,24 @@ import React, { useEffect, useState } from "react";
 import ItemThumnailCard from "../../ItemThumbnailCard/ItemThumnailCard";
 import Filter from "../Filter/Filter";
 import "../../../Sytles/commonStyles.css";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 const Groceries = () => {
   const [groceriesItems, setGroceriesItems] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetch("https://game-of-nature-backend.vercel.app/")
       .then((res) => res.json())
-      .then((data) => setGroceriesItems(data));
+      .then((data) => {
+        setGroceriesItems(data);
+        setLoading(false);
+      });
   }, []);
   return (
     <div>
       {" "}
       {/* Route */}{" "}
-      <div className="">
+      <div className="bg-slate-200">
         <div className="flex px-10 py-5 ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -39,14 +44,14 @@ const Groceries = () => {
             /{" "}
           </span>{" "}
         </div>{" "}
-        <div className="border-b-2 border-green-300 pb-10 ">
+        <div className=" pb-10 ">
           <h1 className="text-3xl font-serif text-left ml-20"> Groceries </h1>{" "}
         </div>{" "}
       </div>{" "}
-      <div className="flex mt-4">
+      <div className="flex gap-4 my-4">
         <Filter> </Filter>{" "}
-        <div className="w-full mt-3">
-          <div className="flex justify-between px-5 absolute sticky top-0 bg-white">
+        <div className="w-full py-5 bg-gradient-to-br from-slate-200 to-slate-100 rounded-xl">
+          <div className="flex justify-between px-5 absolute sticky top-0 ">
             <div className="flex gap-5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -62,9 +67,9 @@ const Groceries = () => {
                   d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
                 />
               </svg>{" "}
-              products{" "}
+              Products{" "}
             </div>{" "}
-            <div className="dropdown dropdown-end">
+            {/* <div className="dropdown dropdown-end">
               <label
                 tabIndex="0"
                 className="flex justify-between border-2 m-1 px-3"
@@ -96,10 +101,29 @@ const Groceries = () => {
                   <a> Item 2 </a>{" "}
                 </li>{" "}
               </ul>{" "}
-            </div>{" "}
+            </div>{" "} */}
           </div>{" "}
           {/* product Display */}{" "}
-          <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4 mt-5 rounded-tl-2xl">
+          {loading ? (
+            <div>
+              <LoadingSpinner></LoadingSpinner>
+              <h1>Loading</h1>
+            </div>
+          ) : (
+            <div className="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 gap-4 mt-5 px-5 rounded-tl-2xl">
+              {" "}
+              {groceriesItems.map((item) =>
+                item.category == "Groceries" ? (
+                  <ItemThumnailCard key={item.product_id} props={item}>
+                    {" "}
+                  </ItemThumnailCard>
+                ) : (
+                  <></>
+                )
+              )}{" "}
+            </div>
+          )}
+          {/* <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4 mt-5 rounded-tl-2xl">
             {" "}
             {groceriesItems.map((item) =>
               item.category == "Groceries" ? (
@@ -108,7 +132,7 @@ const Groceries = () => {
                 <></>
               )
             )}{" "}
-          </div>{" "}
+          </div>{" "} */}
         </div>{" "}
       </div>{" "}
     </div>

@@ -27,7 +27,7 @@ const CompletedOrders = () => {
   }, []);
 
   return (
-    <div className="h-screen bg-base-100">
+    <div className=" bg-base-100">
       <div className=" overflow-x-auto w-full">
         <h1 className=" font-serif font-bold text-xl text-center p-5">
           {" "}

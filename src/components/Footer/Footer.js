@@ -83,7 +83,7 @@ const Footer = () => {
             <p className={`text-center font-bold mr-auto`}>
               Copyright © 2022 - All right reserved
             </p>
-            <a>
+            <div>
               Designed & Developed by{" "}
               <a
                 target="_blank"
@@ -92,7 +92,7 @@ const Footer = () => {
               >
                 Excellent Technologies BD{" "}
               </a>{" "}
-            </a>{" "}
+            </div>{" "}
           </div>
           <div className=" flex gap-4">
             <a target="_blank" href="https://www.facebook.com/GameofNature99">

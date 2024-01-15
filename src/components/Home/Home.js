@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import ItemThumnailCard from "../ItemThumbnailCard/ItemThumnailCard";
-import facialPic from "../../Assets/image/facial-care.jpg";
-import hairCarePic from "../../Assets/image/hair-care.jpg";
-import bodyCarePic from "../../Assets/image/body-care.jpg";
-import babyCarePic from "../../Assets/image/baby-care.jpg";
+import facialPic from "../../Assets/image/facial-care-2.png";
+import hairCarePic from "../../Assets/image/hair-care-2.jpg";
+import bodyCarePic from "../../Assets/image/body-care-2.jpg";
+// import babyCarePic from "../../Assets/image/baby-care.jpg";
+import FaceMask_PIC from "../../Assets/image/face_mask-2.png";
 import spaPic from "../../Assets/image/spa.jpg";
 import perfumePic from "../../Assets/image/perfume.jpg";
 import testPik from "../../Assets/image/test.jpg";
@@ -96,7 +97,7 @@ const Home = () => {
             className="bg-cover bg-blend-screen mx-auto "
             //  className=" w-min h-80 my-auto mx-auto"
           /> */}
-          <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+          {/* <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
             <a href="#slide4" className="btn btn-circle">
               {" "}
               ❮
@@ -105,9 +106,9 @@ const Home = () => {
               {" "}
               ❯
             </a>{" "}
-          </div>{" "}
+          </div>{" "} */}
         </div>{" "}
-        <div id="slide2" className="carousel-item relative w-full slides">
+        {/* <div id="slide2" className="carousel-item relative w-full slides">
           <img
             src="https://scontent.fdac13-1.fna.fbcdn.net/v/t1.6435-9/57038424_577504946065534_3582367973177819136_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=e3f864&_nc_eui2=AeFjBKIi41HVxJDXWh18SxDjBj8-cwuWZAAGPz5zC5ZkAI7OU_U2cEayMdMeU-L_XKpamHGdKIvRED6m6RFJSF8l&_nc_ohc=kkPNOCl_31EAX9QDDm9&_nc_ht=scontent.fdac13-1.fna&oh=00_AT_Y8OP4kvvm83EnSpzCEKHrp1QxqUvJxJurKUR5bI4UmA&oe=637A6D28"
             className=" bg-gradient-to-b from-slate-300 to bg-slate-500 lg:px-40 px-20 mx-auto w-full"
@@ -122,8 +123,8 @@ const Home = () => {
               ❯
             </a>{" "}
           </div>{" "}
-        </div>{" "}
-        <div id="slide3" className="carousel-item relative w-full">
+        </div>{" "} */}
+        {/* <div id="slide3" className="carousel-item relative w-full">
           <img src={testPik} className="w-full" />
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
             <a href="#slide2" className="btn btn-circle">
@@ -135,8 +136,8 @@ const Home = () => {
               ❯
             </a>{" "}
           </div>{" "}
-        </div>{" "}
-        <div id="slide4" className="carousel-item relative w-full">
+        </div>{" "} */}
+        {/* <div id="slide4" className="carousel-item relative w-full">
           <img src="https://placeimg.com/800/200/arch" className="w-full" />
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
             <a href="#slide3" className="btn btn-circle">
@@ -148,7 +149,7 @@ const Home = () => {
               ❯
             </a>{" "}
           </div>{" "}
-        </div>{" "}
+        </div>{" "} */}
       </div>{" "}
       {/* Tags */}{" "}
       {/* <div className=" container border-black border-4 my-10 grid lg:grid-cols-4 grid-cols-2 divide-x-2 gap-2 lg:mx-36 mx-5 p-5 justify-center rounded-2xl bg-gray-50 "> */}
@@ -218,10 +219,10 @@ const Home = () => {
           >
             <img
               className="rounded-full w-40 h-40 p-5"
-              src={babyCarePic}
+              src={FaceMask_PIC}
               alt=""
             />
-            <h1 className="font-serif "> Baby Care </h1>{" "}
+            <h1 className="font-serif "> Face Masques </h1>{" "}
           </a>{" "}
           <a
             href="/spa&massage"
@@ -242,7 +243,7 @@ const Home = () => {
             <h1 className="font-serif "> Perfumes & Attar </h1>{" "}
           </a>{" "}
           <a
-            href="/perfumes&attar"
+            href="/daily-needs"
             className="  bg-gray-100 shadow-2xl rounded-2xl hover:scale-105"
           >
             <img
@@ -253,7 +254,7 @@ const Home = () => {
             <h1 className="font-serif "> Daily Needs </h1>{" "}
           </a>{" "}
           <a
-            href="/perfumes&attar"
+            href="/groceries"
             className="  bg-gray-100 shadow-2xl rounded-2xl hover:scale-105"
           >
             <img
@@ -275,9 +276,9 @@ const Home = () => {
             View All{" "}
           </a>{" "} */}
         </div>
-        <div className="py-10 grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4">
+        <div className="lg:px-36 py-10 grid md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 gap-4">
           {" "}
-          {items.slice(0, 10).map((item) =>
+          {items.slice(14, 36).map((item) =>
             item.rating == 5 ? (
               <ItemThumnailCard
                 key={item.product_id}

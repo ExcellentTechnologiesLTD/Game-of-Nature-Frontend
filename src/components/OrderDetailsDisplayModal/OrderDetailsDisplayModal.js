@@ -90,7 +90,7 @@ const OrderDetailsDisplayModal = (props) => {
             <span className="font-semibold">Contact number: </span>
             {order?.phone}
           </p>
-          <p className="flex gap-2">
+          <div className="flex gap-2">
             <span className="font-semibold">Payment method: </span>
             <span>
               {order?.payment_method == "BKASH" ? (
@@ -105,10 +105,11 @@ const OrderDetailsDisplayModal = (props) => {
                 order?.payment_method
               )}
             </span>
-          </p>
+          </div>
           <p>
             <span className="font-semibold">Shipping charge BDT. </span>
-            {order?.city == "Dhaka" || order?.city == "dhaka" ? 70 : 160}
+            {order?.shipping_charge}
+            {/* {order?.city == "Dhaka" || order?.city == "dhaka" ? 70 : 160} */}
           </p>
           {/* <p className="border-2">
             <span className="font-semibold">Voucher: </span>

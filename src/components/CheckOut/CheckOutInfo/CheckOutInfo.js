@@ -38,6 +38,9 @@ const CheckOutInfo = ({ setCheckOutComplete }) => {
   const [userFound, setUserFound] = useState(userDetails ? true : false);
   const [keepShippingDetails, setKeepShippingDetails] = useState(true);
 
+  const [insideDhakaDeliveryCost, setInsideDhakaDeliveryCost] = useState(0);
+  const [outsideDhakaDeliveryCost, setOutsideDhakaDeliveryCost] = useState(0);
+
   const getCurentDate = () => {
     var today = new Date();
     var date =
@@ -74,13 +77,34 @@ const CheckOutInfo = ({ setCheckOutComplete }) => {
   }, [keepShippingDetails]);
 
   useEffect(() => {
-    if (city == "Dhaka" || city == "dhaka") {
-      setShippingCost(70);
-      localStorage.setItem("shippingCost", 70);
-    } else {
-      setShippingCost(160);
-      localStorage.setItem("shippingCost", 160);
-    }
+    fetch("https://game-of-nature-backend.vercel.app/get-policies")
+      .then((res) => res.json())
+      .then((data) => {
+        setInsideDhakaDeliveryCost(data.info.Inside_Dhaka_Delivery_Cost);
+        setOutsideDhakaDeliveryCost(data.info.Outside_Dhaka_Delivery_Cost);
+
+        if (city == "Dhaka" || city == "dhaka") {
+          setShippingCost(data.info.Inside_Dhaka_Delivery_Cost);
+          console.log(
+            "insideDhakaDeliveryCost: ",
+            data.info.Inside_Dhaka_Delivery_Cost
+          );
+          localStorage.setItem(
+            "shippingCost",
+            data.info.Inside_Dhaka_Delivery_Cost
+          );
+        } else {
+          setShippingCost(data.info.Outside_Dhaka_Delivery_Cost);
+          console.log(
+            "outsideDhakaDeliveryCost: ",
+            data.info.Outside_Dhaka_Delivery_Cost
+          );
+          localStorage.setItem(
+            "shippingCost",
+            data.info.Outside_Dhaka_Delivery_Cost
+          );
+        }
+      });
   }, [city]);
 
   const handlePaymentMethod = (e) => {
@@ -123,9 +147,9 @@ const CheckOutInfo = ({ setCheckOutComplete }) => {
     let total;
 
     if (city == "Dhaka" || (city == "dhaka" && city != null)) {
-      total = totalCartItemCost - discount + 70;
+      total = totalCartItemCost - discount + shippingCost;
     } else {
-      total = totalCartItemCost - discount + 160;
+      total = totalCartItemCost - discount + shippingCost;
     }
     let agree = window.confirm(
       "By clicking OK you agree to Game of Nature's Terms & Condition and Refund Policy."
@@ -152,6 +176,7 @@ const CheckOutInfo = ({ setCheckOutComplete }) => {
               full_name: firstName + " " + lastName,
               address: userDetails?.Address,
               city: userDetails?.city,
+              shipping_charge: shippingCost,
               postal_code: userDetails?.postal_code,
               phoneNumber: userDetails?.Mobile,
               date: date,
@@ -171,52 +196,79 @@ const CheckOutInfo = ({ setCheckOutComplete }) => {
               full_name: firstName + " " + lastName,
               address: address,
               city: city,
+              shipping_charge: shippingCost,
               postal_code: postalCode,
               phoneNumber: phone,
               date: date,
               time: time,
             };
           }
-
-          const requestOptions = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ orderInfo }),
-          };
-
           console.log(
-            "order Going: >>>>>> \n ",
-            JSON.parse(requestOptions.body)
+            "orderInfo.shipping_charge => ",
+            orderInfo.shipping_charge
           );
 
-          fetch(
-            "https://game-of-nature-backend.vercel.app/confirm-order",
+          if (
+            orderInfo.user_id &&
+            orderInfo.email &&
+            orderInfo.paymentMethod &&
+            orderInfo.orderedItems &&
+            orderInfo.totalAmount &&
+            // &&
+            // orderInfo.discountAmount
+            // orderInfo.voucherName &&
+            orderInfo.full_name &&
+            orderInfo.address &&
+            orderInfo.city &&
+            orderInfo.postal_code &&
+            orderInfo.phoneNumber &&
+            orderInfo.date &&
+            orderInfo.time &&
+            orderInfo.shipping_charge
+          ) {
+            const requestOptions = {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ orderInfo }),
+            };
 
-            requestOptions
-          )
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.status == 200 && data.success) {
-                // Change UI to Thankyou for ordering. With Home Button & orderID
-                console.log("Order Placed: ", data.success);
-                // Delete Local Storages Discount, vouchers, cart
-                localStorage.removeItem("discountVoucherAmount");
-                localStorage.removeItem("discountVoucherName");
-                localStorage.removeItem("discountApplied");
-                setVoucherName("");
-                setDiscount(0);
-                // cart
-                localStorage.removeItem("myCartItems");
-                localStorage.removeItem("totalCartItemCost");
-                localStorage.removeItem("totalAmount");
-                setCartItems([]);
-                setTotalCartItemCost(0);
-                // Done
-                setCheckOutComplete(data);
-              } else {
-                alert(`Error Order cannot be placed. Call support.`);
-              }
-            });
+            console.log(
+              "order Going: >>>>>> \n ",
+              JSON.parse(requestOptions.body)
+            );
+
+            fetch(
+              "https://game-of-nature-backend.vercel.app/confirm-order",
+              // "http://localhost:3300/confirm-order",
+
+              requestOptions
+            )
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.status == 200 && data.success) {
+                  // Change UI to Thankyou for ordering. With Home Button & orderID
+                  console.log("Order Placed: ", data.success);
+                  // Delete Local Storages Discount, vouchers, cart
+                  localStorage.removeItem("discountVoucherAmount");
+                  localStorage.removeItem("discountVoucherName");
+                  localStorage.removeItem("discountApplied");
+                  setVoucherName("");
+                  setDiscount(0);
+                  // cart
+                  localStorage.removeItem("myCartItems");
+                  localStorage.removeItem("totalCartItemCost");
+                  localStorage.removeItem("totalAmount");
+                  setCartItems([]);
+                  setTotalCartItemCost(0);
+                  // Done
+                  setCheckOutComplete(data);
+                } else {
+                  alert(`Error Order cannot be placed. Call support.`);
+                }
+              });
+          } else {
+            alert("Enter all details to place order.");
+          }
         }
       }, 500);
     }
@@ -280,7 +332,7 @@ const CheckOutInfo = ({ setCheckOutComplete }) => {
                 </span>
               </label>
             </div>
-            <div className="form-control border-t-2 border-x-2 ">
+            {/* <div className="form-control border-t-2 border-x-2 ">
               <label className="label cursor-pointer flex justify-start gap-2 ">
                 <input
                   type="radio"
@@ -296,7 +348,7 @@ const CheckOutInfo = ({ setCheckOutComplete }) => {
                   <div>Pay with credit or debit card</div>
                 </span>
               </label>
-            </div>
+            </div> */}
             {city == "Dhaka" || city == "dhaka" ? (
               <div className={` form-control border-t-2 border-x-2`}>
                 <label className="label cursor-pointer flex justify-start gap-2 ">
