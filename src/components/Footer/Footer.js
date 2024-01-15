@@ -29,7 +29,7 @@ const Footer = () => {
               <a href="/facial-care">Facial Care</a>
               <a href="/hair-care">Hair Care</a>
               <a href="/body-care">Body care</a>
-              <a href="/baby-care">Face Masques</a>
+              <a href="/face-masques">Face Masques</a>
               <a href="">Groceries</a>
               <a href="">Daily Needs</a>
               <a href="/spa&massage">Spa & Massage</a>

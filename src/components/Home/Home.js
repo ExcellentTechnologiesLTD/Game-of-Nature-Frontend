@@ -214,7 +214,7 @@ const Home = () => {
             <h1 className="font-serif "> Body Care </h1>{" "}
           </a>{" "}
           <a
-            href="/baby-care"
+            href="/face-masques"
             className="  bg-gray-100 shadow-2xl rounded-2xl hover:scale-105"
           >
             <img

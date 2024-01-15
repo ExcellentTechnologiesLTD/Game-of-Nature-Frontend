@@ -107,7 +107,7 @@ function App() {
           <Route path="facial-care" element={<FacialCare></FacialCare>}></Route>
           <Route path="hair-care" element={<Haircare></Haircare>}></Route>
           <Route path="body-care" element={<BodyCare></BodyCare>}></Route>
-          <Route path="baby-care" element={<BabyCare></BabyCare>}></Route>
+          <Route path="face-masques" element={<BabyCare></BabyCare>}></Route>
           <Route path="spa&massage" element={<SpaMassage></SpaMassage>}></Route>
           <Route
             path="perfumes&attar"

@@ -182,7 +182,7 @@ const Navbar = () => {
                       </a>
                     </li>
                     <li>
-                      <a href="/baby-care" className="hover:bg-green-100">
+                      <a href="/face-masques" className="hover:bg-green-100">
                         <img
                           className="w-10 h-10 rounded-2xl"
                           src={babyCarePic}
@@ -637,7 +637,7 @@ const Navbar = () => {
               <a href="/body-care" className="hover:bg-green-100">
                 Body care
               </a>
-              <a href="/baby-care" className="hover:bg-green-100">
+              <a href="/face-masques" className="hover:bg-green-100">
                 Face Masques
               </a>
               <a href="/spa&massage" className="hover:bg-green-100">
