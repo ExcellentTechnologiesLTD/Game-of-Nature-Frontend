@@ -50,9 +50,9 @@ const FacialCare = () => {
         </div>{" "}
       </div>{" "}
       <div className="flex gap-4 my-4">
-        <Filter> </Filter> {/* <div className=" w-full mt-3"> */}
-        <div className="w-full py-5 bg-gradient-to-br from-slate-200 to-slate-100 rounded-xl">
-          <div className="flex justify-between px-5 top-0 ">
+        {/* <Filter> </Filter> <div className=" w-full mt-3"> */}
+        <div className="w-full py-5 lg:px-20 px-10 bg-gradient-to-br from-slate-200 to-slate-100">
+          <div className="flex justify-between top-0 ">
             <div className="flex gap-5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +60,7 @@ const FacialCare = () => {
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="w-6 h-6 hover:scale-110 lg:hidden"
+                className="w-6 h-6 hover:scale-110 hidden"
               >
                 <path
                   strokeLinecap="round"
@@ -111,7 +111,7 @@ const FacialCare = () => {
               <h1>Loading</h1>
             </div>
           ) : (
-            <div className="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 gap-4 mt-5 px-5 rounded-tl-2xl">
+            <div className=" grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 gap-4 mt-5  rounded-tl-2xl">
               {" "}
               {facialItems.map((item) =>
                 item.category == "Facial care" ? (

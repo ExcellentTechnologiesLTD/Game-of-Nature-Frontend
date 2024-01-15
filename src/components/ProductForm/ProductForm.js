@@ -134,7 +134,7 @@ const ProductForm = (props) => {
                 Select
               </option>
               <option> Facial care </option> <option> Hair care </option>
-              <option> Body care </option> <option> Baby care </option>
+              <option> Body care </option> <option> Face Masques </option>
               <option> Spa & Massage </option> <option> Daily needs </option>
               <option> Perfumes & Attar </option> <option> Groceries </option>
             </select>

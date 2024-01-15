@@ -188,7 +188,7 @@ const Navbar = () => {
                           src={babyCarePic}
                           alt=""
                         />
-                        Baby care
+                        Face Masques
                       </a>
                     </li>
                     <li>
@@ -638,7 +638,7 @@ const Navbar = () => {
                 Body care
               </a>
               <a href="/baby-care" className="hover:bg-green-100">
-                Baby care
+                Face Masques
               </a>
               <a href="/spa&massage" className="hover:bg-green-100">
                 Spa & Massage

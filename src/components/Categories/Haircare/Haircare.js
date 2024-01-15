@@ -50,9 +50,9 @@ const Haircare = () => {
         </div>{" "}
       </div>{" "}
       <div className="flex gap-4 my-4">
-        <Filter> </Filter>{" "}
-        <div className="w-full py-5 bg-gradient-to-br from-slate-200 to-slate-100 rounded-xl">
-          <div className="flex justify-between px-5">
+        {/* <Filter> </Filter>{" "} */}
+        <div className="w-full py-5 lg:px-20 px-10 bg-gradient-to-br from-slate-200 to-slate-100">
+          <div className="flex justify-between">
             <div className="flex gap-5">
               {/* options for filer */}
               <svg
@@ -112,7 +112,7 @@ const Haircare = () => {
               <h1>Loading</h1>
             </div>
           ) : (
-            <div className="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 gap-4 mt-5 px-5 rounded-tl-2xl">
+            <div className="grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 gap-4 mt-5 rounded-tl-2xl">
               {" "}
               {hairItems.map((item) =>
                 item.category == "Hair care" ? (

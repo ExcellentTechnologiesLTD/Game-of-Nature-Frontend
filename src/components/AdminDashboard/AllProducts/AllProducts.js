@@ -60,7 +60,7 @@ const AllProducts = () => {
               <a> Facial Care </a>{" "}
             </li>
             <li>
-              <a> Baby Care </a>{" "}
+              <a> Face Masques </a>{" "}
             </li>
             <li>
               <a> Body Care </a>

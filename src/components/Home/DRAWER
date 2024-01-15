@@ -223,7 +223,7 @@
               src={babyCarePic}
               alt=""
             />
-            <h1 className="font-serif ">Baby Care</h1>
+            <h1 className="font-serif ">Face Masques</h1>
           </a>
           <a
             href="/spa&massage"

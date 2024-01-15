@@ -45,13 +45,16 @@ const BabyCare = () => {
           </span>{" "}
         </div>{" "}
         <div className=" pb-10 ">
-          <h1 className="text-3xl font-serif text-left ml-20"> Baby Care </h1>{" "}
+          <h1 className="text-3xl font-serif text-left ml-20">
+            {" "}
+            Face Masques{" "}
+          </h1>{" "}
         </div>
       </div>{" "}
       <div className="flex gap-4 my-4">
-        <Filter> </Filter>
-        <div className="w-full py-5 bg-gradient-to-br from-slate-200 to-slate-100 rounded-xl">
-          <div className="flex justify-between px-5 absolute sticky top-0 ">
+        {/* <Filter> </Filter> */}
+        <div className="w-full py-5 lg:px-20 px-10 bg-gradient-to-br from-slate-200 to-slate-100 rounded-xl">
+          <div className="flex justify-between ">
             <div className="flex gap-5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -110,10 +113,10 @@ const BabyCare = () => {
               <h1>Loading</h1>
             </div>
           ) : (
-            <div className="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 gap-4 mt-5 px-5 rounded-tl-2xl">
+            <div className="grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 gap-4 mt-5 rounded-tl-2xl">
               {" "}
               {babyItems.map((item) =>
-                item.category == "Baby care" ? (
+                item.category == "Face Masques" ? (
                   <ItemThumnailCard key={item.product_id} props={item}>
                     {" "}
                   </ItemThumnailCard>
@@ -126,7 +129,7 @@ const BabyCare = () => {
           {/* <div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4 mt-5 rounded-tl-2xl">
             {" "}
             {babyItems.map((item) =>
-              item.category == "Baby care" ? (
+              item.category == "Face Masques" ? (
                 <ItemThumnailCard props={item}> </ItemThumnailCard>
               ) : (
                 <></>
